@@ -10,7 +10,31 @@ import java.util.List;
 
 public class Modelo implements IPublicador, IModelo{
 
+    /**
+     * Lista de suscriptores del modelo para notificar cambios a la vista.
+     */
     private List<ISuscriptor> suscriptores;
+    /**
+     * 
+     * Atributo que indica si el tabero es o no valido.
+     */
+    private boolean tableroInvalido;
+    
+    /**
+     * Atributo que indica mediante el turno activo si el jugador puede o no interactuar con la vista.
+     */
+    private boolean vistaHabilitado;
+    
+    /**
+     * Mensaje indicando que el tablero no esta correcto al finalizar la revisión de turno.
+     */
+    private String  MENSAJE_TABLERO_INVALIDO;
+    
+    /**
+     * Mensaje que aparece cuando se hace un movimiento que no es valido.
+     */
+    private String  MENSAJE_MOVIMIENTO_INVALIDO;
+    
     
     public void seleccionarFichasTablero(int[] posicionesFichas) {}
 
