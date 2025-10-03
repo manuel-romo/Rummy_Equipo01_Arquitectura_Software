@@ -12,7 +12,7 @@ import javax.swing.JFrame;
  * ID: 00000253080
  * 
  */
-public class VistaMesaJuego extends JFrame{
+public class VistaMesaJuego extends JFrame implements ISuscriptor{
     
     private Controlador controlador;
     private IComponente panelMesaJuego;
@@ -45,6 +45,11 @@ public class VistaMesaJuego extends JFrame{
     
     private void habilitarVista(boolean vistaHabilitada){
         
+    }
+
+    @Override
+    public void actualizar(IPublicador publicador) {
+        System.out.println("Actualizando vista");
     }
     
     
