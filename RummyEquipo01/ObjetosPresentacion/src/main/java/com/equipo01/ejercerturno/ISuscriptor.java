@@ -20,6 +20,6 @@ public interface ISuscriptor {
      * @param publicador Objeto que implementa la interfaz IPublicador, es el 
      * Publicador que se envía a sí mismo.
      */
-    public void actualizar(IPublicador publicador);
+    public abstract void actualizar(IPublicador publicador);
     
 }
