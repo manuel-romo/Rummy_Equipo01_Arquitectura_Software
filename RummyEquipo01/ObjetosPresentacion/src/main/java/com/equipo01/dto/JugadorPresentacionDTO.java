@@ -5,15 +5,15 @@ package com.equipo01.dto;
  *
  * @author 
  */
-public class JugadorDTO {
+public abstract class JugadorPresentacionDTO {
     private String avatar;
     private String nombre;
-    private int Entero;
+    private int numeroSecuencia;
 
-    public JugadorDTO(String avatar, String nombre, int Entero) {
+    public JugadorPresentacionDTO(String avatar, String nombre, int numeroSecuencia) {
         this.avatar = avatar;
         this.nombre = nombre;
-        this.Entero = Entero;
+        this.numeroSecuencia = numeroSecuencia;
     }
 
     public String getAvatar() {
@@ -24,8 +24,8 @@ public class JugadorDTO {
         return nombre;
     }
 
-    public int getEntero() {
-        return Entero;
+    public int getNumeroSecuencia() {
+        return numeroSecuencia;
     }
     
     
