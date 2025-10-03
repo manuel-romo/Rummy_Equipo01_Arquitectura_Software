@@ -3,7 +3,7 @@ package com.equipo01.objetospresentacion;
 
 /**
  *
- * @author romom
+ * @author 
  */
 public class EstadoActual {
     
