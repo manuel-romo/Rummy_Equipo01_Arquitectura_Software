@@ -9,6 +9,6 @@ import com.equipo01.dto.MontonPresentacionDTO;
  * ID: 00000253080
  */
 
-public interface IEstadoPanelMonton {
+public interface IEstadoMonton {
     public abstract MontonPresentacionDTO getMontonPresentacion();
 }

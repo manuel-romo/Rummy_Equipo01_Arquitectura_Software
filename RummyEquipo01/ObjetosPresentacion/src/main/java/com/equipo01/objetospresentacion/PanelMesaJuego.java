@@ -26,7 +26,6 @@ public class PanelMesaJuego extends JPanel implements IComponente{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public void pintar() {
         System.out.println("Pintando PanelMesaJuego");
     }
