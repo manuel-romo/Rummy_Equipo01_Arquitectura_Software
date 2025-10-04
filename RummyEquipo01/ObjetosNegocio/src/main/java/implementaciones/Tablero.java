@@ -4,10 +4,60 @@
  */
 package implementaciones;
 
+import entidades.Ficha;
+import entidades.Grupo;
+import entidades.GrupoColores;
+import entidades.GrupoSecuencia;
+import entidades.Jugador;
+import entidades.Monton;
+import interfaces.ITablero;
+import java.util.List;
+
 /**
  *
  * @author pedro
  */
-public class Tablero {
+public class Tablero implements ITablero{
+    private Jugador jugadorPrincipal;
+    private List<Jugador> listaJugaores;
+    private Monton monton;
+    private List<GrupoSecuencia> gruposSecuencia;
+    private List<GrupoColores> gruposColores;
     
+    public Grupo obtenerGrupo(Integer numero){
+        throw new UnsupportedOperationException();
+    }
+    
+    public List<Jugador> obtenerJugadoresExternos(){
+        throw new UnsupportedOperationException();
+    }
+    
+    //public Monto obtenerMonto(){}
+
+    @Override
+    public boolean agregarFichasTablero(Integer[] idFichas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean agregarFichasTablero(Integer[] idsFicha, Integer numeroGrupo) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean quitarFichasJugador(Integer[] posiciones) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean quitarFichasTablero(Integer[] idFichas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean seleccionarFichasTablero(Integer[] idFichas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+
 }
