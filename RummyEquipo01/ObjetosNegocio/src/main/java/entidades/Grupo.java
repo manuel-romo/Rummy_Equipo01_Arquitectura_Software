@@ -30,6 +30,23 @@ public  abstract class Grupo {
         this.numero = numero;
         this.fichas = fichas;
     }
+
+    /**
+     * Getter de la lista de fichas del grupo.
+     * @return lista de ntidades Fichas que pertenecen al grupo.
+     */
+    public List<Ficha> getFichas() {
+        return fichas;
+    }
+
+    /***
+     * Setter de la lista de fichas.
+     * @param fichas lista de fichas a actualizar el grupo.  
+     */
+    public void setFichas(List<Ficha> fichas) {
+        this.fichas = fichas;
+    }
+    
     
     /**
      * Comprueba si el grupo es válido de acuerdo a las reglas del juego.
@@ -51,7 +68,7 @@ public  abstract class Grupo {
      * 
      * @param fichas arreglo de fichas a eliminar del grupo.
      */
-    public void removerFichas(Ficha[] fichas) { }
+    public void removerFichas(List<Ficha> fichas) { }
 
     /**
      * Devuelve el número identificador del grupo.
