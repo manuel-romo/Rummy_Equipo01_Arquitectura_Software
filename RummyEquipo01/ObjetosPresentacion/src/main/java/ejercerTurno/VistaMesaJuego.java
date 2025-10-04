@@ -2,9 +2,15 @@
 package ejercerTurno;
 
 import dto.FichaPresentacionDTO;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.LinkedList;
+import java.util.List;
 import objetosPresentacion.IComponente;
 import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import objetosPresentacion.IVisitor;
 
 /**
  *
@@ -14,10 +20,27 @@ import javax.swing.JFrame;
  */
 public class VistaMesaJuego extends JFrame implements ISuscriptor{
     
+    private Dimension tamanioVentanaVista = new Dimension(1000, 700);
     private Controlador controlador;
-    private IComponente panelMesaJuego;
+    
     private Map<Integer, FichaPresentacionDTO> mapaFichasCasillasTablero;
     private Map<Integer, FichaPresentacionDTO> mapaFichasCasillasJugador;
+    
+    public VistaMesaJuego(IComponente componente){
+        
+        setSize(tamanioVentanaVista);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        agregarPanelComponente(componente);
+        setVisible(true);
+        
+    }
+    
+    public void agregarPanelComponente(IComponente componente){
+
+        add((JPanel)componente);
+ 
+    }
     
     public void seleccionarFichasTablero(int[] idsFichas){
         controlador.seleccionarFichasTablero(idsFichas);

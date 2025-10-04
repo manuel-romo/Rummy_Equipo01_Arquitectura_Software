@@ -24,5 +24,10 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     public void pintar(IEstadoJugadorPrincipal estadoJugadorPrincpal) {
         System.out.println("Pintando PanelJugadorPrincipal");
     }
+
+    @Override
+    public boolean tienePosicion() {
+        return false;
+    }
     
 }

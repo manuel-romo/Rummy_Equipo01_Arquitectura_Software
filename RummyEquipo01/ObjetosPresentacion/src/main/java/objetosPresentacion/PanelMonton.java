@@ -27,5 +27,10 @@ public class PanelMonton extends JPanel implements IComponente{
     public void pintar(IEstadoMonton estadoMonton) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean tienePosicion() {
+        return false;
+    }
     
 }
