@@ -9,6 +9,7 @@ import entidades.Grupo;
 import entidades.GrupoColores;
 import entidades.GrupoSecuencia;
 import entidades.Jugador;
+import entidades.Monton;
 import interfaces.ITablero;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class Tablero implements ITablero{
     private Jugador jugadorPrincipal;
     private List<Jugador> listaJugaores;
-    //private Monton monton;
+    private Monton monton;
     private List<GrupoSecuencia> gruposSecuencia;
     private List<GrupoColores> gruposColores;
     
@@ -32,23 +33,7 @@ public class Tablero implements ITablero{
     }
     
     //public Monto obtenerMonto(){}
-    
-    public List<Ficha> obtenerFichas(List<Integer>idFichas){
-        throw new UnsupportedOperationException();
-    }
-    
-    public void valiadFichas(List<Integer> fichasValidas){
-        
-    }
 
-    public void validarGrupos(List<Integer> fichasValidar){
-        
-    }
-    
-    public boolean validarGrupos(){
-        throw new UnsupportedOperationException();
-    }
-    
     @Override
     public boolean agregarFichasTablero(Integer[] idFichas) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -73,4 +58,6 @@ public class Tablero implements ITablero{
     public boolean seleccionarFichasTablero(Integer[] idFichas) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+
 }

@@ -12,6 +12,13 @@ public class Jugador {
     private String nombre;
     private boolean esPrimerTurno;
     private List<Ficha> fichas;
+
+    public Jugador(String avatar, String nombre, boolean esPrimerTurno, List<Ficha> fichas) {
+        this.avatar = avatar;
+        this.nombre = nombre;
+        this.esPrimerTurno = esPrimerTurno;
+        this.fichas = fichas;
+    }
     
     /**
      * metedo que regresa si es el primer turno
