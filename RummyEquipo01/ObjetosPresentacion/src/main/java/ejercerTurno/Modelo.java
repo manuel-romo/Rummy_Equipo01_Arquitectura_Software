@@ -5,12 +5,16 @@ package ejercerTurno;
 import dto.JugadorExternoPresentacionDTO;
 import dto.JugadorPrincipalPresentacionDTO;
 import dto.MontonPresentacionDTO;
+import implementaciones.Tablero;
+import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Modelo implements IPublicador, IModelo{
 
+    
+    private ITablero tablero = new Tablero();
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
      */
@@ -35,13 +39,17 @@ public class Modelo implements IPublicador, IModelo{
      * Mensaje que aparece cuando se hace un movimiento que no es valido.
      */
     private String  MENSAJE_MOVIMIENTO_INVALIDO;
+
+    
     
     
     public void seleccionarFichasTablero(int[] posicionesFichas) {}
 
     public void quitarFichasJugador(int[] posicionesFichas) {}
 
-    public void quitarFichasTablero(int[] idsFichas) {}
+    public void quitarFichasTablero(int[] idFichas) {
+        tablero.quitarFichasTablero(idFichas);
+    }
 
     public void agregarFichasTablero(int[] idsFichas, int numeroGrupo) {}
  

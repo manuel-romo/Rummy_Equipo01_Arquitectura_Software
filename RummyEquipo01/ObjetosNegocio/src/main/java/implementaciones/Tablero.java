@@ -35,27 +35,27 @@ public class Tablero implements ITablero{
     //public Monto obtenerMonto(){}
 
     @Override
-    public boolean agregarFichasTablero(Integer[] idFichas) {
+    public boolean agregarFichasTablero(int[] idFichas) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean agregarFichasTablero(Integer[] idsFicha, Integer numeroGrupo) {
+    public boolean agregarFichasTablero(int[] idsFicha, Integer numeroGrupo) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean quitarFichasJugador(Integer[] posiciones) {
+    public boolean quitarFichasJugador(int[] posiciones) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean quitarFichasTablero(Integer[] idFichas) {
+    public boolean quitarFichasTablero(int[] idFichas) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean seleccionarFichasTablero(Integer[] idFichas) {
+    public boolean seleccionarFichasTablero(int[] idFichas) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
