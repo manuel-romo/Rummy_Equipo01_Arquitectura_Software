@@ -2,12 +2,12 @@
 package objetosPresentacion;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
+import objetosPresentacion.IComponente;
 
 /**
  *
@@ -17,21 +17,13 @@ import javax.swing.JPanel;
  */
 public class PanelMesaJuego extends JPanel implements IComponente{
 
+    private PosicionPanel POSICION_PANEL = PosicionPanel.SIN_POSICION;
+    
     private List<IComponente> componentes = new LinkedList<>();
     
     private Color COLOR_FONDO = new Color(232, 217, 172);
     
-    private GridBagConstraints gridBagConstraintsPanelFila1 = new GridBagConstraints();
-    private GridBagConstraints gridBagConstraintsPanelFila2 = new GridBagConstraints();
-    private GridBagConstraints gridBagConstraintsPanelFila3 = new GridBagConstraints();
-    private GridBagConstraints gridBagConstraintsPanelFila4 = new GridBagConstraints();
-    private GridBagConstraints gridBagConstraintsPanelFila5 = new GridBagConstraints();
-    
-    private JPanel panelFila1 = new JPanel();
-    private JPanel panelFila2 = new JPanel();
-    private JPanel panelFila3 = new JPanel();
-    private JPanel panelFila4 = new JPanel();
-    private JPanel panelFila5 = new JPanel(); 
+    int componentesConPosicion = 0;
     
     public PanelMesaJuego(){
         
@@ -40,60 +32,106 @@ public class PanelMesaJuego extends JPanel implements IComponente{
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
         
-        panelFila1.setBackground(Color.red);
-        panelFila2.setBackground(Color.green);
-        panelFila3.setBackground(Color.blue);
-        panelFila4.setBackground(Color.gray);
-        panelFila5.setBackground(Color.black);
-        
-        gridBagConstraintsPanelFila1.gridx = 0;
-        gridBagConstraintsPanelFila1.gridy = 0;
-        gridBagConstraintsPanelFila1.weightx = 1;
-        gridBagConstraintsPanelFila1.weighty = 1;
-        gridBagConstraintsPanelFila1.gridwidth = 3;
-        gridBagConstraintsPanelFila1.fill = GridBagConstraints.BOTH;
-        
-        gridBagConstraintsPanelFila2.gridx = 1;
-        gridBagConstraintsPanelFila2.gridy = 1;
-        gridBagConstraintsPanelFila2.weightx = 9;
-        gridBagConstraintsPanelFila2.weighty = 6;
-        gridBagConstraintsPanelFila2.gridwidth = 1;
-        gridBagConstraintsPanelFila2.fill = GridBagConstraints.BOTH;
-        
-        gridBagConstraintsPanelFila3.gridx = 0;
-        gridBagConstraintsPanelFila3.gridy = 2;
-        gridBagConstraintsPanelFila3.weightx = 1;
-        gridBagConstraintsPanelFila3.weighty = 2;
-        gridBagConstraintsPanelFila3.gridwidth = 3;
-        gridBagConstraintsPanelFila3.fill = GridBagConstraints.BOTH;
-        
-        gridBagConstraintsPanelFila4.gridx = 0;
-        gridBagConstraintsPanelFila4.gridy = 1;
-        gridBagConstraintsPanelFila4.weightx = 1;
-        gridBagConstraintsPanelFila4.weighty = 6;
-        gridBagConstraintsPanelFila4.gridwidth = 1;
-        gridBagConstraintsPanelFila4.fill = GridBagConstraints.BOTH;
-        
-        gridBagConstraintsPanelFila5.gridx = 2;
-        gridBagConstraintsPanelFila5.gridy = 1;
-        gridBagConstraintsPanelFila5.weightx = 1;
-        gridBagConstraintsPanelFila5.weighty = 6;
-        gridBagConstraintsPanelFila5.gridwidth = 1;
-        gridBagConstraintsPanelFila5.fill = GridBagConstraints.BOTH;
-        
-        
-        add(panelFila1, gridBagConstraintsPanelFila1);
-        add(panelFila2, gridBagConstraintsPanelFila2);
-        add(panelFila3, gridBagConstraintsPanelFila3);
-        add(panelFila4, gridBagConstraintsPanelFila4);
-        add(panelFila5, gridBagConstraintsPanelFila5);
+    }
+    
+    private void aniadirComponente(IComponente componente){
  
+        JPanel panel = (JPanel)componente;
         
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        PanelRotador panelRotado;
+         
+        if(componente.getPosicion().equals(PosicionPanel.EXTREMO) && componentesConPosicion < 3){
+            
+            switch (componentesConPosicion) {
+
+                case 0:
+                    gridBagConstraints.gridx = 0;
+                    gridBagConstraints.gridy = 0;
+                    gridBagConstraints.weightx = 1;
+                    gridBagConstraints.weighty = 1;
+                    gridBagConstraints.gridwidth = 3;
+                    gridBagConstraints.fill = GridBagConstraints.BOTH;
+
+                    
+                    add(panel, gridBagConstraints);
+
+                    break;
+
+                case 1:
+                    gridBagConstraints.gridx = 0;
+                    gridBagConstraints.gridy = 1;
+                    gridBagConstraints.weightx = 1;
+                    gridBagConstraints.weighty = 6;
+                    gridBagConstraints.gridwidth = 1;
+                    gridBagConstraints.fill = GridBagConstraints.BOTH;
+
+                    panelRotado = new PanelRotador(panel, -90);
+                    add(panelRotado, gridBagConstraints);
+
+                    break;
+
+                case 2:
+
+                    gridBagConstraints.gridx = 2;
+                    gridBagConstraints.gridy = 1;
+                    gridBagConstraints.weightx = 1;
+                    gridBagConstraints.weighty = 6;
+                    gridBagConstraints.gridwidth = 1;
+                    gridBagConstraints.fill = GridBagConstraints.BOTH;
+
+                    panelRotado = new PanelRotador(panel, 90);
+                    add(panelRotado, gridBagConstraints);
+
+                    break;
+
+                default:
+
+            }
+
+            componentesConPosicion++;
+
+        }
+        else if(componente.getPosicion().equals(PosicionPanel.CETRO)){
+            
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.gridy = 1;
+            gridBagConstraints.weightx = 9;
+            gridBagConstraints.weighty = 6;
+            gridBagConstraints.gridwidth = 1;
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
+
+            add(panel, gridBagConstraints);
+        }
+        else if(componente.getPosicion().equals(PosicionPanel.ABAJO_CENTRO)){
+            
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.weightx = 1;
+            gridBagConstraints.weighty = 2;
+            gridBagConstraints.gridwidth = 3;
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
+
+            add(panel, gridBagConstraints);
+            
+        } else if(componente.getPosicion().equals(PosicionPanel.IZQUIERDA_ABAJO)){
+            
+//            gridBagConstraints.gridx = 0;
+//            gridBagConstraints.gridy = 2;
+//            gridBagConstraints.weightx = 1;
+//            gridBagConstraints.weighty = 2;
+//            gridBagConstraints.gridwidth = 3;
+//            gridBagConstraints.fill = GridBagConstraints.BOTH;
+//
+//            add(panel, gridBagConstraints);
+        }
     }
     
     @Override
     public void agregarComponente(IComponente componente) {
         componentes.add(componente);
+        aniadirComponente(componente);
+        
     }
 
     @Override
@@ -111,9 +149,8 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     }
 
     @Override
-    public boolean tienePosicion() {
-        return false;
+    public PosicionPanel getPosicion() {
+        return POSICION_PANEL;
     }
-    
     
 }

@@ -5,10 +5,14 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author romom
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
  */
 public class PanelMonton extends JPanel implements IComponente{
 
+    private PosicionPanel POSICION_PANEL = PosicionPanel.IZQUIERDA_ABAJO;
+    
     @Override
     public void agregarComponente(IComponente componente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -29,8 +33,10 @@ public class PanelMonton extends JPanel implements IComponente{
     }
 
     @Override
-    public boolean tienePosicion() {
-        return false;
+    public PosicionPanel getPosicion() {
+        return POSICION_PANEL;
     }
+
+ 
     
 }

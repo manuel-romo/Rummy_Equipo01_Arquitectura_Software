@@ -13,5 +13,5 @@ public interface IComponente {
     public abstract void agregarComponente(IComponente componente);
     public abstract void removerComponente(IComponente componente);
     public abstract void aceptar(IVisitor visitor);
-    public abstract boolean tienePosicion();
+    public abstract PosicionPanel getPosicion();
 }
