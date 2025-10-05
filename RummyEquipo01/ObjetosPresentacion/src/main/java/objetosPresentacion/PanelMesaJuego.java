@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import objetosPresentacion.IComponente;
@@ -23,6 +24,9 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     private List<IComponente> componentes = new LinkedList<>();
     
     private Color COLOR_FONDO = new Color(207, 196, 136);
+    
+    private String TITULO_MENSAJE_MOVIMIENTO_INVALIDO = "Movimiento inválido";
+    private String TITULO_MENSAJE_TABLERO_INVALIDO = "Tablero inválido";
     
     public PanelMesaJuego(){
         
@@ -112,6 +116,32 @@ public class PanelMesaJuego extends JPanel implements IComponente{
         }
     }
     
+    private void mostrarMensajeMovimientoInvalido(String mensajeMovimientoInvalido){
+        
+        if(mensajeMovimientoInvalido != null){
+            JOptionPane.showMessageDialog(
+                this, 
+                mensajeMovimientoInvalido, 
+                TITULO_MENSAJE_MOVIMIENTO_INVALIDO, 
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+    }
+    
+    private void mostrarMensajeTableroInvalido(String mensajeTableroInvalido){
+        
+        if(mensajeTableroInvalido != null){
+            JOptionPane.showMessageDialog(
+                this, 
+                mensajeTableroInvalido, 
+                TITULO_MENSAJE_TABLERO_INVALIDO, 
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+    }
+    
     @Override
     public void agregarComponente(IComponente componente) {
         componentes.add(componente);
@@ -121,16 +151,22 @@ public class PanelMesaJuego extends JPanel implements IComponente{
 
     @Override
     public void removerComponente(IComponente componente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        componentes.remove(componente);
     }
 
     @Override
     public void aceptar(IVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        visitor.visitar(this);
     }
 
-    public void pintar() {
-        System.out.println("Pintando PanelMesaJuego");
+    public void pintar(IEstadoMesaJuego estadoMesaJuego) {
+        
+        String mensajeMovimientoInvalido = estadoMesaJuego.getMensajeMovimientoInvalido();
+        String mensajeTableroInvalido = estadoMesaJuego.getMensajeTableroInvalido();
+        
+        mostrarMensajeMovimientoInvalido(mensajeMovimientoInvalido);
+        mostrarMensajeTableroInvalido(mensajeTableroInvalido);
+        
     }
 
     @Override

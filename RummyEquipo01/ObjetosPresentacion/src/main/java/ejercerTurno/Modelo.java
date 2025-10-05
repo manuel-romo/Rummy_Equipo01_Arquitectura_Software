@@ -78,7 +78,7 @@ public class Modelo implements IPublicador, IModelo{
     }
 
     @Override
-    public MontonPresentacionDTO[] obtenerMontonPresentacionDTO() {
+    public MontonPresentacionDTO[] obtenerMontonPresentacion() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

@@ -7,10 +7,11 @@ package dto;
  * ID: 00000253080
  * 
  */
-public class JugadorPrincipalPresentacionDTO{
+public class TableroPresentacionDTO {
+    
     private FichaPresentacionDTO[] fichas;
 
-    public JugadorPrincipalPresentacionDTO(FichaPresentacionDTO[] fichas) {
+    public TableroPresentacionDTO(FichaPresentacionDTO[] fichas) {
         this.fichas = fichas;
     }
 

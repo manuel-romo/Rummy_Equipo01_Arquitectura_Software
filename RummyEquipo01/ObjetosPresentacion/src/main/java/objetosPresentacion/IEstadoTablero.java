@@ -11,5 +11,9 @@ import java.util.Map;
  * 
  */
 public interface IEstadoTablero {
-    public Map<Integer, FichaPresentacionDTO> getMapaFichasCasillasTablero();
+    
+    public TableroInformacionPanel getTablero();
+    
+    
+    
 }

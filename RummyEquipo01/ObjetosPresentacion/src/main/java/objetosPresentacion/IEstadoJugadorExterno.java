@@ -11,6 +11,6 @@ import dto.JugadorExternoPresentacionDTO;
  */
 public interface IEstadoJugadorExterno {
     
-    public JugadorExternoPresentacionDTO getJugadoresExternosPresentacion();
+    public JugadorExternoInformacionPanel[] getJugadoresExternos();
     
 }

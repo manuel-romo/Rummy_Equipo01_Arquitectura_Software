@@ -34,6 +34,7 @@ public class PanelFicha extends JPanel{
         this.valor = valor;
         repaint(); // Actualizar la ficha visualmente
     }
+    
 
     // Método para pintar la ficha
     @Override

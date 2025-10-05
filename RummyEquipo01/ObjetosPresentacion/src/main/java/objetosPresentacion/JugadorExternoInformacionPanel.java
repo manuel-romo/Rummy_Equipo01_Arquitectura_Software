@@ -1,18 +1,21 @@
 
-package dto;
+package objetosPresentacion;
 
 /**
  *
- * @author 
+ * @author Manuel Romo López
+ * ID: 00000253080
  */
-public abstract class JugadorPresentacionDTO {
+public class JugadorExternoInformacionPanel {
     private String avatar;
     private String nombre;
+    private String fichasRestantes;
     private int numeroSecuencia;
 
-    public JugadorPresentacionDTO(String avatar, String nombre, int numeroSecuencia) {
+    public JugadorExternoInformacionPanel(String avatar, String nombre, String fichasRestantes, int numeroSecuencia) {
         this.avatar = avatar;
         this.nombre = nombre;
+        this.fichasRestantes = fichasRestantes;
         this.numeroSecuencia = numeroSecuencia;
     }
 
@@ -24,10 +27,13 @@ public abstract class JugadorPresentacionDTO {
         return nombre;
     }
 
+    public String getFichasRestantes() {
+        return fichasRestantes;
+    }
+
     public int getNumeroSecuencia() {
         return numeroSecuencia;
     }
-    
     
     
 }

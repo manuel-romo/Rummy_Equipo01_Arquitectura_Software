@@ -12,7 +12,7 @@ public interface IModelo {
     
     public abstract JugadorExternoPresentacionDTO[] obtenerJugadoresExternos();
     
-    public abstract MontonPresentacionDTO[] obtenerMontonPresentacionDTO();
+    public abstract MontonPresentacionDTO[] obtenerMontonPresentacion();
     
     public abstract String obtenerMensajeMovimientoInvalido();
     

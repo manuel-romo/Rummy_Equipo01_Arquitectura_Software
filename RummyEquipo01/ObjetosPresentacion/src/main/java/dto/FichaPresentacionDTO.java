@@ -11,6 +11,17 @@ public class FichaPresentacionDTO {
     private int valor;
     private ColorFicha color;
 
+    public FichaPresentacionDTO(int idFicha, int valor, ColorFicha color) {
+        this.idFicha = idFicha;
+        this.valor = valor;
+        this.color = color;
+    }
+
+    public FichaPresentacionDTO() {
+
+    }
+    
+    
     public int getIdFicha() {
         return idFicha;
     }

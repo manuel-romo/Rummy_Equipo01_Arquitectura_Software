@@ -17,11 +17,12 @@ import javax.swing.JPanel;
  */
 public class PanelCasilla extends JPanel{
     
+    private Integer id;
     private Dimension TAMANIO_CASILLA = new Dimension(50, 200);
     private Color COLOR_FONDO_NO_SOBRE = new Color(217, 217, 217, 40);
     private Color COLOR_FONDO_SOBRE = new Color(217, 217, 217, 80);
     
-    private PanelFicha ficha;
+    private PanelFicha panelFicha;
     
     public PanelCasilla(){
         
@@ -32,6 +33,27 @@ public class PanelCasilla extends JPanel{
         
         
     }
+
+    public Integer getId() {
+        return id;
+    }
+    
+    private void pintar(PanelFicha panelFicha){
+        
+        if(panelFicha != null){
+            
+            this.panelFicha = panelFicha;
+            add(panelFicha);
+            
+        } else{
+            
+            this.panelFicha = null;
+            removeAll();
+            
+        }
+               
+    }
+    
 
     private void configurarMouseListener(){
         addMouseListener(new MouseAdapter() {

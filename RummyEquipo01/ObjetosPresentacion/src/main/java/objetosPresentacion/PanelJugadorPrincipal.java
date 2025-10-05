@@ -1,10 +1,12 @@
 
 package objetosPresentacion;
 
+import dto.FichaPresentacionDTO;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -33,6 +35,8 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     private JButton botonTerminarTurno = new JButton("Terminar turno");
     private JButton botonFinalizarPartida = new JButton("Finalizar partida");
     private JButton botonAbandonar = new JButton("Abandonar");
+    
+    private boolean enTurno;
     
     public PanelJugadorPrincipal(PanelCasilla[] panelesCasillas){
         
@@ -189,6 +193,37 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         }
         
     }
+    
+    private void agregarFichasMano(Map<Integer, FichaPresentacionDTO> mapaCasillasFichas){
+        
+//        for (Integer idCasilla: mapaCasillasFichas.keySet()) {
+//            
+//            FichaPresentacionDTO ficha = mapaCasillasFichas.get(idCasilla);
+//
+//            PanelCasilla panelCasilla = obtenerCasillaPorId(idCasilla);
+//            
+//            String valorFichaS = String.valueOf(ficha.getValor());
+//            
+//            PanelFicha panelFicha = new PanelFicha(valorFichaS, ficha.getColor());
+//            
+//            panelCasilla.pintar(ficha);
+//        }
+        
+        
+    }
+    
+    private PanelCasilla obtenerCasillaPorId(Integer idCasilla){
+        
+        for(PanelCasilla panelCasilla: panelesCasillas){
+            
+            if(panelCasilla.getId().equals(idCasilla)){
+                return panelCasilla;
+            }
+            
+        }
+        
+        return null;
+    }
    
     
     private void configurarBotonesOpciones(){
@@ -249,11 +284,12 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
 
     @Override
     public void aceptar(IVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        visitor.visitar(this);
     }
 
     public void pintar(IEstadoJugadorPrincipal estadoJugadorPrincpal) {
-        System.out.println("Pintando PanelJugadorPrincipal");
+        FichaInformacionPanel[] ficha = estadoJugadorPrincpal.getJugadorPrincipal().getFichasJugadorPrincipal();
+        
     }
 
     public boolean tienePosicion() {

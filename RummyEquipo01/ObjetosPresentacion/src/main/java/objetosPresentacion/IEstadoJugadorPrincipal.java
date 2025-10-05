@@ -13,7 +13,6 @@ import java.util.Map;
  */
 public interface IEstadoJugadorPrincipal {
     
-    public abstract JugadorPrincipalPresentacionDTO getJugadorPrincipalPresentacionDTO();
-    public abstract Map<Integer, FichaPresentacionDTO> getMapaFichasCasillasJugador();
+    public abstract JugadorPrincipalInformacionPanel getJugadorPrincipal();
 
 }

@@ -16,15 +16,23 @@ public class PanelMonton extends JPanel implements IComponente{
     private PosicionPanel POSICION_PANEL = PosicionPanel.IZQUIERDA_ABAJO;
     private Color COLOR_FONDO = new Color(212, 209, 186);
     private String VALOR_LABEL_PANEL = "Fichas restantes: ";
-    
-    private int numeroFichasMonton;
+    private String numeroFichasMonton;
     
     public PanelMonton(){
         
         setBackground(COLOR_FONDO);
-        JLabel labelNumeroFichasMonton = new JLabel(VALOR_LABEL_PANEL);
-        add(labelNumeroFichasMonton);
+        JLabel labelInformativa = new JLabel(VALOR_LABEL_PANEL);
+        
+        add(labelInformativa);
                 
+        
+    }
+    
+    private void actualizarNumeroFichasRestantes(int numeroFichasRestantes){
+        
+        this.numeroFichasMonton = String.valueOf(numeroFichasRestantes);
+        
+        JLabel labelNumeroFichasMonton = new JLabel(this.numeroFichasMonton);
         
     }
     
@@ -40,11 +48,13 @@ public class PanelMonton extends JPanel implements IComponente{
 
     @Override
     public void aceptar(IVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        visitor.visitar(this);
     }
 
     public void pintar(IEstadoMonton estadoMonton) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        String numeroFichasMonton = estadoMonton.getMonton().getNumeroFichasMonton();
+        
     }
 
     @Override
