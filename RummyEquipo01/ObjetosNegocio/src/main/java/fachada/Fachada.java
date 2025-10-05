@@ -12,6 +12,7 @@ import entidades.GrupoSecuencia;
 import entidades.Jugador;
 import interfaces.ITablero;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,7 +25,6 @@ public class Fachada implements ITablero {
     private List<Ficha> fichas;
     private List<Jugador> jugadores;
 
-    
     public Fachada() {
         this.grupos = new ArrayList<>();
         this.fichas = new ArrayList<>();
@@ -49,7 +49,7 @@ public class Fachada implements ITablero {
         if (idFichas.length == 0) {
             return false;
         }
-        
+
         List<Ficha> listaFichas = new ArrayList<>();
         for (int i = 0; i < idFichas.length; i++) {
             Ficha fichaNueva = obtenerFichaPorId(idFichas[i]);
@@ -81,7 +81,17 @@ public class Fachada implements ITablero {
 
     @Override
     public boolean quitarFichasTablero(int[] idFichas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (idFichas.length == 0) {
+            return false;
+        }
+        for (int i = 0; i < idFichas.length; i++) {
+            Ficha ficha = obtenerFichaPorId(idFichas[i]);
+            Grupo grupo = ficha.getGrupo();
+            List fichas = new LinkedList();
+            fichas.add(ficha);
+            grupo.removerFichas(fichas);
+        }
+        return true;
     }
 
     @Override
@@ -105,8 +115,8 @@ public class Fachada implements ITablero {
         }
         return null;
     }
-    
-    private Grupo obtenerGrupoPorId(int numeroGrupo){
+
+    private Grupo obtenerGrupoPorId(int numeroGrupo) {
         for (Grupo grupo : grupos) {
             if (grupo.getNumero() == numeroGrupo) {
                 return grupo;
@@ -115,11 +125,12 @@ public class Fachada implements ITablero {
         return null;
     }
 
-     /**
+    /**
      * Método para validar todos los grupos en los tableros
-     * @return 
+     *
+     * @return
      */
-    public boolean validarGrupos(){
+    public boolean validarGrupos() {
         return true; //Retornamos true en este momento "mock"
     }
 
