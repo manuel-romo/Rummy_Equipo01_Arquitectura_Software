@@ -75,8 +75,18 @@ public class Fachada implements ITablero {
     }
 
     @Override
-    public boolean quitarFichasJugador(int[] posiciones) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean quitarFichasJugador(int[] idFichas) {
+        if (idFichas.length == 0) {
+            return false;
+        }
+        List fichas = new LinkedList();
+        Jugador jugador1 = jugadores.get(1);
+        for(int i = 0; i < idFichas.length; i++){
+            Ficha ficha = obtenerFichaPorId(idFichas[i]);
+            fichas.add(ficha);    
+        }
+        jugador1.quitarFichas(fichas);
+        return true;
     }
 
     @Override
