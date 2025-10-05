@@ -86,7 +86,15 @@ public class Fachada implements ITablero {
 
     @Override
     public boolean seleccionarFichasTablero(int[] idFichas) {
-        
+        if (idFichas.length == 0) {
+            return false
+        }
+        List<Ficha> fichasSeleccionadas = new ArrayList<>();
+        for (int i = 0; i < idFichas.length; i++) {
+            Ficha fichaSeleccionada = obtenerFichaPorId(idFichas[i]);
+            fichasSeleccionadas.add(fichaSeleccionada);
+        }
+        return true;
     }
 
     private Ficha obtenerFichaPorId(int idFicha) {
