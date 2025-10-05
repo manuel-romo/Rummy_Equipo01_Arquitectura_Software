@@ -45,6 +45,11 @@ public class Fachada implements ITablero {
 
     }
 
+    /**
+     * Método para bajar fichas de un jugador al tablero creando un nuevo grupo.
+     * @param idFichas ids de las fichas a agregar.
+     * @return True si se pudo agregar, false de lo contrario.
+     */
     @Override
     public boolean agregarFichasTablero(int[] idFichas) {
         if (idFichas.length == 0) {
@@ -61,6 +66,12 @@ public class Fachada implements ITablero {
         return true;
     }
 
+    /**
+     * Método para agregar fichas de un jugador al tablero a un grupo ya existente.
+     * @param idFichas ids de las fichas a agregar.
+     * @param numeroGrupo Identificador del grupo al cual se le agregaran las fichas.
+     * @return True si se pudo agregar, false de lo contrario.
+     */
     @Override
     public boolean agregarFichasTablero(int[] idFichas, int numeroGrupo) {
         if (idFichas.length == 0) {
@@ -77,11 +88,21 @@ public class Fachada implements ITablero {
         return true;
     }
 
+    /**
+     * Método para quitar las fichas de la mano del jugador.
+     * @param posiciones
+     * @return True si se pudo, false si no.
+     */
     @Override
     public boolean quitarFichasJugador(int[] posiciones) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Método para separar fichas del tablero de un grupo ya existente.
+     * @param idFichas ids de las fichas a remover.
+     * @return 
+     */
     @Override
     public boolean quitarFichasTablero(int[] idFichas) {
         if (idFichas.length == 0) {
@@ -110,6 +131,11 @@ public class Fachada implements ITablero {
         return true;
     }
 
+    /**
+     * Método interno para obtener una instancia de ficha por su id.
+     * @param idFicha identificador de la ficha.
+     * @return Entidad ficha con el id dado.
+     */
     private Ficha obtenerFichaPorId(int idFicha) {
         for (Ficha ficha : fichas) {
             if (ficha.getId() == idFicha) {
@@ -119,6 +145,11 @@ public class Fachada implements ITablero {
         return null;
     }
     
+    /**
+     * Método interno para obtener una instancia de grupo por su id.
+     * @param numeroGrupo  identificador del grupo..
+     * @return Entidad grupo con el numero dado.
+     */
     private Grupo obtenerGrupoPorId(int numeroGrupo){
         for (Grupo grupo : grupos) {
             if (grupo.getNumero() == numeroGrupo) {
