@@ -1,6 +1,7 @@
 
 package entidades;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -35,11 +36,11 @@ public class Jugador {
         return fichas;
     }
     /**
-     * elimina las fichas en las posiciones del parametro
-     * @param posiciones lista de posiciones en las cuales estan las fichas a ser eliminadas
+     * elimina las fichas que tengan su id dentro del parametro
+     * @param posiciones lista de ids de las fichas a ser eliminadas
      */
-    public void quitarFichas(List<Integer> posiciones){
-        
+    public boolean quitarFichas(List<Integer> idFichas){
+        return true;
     }
     /**
      * elimina las fichas en las posiciones del parametro
@@ -48,6 +49,5 @@ public class Jugador {
     public boolean quitarFichasPrimerTurno(){
         throw new UnsupportedOperationException();
     }
-
 }
 
