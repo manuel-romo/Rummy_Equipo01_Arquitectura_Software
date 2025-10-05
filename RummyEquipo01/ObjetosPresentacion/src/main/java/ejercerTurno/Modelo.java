@@ -1,16 +1,18 @@
-
-
 package ejercerTurno;
 
 import dto.JugadorExternoPresentacionDTO;
 import dto.JugadorPrincipalPresentacionDTO;
 import dto.MontonPresentacionDTO;
+import fachada.Fachada;
+import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Modelo implements IPublicador, IModelo{
 
+    
+    private ITablero tablero = new Fachada();
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
      */
@@ -27,6 +29,12 @@ public class Modelo implements IPublicador, IModelo{
     private boolean vistaHabilitado;
     
     /**
+     * Atributo que indica si el movimiento hecho fue valido o no.
+     */
+    private boolean movimientoValido;
+    
+    
+    /**
      * Mensaje indicando que el tablero no esta correcto al finalizar la revisión de turno.
      */
     private String  MENSAJE_TABLERO_INVALIDO;
@@ -35,13 +43,76 @@ public class Modelo implements IPublicador, IModelo{
      * Mensaje que aparece cuando se hace un movimiento que no es valido.
      */
     private String  MENSAJE_MOVIMIENTO_INVALIDO;
+
+    public ITablero getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(ITablero tablero) {
+        this.tablero = tablero;
+    }
+
+    public List<ISuscriptor> getSuscriptores() {
+        return suscriptores;
+    }
+
+    public void setSuscriptores(List<ISuscriptor> suscriptores) {
+        this.suscriptores = suscriptores;
+    }
+
+    public boolean isTableroInvalido() {
+        return tableroInvalido;
+    }
+
+    public void setTableroInvalido(boolean tableroInvalido) {
+        this.tableroInvalido = tableroInvalido;
+    }
+
+    public boolean isVistaHabilitado() {
+        return vistaHabilitado;
+    }
+
+    public void setVistaHabilitado(boolean vistaHabilitado) {
+        this.vistaHabilitado = vistaHabilitado;
+    }
+
+    public boolean isMovimientoValido() {
+        return movimientoValido;
+    }
+
+    public void setMovimientoValido(boolean movimientoValido) {
+        this.movimientoValido = movimientoValido;
+    }
+
+    public String getMENSAJE_TABLERO_INVALIDO() {
+        return MENSAJE_TABLERO_INVALIDO;
+    }
+
+    public void setMENSAJE_TABLERO_INVALIDO(String MENSAJE_TABLERO_INVALIDO) {
+        this.MENSAJE_TABLERO_INVALIDO = MENSAJE_TABLERO_INVALIDO;
+    }
+
+    public String getMENSAJE_MOVIMIENTO_INVALIDO() {
+        return MENSAJE_MOVIMIENTO_INVALIDO;
+    }
+
+    public void setMENSAJE_MOVIMIENTO_INVALIDO(String MENSAJE_MOVIMIENTO_INVALIDO) {
+        this.MENSAJE_MOVIMIENTO_INVALIDO = MENSAJE_MOVIMIENTO_INVALIDO;
+    }
+
+    
     
     
     public void seleccionarFichasTablero(int[] posicionesFichas) {}
 
     public void quitarFichasJugador(int[] posicionesFichas) {}
 
-    public void quitarFichasTablero(int[] idsFichas) {}
+    public void quitarFichasTablero(int[] idFichas) {
+        tablero.quitarFichasTablero(idFichas);
+        this.setMovimientoValido(false);
+        this.notificar();
+        
+    }
 
     public void agregarFichasTablero(int[] idsFichas, int numeroGrupo) {}
  

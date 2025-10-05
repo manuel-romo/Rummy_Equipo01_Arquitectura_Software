@@ -1,0 +1,161 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package fachada;
+
+import entidades.ColorFicha;
+import entidades.Ficha;
+import entidades.FichaNormal;
+import entidades.Grupo;
+import entidades.GrupoSecuencia;
+import entidades.Jugador;
+import interfaces.ITablero;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ *
+ * @author pedro
+ */
+public class Fachada implements ITablero {
+
+    private List<Grupo> grupos;
+    private List<Ficha> fichas;
+    private List<Jugador> jugadores;
+
+    
+    public Fachada() {
+        this.grupos = new ArrayList<>();
+        this.fichas = new ArrayList<>();
+        this.jugadores = new ArrayList<>();
+
+        Ficha f1 = new FichaNormal(0, ColorFicha.COLOR_A, 12);
+        Ficha f2 = new FichaNormal(1, ColorFicha.COLOR_B, 2);
+        Ficha f3 = new FichaNormal(2, ColorFicha.COLOR_C, 6);
+        Ficha f4 = new FichaNormal(3, ColorFicha.COLOR_A, 11);
+        Ficha f5 = new FichaNormal(4, ColorFicha.COLOR_A, 10);
+        Grupo g1 = new GrupoSecuencia(0, List.of(f5, f4, f1));
+
+        Jugador j1 = new Jugador("...", "taza123", true, List.of(f5, f4, f1));
+        Jugador j2 = new Jugador("...", "raco123", false, List.of(f2, f3));
+
+        fichas.addAll(List.of(f1, f2, f3, f4, f5));
+
+    }
+
+    /**
+     * Método para bajar fichas de un jugador al tablero creando un nuevo grupo.
+     * @param idFichas ids de las fichas a agregar.
+     * @return True si se pudo agregar, false de lo contrario.
+     */
+    @Override
+    public boolean agregarFichasTablero(int[] idFichas) {
+        if (idFichas.length == 0) {
+            return false;
+        }
+        
+        List<Ficha> listaFichas = new ArrayList<>();
+        Grupo grupo = new GrupoSecuencia(1, listaFichas);
+        for (int i = 0; i < idFichas.length; i++) {
+            Ficha fichaNueva = obtenerFichaPorId(idFichas[i]);
+            listaFichas.add(fichaNueva);
+            fichaNueva.setGrupo(grupo);
+        }
+        return true;
+    }
+
+    /**
+     * Método para agregar fichas de un jugador al tablero a un grupo ya existente.
+     * @param idFichas ids de las fichas a agregar.
+     * @param numeroGrupo Identificador del grupo al cual se le agregaran las fichas.
+     * @return True si se pudo agregar, false de lo contrario.
+     */
+    @Override
+    public boolean agregarFichasTablero(int[] idFichas, int numeroGrupo) {
+        if (idFichas.length == 0) {
+            return false;
+        }
+        List<Ficha> listaFichas = new ArrayList<>();
+        Grupo grupo = obtenerGrupoPorId(numeroGrupo);
+        for (int i = 0; i < idFichas.length; i++) {
+            Ficha fichaNueva = obtenerFichaPorId(idFichas[i]);
+            listaFichas.add(fichaNueva);
+            fichaNueva.setGrupo(grupo);
+        }
+        grupo.agregarFichas(fichas);
+        return true;
+    }
+
+    /**
+     * Método para quitar las fichas de la mano del jugador.
+     * @param posiciones
+     * @return True si se pudo, false si no.
+     */
+    @Override
+    public boolean quitarFichasJugador(int[] posiciones) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    /**
+     * Método para separar fichas del tablero de un grupo ya existente.
+     * @param idFichas ids de las fichas a remover.
+     * @return 
+     */
+    @Override
+    public boolean quitarFichasTablero(int[] idFichas) {
+        if (idFichas.length == 0) {
+            return false;
+        }
+        for(int i = 0; i<idFichas.length; i++){
+            Ficha ficha = obtenerFichaPorId(idFichas[i]);
+            Grupo grupo = ficha.getGrupo();
+            List fichas = new LinkedList();
+            fichas.add(ficha);
+            grupo.removerFichas(fichas);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean seleccionarFichasTablero(int[] idFichas) {
+        if (idFichas.length == 0) {
+            return false;
+        }
+        List<Ficha> fichasSeleccionadas = new ArrayList<>();
+        for (int i = 0; i < idFichas.length; i++) {
+            Ficha fichaSeleccionada = obtenerFichaPorId(idFichas[i]);
+            fichasSeleccionadas.add(fichaSeleccionada);
+        }
+        return true;
+    }
+
+    /**
+     * Método interno para obtener una instancia de ficha por su id.
+     * @param idFicha identificador de la ficha.
+     * @return Entidad ficha con el id dado.
+     */
+    private Ficha obtenerFichaPorId(int idFicha) {
+        for (Ficha ficha : fichas) {
+            if (ficha.getId() == idFicha) {
+                return ficha;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Método interno para obtener una instancia de grupo por su id.
+     * @param numeroGrupo  identificador del grupo..
+     * @return Entidad grupo con el numero dado.
+     */
+    private Grupo obtenerGrupoPorId(int numeroGrupo){
+        for (Grupo grupo : grupos) {
+            if (grupo.getNumero() == numeroGrupo) {
+                return grupo;
+            }
+        }
+        return null;
+    }
+}
