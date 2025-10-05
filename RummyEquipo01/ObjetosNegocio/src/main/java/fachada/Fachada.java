@@ -12,6 +12,7 @@ import entidades.GrupoSecuencia;
 import entidades.Jugador;
 import interfaces.ITablero;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -51,11 +52,12 @@ public class Fachada implements ITablero {
         }
         
         List<Ficha> listaFichas = new ArrayList<>();
+        Grupo grupo = new GrupoSecuencia(1, listaFichas);
         for (int i = 0; i < idFichas.length; i++) {
             Ficha fichaNueva = obtenerFichaPorId(idFichas[i]);
             listaFichas.add(fichaNueva);
+            fichaNueva.setGrupo(grupo);
         }
-        Grupo grupo = new GrupoSecuencia(1, listaFichas);
         return true;
     }
 
@@ -65,11 +67,12 @@ public class Fachada implements ITablero {
             return false;
         }
         List<Ficha> listaFichas = new ArrayList<>();
+        Grupo grupo = obtenerGrupoPorId(numeroGrupo);
         for (int i = 0; i < idFichas.length; i++) {
             Ficha fichaNueva = obtenerFichaPorId(idFichas[i]);
             listaFichas.add(fichaNueva);
+            fichaNueva.setGrupo(grupo);
         }
-        Grupo grupo = obtenerGrupoPorId(numeroGrupo);
         grupo.agregarFichas(fichas);
         return true;
     }
@@ -81,7 +84,17 @@ public class Fachada implements ITablero {
 
     @Override
     public boolean quitarFichasTablero(int[] idFichas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (idFichas.length == 0) {
+            return false;
+        }
+        for(int i = 0; i<idFichas.length; i++){
+            Ficha ficha = obtenerFichaPorId(idFichas[i]);
+            Grupo grupo = ficha.getGrupo();
+            List fichas = new LinkedList();
+            fichas.add(ficha);
+            grupo.removerFichas(fichas);
+        }
+        return true;
     }
 
     @Override
