@@ -8,9 +8,11 @@ package objetosPresentacion;
  * 
  */
 public enum PosicionPanel {
-    EXTREMO, 
-    CETRO,
+    CENTRO,
+    CENTRO_ARRIBA,
     ABAJO_CENTRO,
     IZQUIERDA_ABAJO,
+    IZQUIERDA_CENTRO,
+    DERECHA_CENTRO,
     SIN_POSICION
 }

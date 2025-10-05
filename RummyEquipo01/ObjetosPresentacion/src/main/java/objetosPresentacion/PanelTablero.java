@@ -2,6 +2,8 @@
 package objetosPresentacion;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 /**
@@ -11,10 +13,39 @@ import javax.swing.JPanel;
 public class PanelTablero extends JPanel implements IComponente{
 
     private Color COLOR_FONDO = new Color(60, 130, 72);
-    private PosicionPanel POSICION_PANEL = PosicionPanel.CETRO;
+    private PanelCasilla[] panelesCasillas;
+    private int CANTIDAD_FILAS_CASILLAS = 20;
+    private int CANTIDAD_COLUMNAS_CASILLAS = 50;
+    private int ESPACION_VERTICAL_CASILLAS = 6;
+    private int ESPACION_HORIZONTAL_CASILLAS = 6;
     
-    public PanelTablero(){
+    private PosicionPanel POSICION_PANEL = PosicionPanel.CENTRO;
+    private Dimension tamanio = new Dimension(1650,1600);
+    
+    public PanelTablero(PanelCasilla[] panelesCasillas){
+        
+        this.panelesCasillas = panelesCasillas;
+        
         setBackground(COLOR_FONDO);
+        setPreferredSize(tamanio);
+        
+        setLayout(new GridLayout(
+                CANTIDAD_FILAS_CASILLAS, 
+                CANTIDAD_COLUMNAS_CASILLAS, 
+                ESPACION_HORIZONTAL_CASILLAS, 
+                ESPACION_VERTICAL_CASILLAS));
+        
+        configurarPanelesCasillas();
+    }
+    
+    private void configurarPanelesCasillas(){
+        
+        for(PanelCasilla panelCasilla: panelesCasillas){
+            
+            add(panelCasilla);
+            
+        }
+        
     }
     
     

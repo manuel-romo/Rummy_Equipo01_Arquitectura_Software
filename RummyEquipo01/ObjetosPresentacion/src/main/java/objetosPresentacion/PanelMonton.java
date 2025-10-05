@@ -1,6 +1,8 @@
 
 package objetosPresentacion;
 
+import java.awt.Color;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -12,6 +14,19 @@ import javax.swing.JPanel;
 public class PanelMonton extends JPanel implements IComponente{
 
     private PosicionPanel POSICION_PANEL = PosicionPanel.IZQUIERDA_ABAJO;
+    private Color COLOR_FONDO = new Color(212, 209, 186);
+    private String VALOR_LABEL_PANEL = "Fichas restantes: ";
+    
+    private int numeroFichasMonton;
+    
+    public PanelMonton(){
+        
+        setBackground(COLOR_FONDO);
+        JLabel labelNumeroFichasMonton = new JLabel(VALOR_LABEL_PANEL);
+        add(labelNumeroFichasMonton);
+                
+        
+    }
     
     @Override
     public void agregarComponente(IComponente componente) {

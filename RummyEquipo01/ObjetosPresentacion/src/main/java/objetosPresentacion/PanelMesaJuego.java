@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import objetosPresentacion.IComponente;
 
 /**
@@ -21,9 +22,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     
     private List<IComponente> componentes = new LinkedList<>();
     
-    private Color COLOR_FONDO = new Color(232, 217, 172);
-    
-    int componentesConPosicion = 0;
+    private Color COLOR_FONDO = new Color(207, 196, 136);
     
     public PanelMesaJuego(){
         
@@ -39,60 +38,42 @@ public class PanelMesaJuego extends JPanel implements IComponente{
         JPanel panel = (JPanel)componente;
         
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        PanelRotador panelRotado;
          
-        if(componente.getPosicion().equals(PosicionPanel.EXTREMO) && componentesConPosicion < 3){
-            
-            switch (componentesConPosicion) {
+        if(componente.getPosicion().equals(PosicionPanel.CENTRO_ARRIBA)){
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.weightx = 1;
+            gridBagConstraints.weighty = 1;
+            gridBagConstraints.gridwidth = 3;
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
 
-                case 0:
-                    gridBagConstraints.gridx = 0;
-                    gridBagConstraints.gridy = 0;
-                    gridBagConstraints.weightx = 1;
-                    gridBagConstraints.weighty = 1;
-                    gridBagConstraints.gridwidth = 3;
-                    gridBagConstraints.fill = GridBagConstraints.BOTH;
+            add(panel, gridBagConstraints);
 
-                    
-                    add(panel, gridBagConstraints);
+        } 
+        else if(componente.getPosicion().equals(PosicionPanel.IZQUIERDA_CENTRO)){
+        
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 1;
+            gridBagConstraints.weightx = 1;
+            gridBagConstraints.weighty = 6;
+            gridBagConstraints.gridwidth = 1;
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
 
-                    break;
+            add(panel, gridBagConstraints);
+        }  
 
-                case 1:
-                    gridBagConstraints.gridx = 0;
-                    gridBagConstraints.gridy = 1;
-                    gridBagConstraints.weightx = 1;
-                    gridBagConstraints.weighty = 6;
-                    gridBagConstraints.gridwidth = 1;
-                    gridBagConstraints.fill = GridBagConstraints.BOTH;
+        else if(componente.getPosicion().equals(PosicionPanel.DERECHA_CENTRO)){
+        
+            gridBagConstraints.gridx = 2;
+            gridBagConstraints.gridy = 1;
+            gridBagConstraints.weightx = 1;
+            gridBagConstraints.weighty = 6;
+            gridBagConstraints.gridwidth = 1;
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
 
-                    panelRotado = new PanelRotador(panel, -90);
-                    add(panelRotado, gridBagConstraints);
-
-                    break;
-
-                case 2:
-
-                    gridBagConstraints.gridx = 2;
-                    gridBagConstraints.gridy = 1;
-                    gridBagConstraints.weightx = 1;
-                    gridBagConstraints.weighty = 6;
-                    gridBagConstraints.gridwidth = 1;
-                    gridBagConstraints.fill = GridBagConstraints.BOTH;
-
-                    panelRotado = new PanelRotador(panel, 90);
-                    add(panelRotado, gridBagConstraints);
-
-                    break;
-
-                default:
-
-            }
-
-            componentesConPosicion++;
-
+            add(panel, gridBagConstraints);
         }
-        else if(componente.getPosicion().equals(PosicionPanel.CETRO)){
+        else if(componente.getPosicion().equals(PosicionPanel.CENTRO)){
             
             gridBagConstraints.gridx = 1;
             gridBagConstraints.gridy = 1;
@@ -101,14 +82,18 @@ public class PanelMesaJuego extends JPanel implements IComponente{
             gridBagConstraints.gridwidth = 1;
             gridBagConstraints.fill = GridBagConstraints.BOTH;
 
-            add(panel, gridBagConstraints);
+            JScrollPane scrollPane = new JScrollPane(panel);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            
+            add(scrollPane, gridBagConstraints);
         }
         else if(componente.getPosicion().equals(PosicionPanel.ABAJO_CENTRO)){
             
-            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridx = 1;
             gridBagConstraints.gridy = 2;
             gridBagConstraints.weightx = 1;
-            gridBagConstraints.weighty = 2;
+            gridBagConstraints.weighty = 1.5;
             gridBagConstraints.gridwidth = 3;
             gridBagConstraints.fill = GridBagConstraints.BOTH;
 
@@ -116,14 +101,14 @@ public class PanelMesaJuego extends JPanel implements IComponente{
             
         } else if(componente.getPosicion().equals(PosicionPanel.IZQUIERDA_ABAJO)){
             
-//            gridBagConstraints.gridx = 0;
-//            gridBagConstraints.gridy = 2;
-//            gridBagConstraints.weightx = 1;
-//            gridBagConstraints.weighty = 2;
-//            gridBagConstraints.gridwidth = 3;
-//            gridBagConstraints.fill = GridBagConstraints.BOTH;
-//
-//            add(panel, gridBagConstraints);
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.weightx = 1;
+            gridBagConstraints.weighty = 1;
+            gridBagConstraints.gridwidth = 1;
+            gridBagConstraints.fill = GridBagConstraints.BOTH;
+
+            add(panel, gridBagConstraints);
         }
     }
     
