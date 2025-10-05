@@ -158,4 +158,18 @@ public class Fachada implements ITablero {
         }
         return null;
     }
+        
+    
+    /**
+     * Método para validar todos los grupos en los tableros
+     * @return 
+     */
+    public boolean validarGrupos(){
+        return true; //Retornamos true en este momento "mock"
+    }
+
+    @Override
+    public boolean terminarTurno() {
+        return this.validarGrupos();
+    }
 }

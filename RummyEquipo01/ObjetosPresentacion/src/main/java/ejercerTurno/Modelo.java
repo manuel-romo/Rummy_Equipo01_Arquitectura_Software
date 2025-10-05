@@ -118,7 +118,19 @@ public class Modelo implements IPublicador, IModelo{
  
     public void agregarFichasTablero(int[] idsFichas){}
     
-    public void terminarTurno() {}
+    /***
+     * Método para terminar turno y pasar al siguiente.
+     */
+    public void terminarTurno() {
+        if(tablero.terminarTurno()){
+            this.setTableroInvalido(false);
+            this.setVistaHabilitado(false);
+        } else{
+            this.setTableroInvalido(true);
+        }
+        
+        this.notificar();
+    }
 
     @Override
     public void suscribirse(ISuscriptor suscriptor) {
@@ -167,6 +179,6 @@ public class Modelo implements IPublicador, IModelo{
     public boolean isVistaHabilitada() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
 
 }

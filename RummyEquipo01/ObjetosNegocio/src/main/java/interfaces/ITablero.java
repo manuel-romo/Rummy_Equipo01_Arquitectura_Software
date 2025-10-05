@@ -7,4 +7,5 @@ public interface ITablero {
     public abstract boolean quitarFichasJugador(int [] posiciones);
     public abstract boolean quitarFichasTablero(int [] idFichas);
     public abstract boolean seleccionarFichasTablero(int [] idFichas);
+    public abstract boolean terminarTurno();
 }
