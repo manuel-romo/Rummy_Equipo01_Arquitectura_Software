@@ -15,6 +15,8 @@ public class Monton {
     public Ficha[] getFichas() {
         return fichas;
     }
+    
+    
 
     /**
      * Asigna las fichas que formarán parte del montón.

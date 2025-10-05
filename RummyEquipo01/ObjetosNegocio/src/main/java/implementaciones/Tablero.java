@@ -4,7 +4,10 @@
  */
 package implementaciones;
 
+import entidades.ColorFicha;
+import entidades.Comodin;
 import entidades.Ficha;
+import entidades.FichaNormal;
 import entidades.Grupo;
 import entidades.GrupoColores;
 import entidades.GrupoSecuencia;
@@ -25,11 +28,11 @@ import java.util.stream.Collectors;
 public class Tablero implements ITablero {
 
     private Jugador jugadorPrincipal;
-    private List<Jugador> listaJugaores;
+    private List<Jugador> listaJugadores;
     private Monton monton;
     private List<Grupo> gruposFichas;
 
-    public Grupo obtenerGrupo(Integer numero) {
+    public Grupo obtenerGrupo(int numero) {
         throw new UnsupportedOperationException();
     }
 
@@ -38,7 +41,7 @@ public class Tablero implements ITablero {
     }
 
     public Monton obtenerMonton() {
-        throw new UnsupportedOperationException();
+        return monton;
     }
 
     /**
@@ -67,17 +70,30 @@ public class Tablero implements ITablero {
 
     @Override
     public boolean agregarFichasTablero(int[] idFichas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (jugadorPrincipal.isEsPrimerTurno()) {
+            List<Ficha> fichas = obtenerFichas(idFichas);
+            Grupo grupoNuevo = new GrupoColores(Integer.SIZE, fichas);
+
+        }
+        return true;
     }
 
     @Override
-    public boolean agregarFichasTablero(int[] idsFicha, Integer numeroGrupo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean agregarFichasTablero(int[] idsFichas, int numeroGrupo) {
+        if (true) {
+            
+            
+        }
+        
+        return true;
     }
 
     @Override
     public boolean quitarFichasJugador(int[] posiciones) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (true) {
+            
+        }
+        return true;
     }
 
     /**
@@ -88,13 +104,12 @@ public class Tablero implements ITablero {
      */
     @Override
     public boolean quitarFichasTablero(int[] idFichas) {
-
         List<Ficha> fichasObtenidas = this.obtenerFichas(idFichas); //Obtenemos las fichas a remover
         Set<Grupo> grupos = new HashSet<>();
         if (fichasObtenidas.isEmpty()) {
-            return false; // no hay fichas que remover
+            return false;
         }
-        
+
         for (Ficha ficha : fichasObtenidas) {
             grupos.add(ficha.getGrupo());
         }

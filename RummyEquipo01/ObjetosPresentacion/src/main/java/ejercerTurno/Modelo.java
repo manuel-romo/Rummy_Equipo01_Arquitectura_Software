@@ -1,11 +1,9 @@
-
-
 package ejercerTurno;
 
 import dto.JugadorExternoPresentacionDTO;
 import dto.JugadorPrincipalPresentacionDTO;
 import dto.MontonPresentacionDTO;
-import implementaciones.Tablero;
+import fachada.Fachada;
 import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 public class Modelo implements IPublicador, IModelo{
 
     
-    private ITablero tablero = new Tablero();
+    private ITablero tablero = new Fachada();
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
      */

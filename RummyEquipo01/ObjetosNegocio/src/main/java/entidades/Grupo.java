@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author juanpheras
  */
-public  abstract class Grupo {
+public abstract class Grupo {
     
     /**
      * Número identificador del grupo.
@@ -61,7 +61,7 @@ public  abstract class Grupo {
      * 
      * @param fichas arreglo de fichas a agregar al grupo.
      */
-    public void agregarFichas(Ficha[] fichas) { }
+    public void agregarFichas(List<Ficha> fichas) { }
     
     /**
      * Remueve una o más fichas del grupo.
