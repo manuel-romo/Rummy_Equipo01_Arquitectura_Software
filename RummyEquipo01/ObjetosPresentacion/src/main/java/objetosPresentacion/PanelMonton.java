@@ -1,14 +1,41 @@
 
 package objetosPresentacion;
 
+import java.awt.Color;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  *
- * @author romom
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
  */
 public class PanelMonton extends JPanel implements IComponente{
 
+    private PosicionPanel POSICION_PANEL = PosicionPanel.IZQUIERDA_ABAJO;
+    private Color COLOR_FONDO = new Color(212, 209, 186);
+    private String VALOR_LABEL_PANEL = "Fichas restantes: ";
+    private String numeroFichasMonton;
+    
+    public PanelMonton(){
+        
+        setBackground(COLOR_FONDO);
+        JLabel labelInformativa = new JLabel(VALOR_LABEL_PANEL);
+        
+        add(labelInformativa);
+                
+        
+    }
+    
+    private void actualizarNumeroFichasRestantes(int numeroFichasRestantes){
+        
+        this.numeroFichasMonton = String.valueOf(numeroFichasRestantes);
+        
+        JLabel labelNumeroFichasMonton = new JLabel(this.numeroFichasMonton);
+        
+    }
+    
     @Override
     public void agregarComponente(IComponente componente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -21,11 +48,20 @@ public class PanelMonton extends JPanel implements IComponente{
 
     @Override
     public void aceptar(IVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        visitor.visitar(this);
     }
 
     public void pintar(IEstadoMonton estadoMonton) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        String numeroFichasMonton = estadoMonton.getMonton().getNumeroFichasMonton();
+        
     }
+
+    @Override
+    public PosicionPanel getPosicion() {
+        return POSICION_PANEL;
+    }
+
+ 
     
 }

@@ -10,5 +10,5 @@ import dto.MontonPresentacionDTO;
  */
 
 public interface IEstadoMonton {
-    public abstract MontonPresentacionDTO getMontonPresentacion();
+    public abstract MontonInformacionPanel getMonton();
 }
