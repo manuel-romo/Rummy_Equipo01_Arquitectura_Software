@@ -1,18 +1,26 @@
 package entidades;
 
+import java.util.List;
+
 /**
  *
  * @author pedro
  */
 public class Monton {
-    private Ficha[] fichas;
+
+    public Monton(List<Ficha> fichas) {
+        this.fichas = fichas;
+    }
+    
+    
+    private List<Ficha> fichas;
 
     /**
      * Obtiene el arreglo de fichas que forman parte del montón.
      * 
      * @return el arreglo de fichas.
      */
-    public Ficha[] getFichas() {
+    public List<Ficha> getFichas() {
         return fichas;
     }
     
@@ -23,7 +31,7 @@ public class Monton {
      * 
      * @param fichas el arreglo de fichas a asignar.
      */
-    public void setFichas(Ficha[] fichas) {
+    public void setFichas(List<Ficha> fichas) {
         this.fichas = fichas;
     }
         
@@ -36,6 +44,6 @@ public class Monton {
         if (fichas == null) {
             return 0;
         }
-        return fichas.length;
+        return fichas.size();
     }
 }

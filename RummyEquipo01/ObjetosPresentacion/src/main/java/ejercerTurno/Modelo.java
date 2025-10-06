@@ -1,5 +1,8 @@
 package ejercerTurno;
 
+import dto.ColorFicha;
+import dto.FichaNegocioDTO;
+import dto.FichaPresentacionDTO;
 import dto.JugadorExternoPresentacionDTO;
 import dto.JugadorPrincipalPresentacionDTO;
 import dto.MontonPresentacionDTO;
@@ -281,13 +284,22 @@ public class Modelo implements IPublicador, IModelo {
 
     @Override
     public JugadorPrincipalPresentacionDTO obtenerJugadorPrincipal() {
-        throw new UnsupportedOperationException("Not supported yet.");
-
+        List<FichaNegocioDTO> fichasNegocio = tablero.obtenerJugadorPrincipal().getFichas();
+        
+        List<FichaPresentacionDTO> fichasPresentacion = new ArrayList<>();
+        for (FichaNegocioDTO fichaNegocioDTO : fichasNegocio) {
+            FichaPresentacionDTO ficha = new FichaPresentacionDTO(fichaNegocioDTO.getId(), fichaNegocioDTO.getNumero(), ColorFicha.COLOR_A);
+            fichasPresentacion.add(ficha);
+            
+        }
+        FichaPresentacionDTO[] fichasArreglo = fichasPresentacion.toArray(new FichaPresentacionDTO[0]);
+        
+        return new JugadorPrincipalPresentacionDTO(fichasArreglo);
     }
 
     @Override
-    public MontonPresentacionDTO[] obtenerMontonPresentacion() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public MontonPresentacionDTO obtenerMontonPresentacion() {
+        return new MontonPresentacionDTO(tablero.obtenerMonton().getFichas().size());
     }
 
     @Override
@@ -306,7 +318,9 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     @Override
-    public MontonPresentacionDTO[] obtenerMontonPresentacion() {
+    public JugadorExternoPresentacionDTO[] obtenerJugadoresExternos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+
 }

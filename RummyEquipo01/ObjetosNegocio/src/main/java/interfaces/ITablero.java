@@ -1,5 +1,7 @@
 package interfaces;
 
+import dto.JugadorNegocioDTO;
+import dto.MontonNegocioDTO;
 import entidades.Jugador;
 import entidades.Monton;
 
@@ -11,7 +13,7 @@ public interface ITablero {
     public abstract boolean quitarFichasTablero(int [] idFichas);
     public abstract boolean seleccionarFichasTablero(int [] idFichas);
     public abstract boolean terminarTurno();
-    public abstract Jugador obtenerJugadorPrincipal();
-    public abstract Jugador obtenerJugadoresExternos();
-    public abstract Monton obtenerMonton();
+    public abstract JugadorNegocioDTO obtenerJugadorPrincipal();
+    public abstract JugadorNegocioDTO obtenerJugadoresExternos();
+    public abstract MontonNegocioDTO obtenerMonton();
 }

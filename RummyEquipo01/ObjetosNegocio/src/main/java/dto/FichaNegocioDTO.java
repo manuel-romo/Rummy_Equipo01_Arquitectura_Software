@@ -11,9 +11,9 @@ import entidades.ColorFicha;
  * @author pedro
  */
 public class FichaNegocioDTO {
-    public int id;
-    public ColorFicha color;
-    public int numero;
+    private int id;
+    private ColorFicha color;
+    private int numero;
 
     public FichaNegocioDTO(int id, ColorFicha color, int numero) {
         this.id = id;

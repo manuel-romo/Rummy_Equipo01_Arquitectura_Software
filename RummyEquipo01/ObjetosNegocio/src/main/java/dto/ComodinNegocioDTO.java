@@ -9,8 +9,8 @@ package dto;
  * @author pedro
  */
 public class ComodinNegocioDTO {
-    public int id;
-    public String valor;
+    private int id;
+    private String valor;
 
     public ComodinNegocioDTO(int id, String valor) {
         this.id = id;

@@ -4,6 +4,10 @@
  */
 package fachada;
 
+import dto.ComodinNegocioDTO;
+import dto.FichaNegocioDTO;
+import dto.JugadorNegocioDTO;
+import dto.MontonNegocioDTO;
 import entidades.ColorFicha;
 import entidades.Ficha;
 import entidades.FichaNormal;
@@ -13,6 +17,7 @@ import entidades.Jugador;
 import entidades.Monton;
 import interfaces.ITablero;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +30,7 @@ public class Fachada implements ITablero {
     private List<Grupo> grupos;
     private List<Ficha> fichas;
     private List<Jugador> jugadores;
+    private Monton monton;
 
     public Fachada() {
         this.grupos = new ArrayList<>();
@@ -37,10 +43,20 @@ public class Fachada implements ITablero {
         Ficha f4 = new FichaNormal(3, ColorFicha.COLOR_A, 11);
         Ficha f5 = new FichaNormal(4, ColorFicha.COLOR_A, 10);
         Grupo g1 = new GrupoSecuencia(0, List.of(f5, f4, f1));
+        
+        
+        
+        Ficha f6 = new FichaNormal(6, ColorFicha.COLOR_A, 12);
+        Ficha f7 = new FichaNormal(7, ColorFicha.COLOR_B, 2);
+        Ficha f8 = new FichaNormal(8, ColorFicha.COLOR_C, 6);
+        Ficha f9 = new FichaNormal(9, ColorFicha.COLOR_A, 11);
+        Ficha f10 = new FichaNormal(10, ColorFicha.COLOR_A, 10);
+        
+        Monton monton = new Monton(List.of(f6,f7,f8,f9,f10));
 
         Jugador j1 = new Jugador("...", "taza123", true, List.of(f5, f4, f1));
         Jugador j2 = new Jugador("...", "raco123", false, List.of(f2, f3));
-        
+
         jugadores.add(j1);
         jugadores.add(j2);
 
@@ -85,9 +101,9 @@ public class Fachada implements ITablero {
         }
         List fichas = new LinkedList();
         Jugador jugador1 = jugadores.get(1);
-        for(int i = 0; i < idFichas.length; i++){
+        for (int i = 0; i < idFichas.length; i++) {
             Ficha ficha = obtenerFichaPorId(idFichas[i]);
-            fichas.add(ficha);    
+            fichas.add(ficha);
         }
         jugador1.quitarFichas(fichas);
         return true;
@@ -154,17 +170,75 @@ public class Fachada implements ITablero {
     }
 
     @Override
-    public Jugador obtenerJugadorPrincipal() {
-        return jugadores.get(0);
+    public JugadorNegocioDTO obtenerJugadorPrincipal() {
+
+        Jugador jugadorPrincipal = this.jugadores.get(0);
+        List<Ficha> fichasJugador = jugadorPrincipal.getFichas();
+        List<FichaNegocioDTO> fichasNegocio = new ArrayList<>();
+        List<ComodinNegocioDTO> comodinesNegocio = new ArrayList<>();
+
+        for (Ficha ficha : fichasJugador) {
+            // Si es una FichaNormal
+            if (ficha instanceof FichaNormal) {
+                FichaNormal fichaNormal = (FichaNormal) ficha;
+
+                FichaNegocioDTO fichaDTO = new FichaNegocioDTO(
+                        fichaNormal.getId(),
+                        fichaNormal.getColor(),
+                        fichaNormal.getNumero()
+                );
+                fichasNegocio.add(fichaDTO);
+            }
+        }
+
+        JugadorNegocioDTO jugadorPrincipalDTO = new JugadorNegocioDTO(fichasNegocio, jugadorPrincipal.getAvatar(), jugadorPrincipal.getNombre(), jugadorPrincipal.isEsPrimerTurno());
+        return jugadorPrincipalDTO;
     }
 
     @Override
-    public Jugador obtenerJugadoresExternos() {
-        return jugadores.get(1);
+    public JugadorNegocioDTO obtenerJugadoresExternos() {
+         Jugador jugadorPrincipal = this.jugadores.get(1);
+        List<Ficha> fichasJugador = jugadorPrincipal.getFichas();
+        List<FichaNegocioDTO> fichasNegocio = new ArrayList<>();
+
+        for (Ficha ficha : fichasJugador) {
+            // Si es una FichaNormal
+            if (ficha instanceof FichaNormal) {
+                FichaNormal fichaNormal = (FichaNormal) ficha;
+
+                FichaNegocioDTO fichaDTO = new FichaNegocioDTO(
+                        fichaNormal.getId(),
+                        fichaNormal.getColor(),
+                        fichaNormal.getNumero()
+                );
+                fichasNegocio.add(fichaDTO);
+            }
+        }
+
+        JugadorNegocioDTO jugadorPrincipalDTO = new JugadorNegocioDTO(fichasNegocio, jugadorPrincipal.getAvatar(), jugadorPrincipal.getNombre(), jugadorPrincipal.isEsPrimerTurno());
+        return jugadorPrincipalDTO;
     }
 
     @Override
-    public Monton obtenerMonton() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public MontonNegocioDTO obtenerMonton() {
+        List<Ficha> fichasMonton = monton.getFichas();
+        List<FichaNegocioDTO> fichasNegocio = new ArrayList<>();
+
+        for (Ficha ficha : fichasMonton) {
+            // Si es una FichaNormal
+            if (ficha instanceof FichaNormal) {
+                FichaNormal fichaNormal = (FichaNormal) ficha;
+
+                FichaNegocioDTO fichaDTO = new FichaNegocioDTO(
+                        fichaNormal.getId(),
+                        fichaNormal.getColor(),
+                        fichaNormal.getNumero()
+                );
+                fichasNegocio.add(fichaDTO);
+            }
+        }
+        
+        return new MontonNegocioDTO(fichasNegocio);
     }
+
 }

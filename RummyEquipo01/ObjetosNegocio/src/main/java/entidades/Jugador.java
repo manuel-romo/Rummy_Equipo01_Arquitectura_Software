@@ -20,6 +20,24 @@ public class Jugador {
         this.esPrimerTurno = esPrimerTurno;
         this.fichas = fichas;
     }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
     
     /**
      * metedo que regresa si es el primer turno
