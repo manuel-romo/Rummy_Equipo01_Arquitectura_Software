@@ -164,16 +164,6 @@ public class Fachada implements ITablero {
     }
 
     @Override
-    public String obtenerMensajeInvalido() {
-        return
-    }
-
-    @Override
-    public String obtenerMensajeMovimientoInvalido() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Monton obtenerMonton() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
