@@ -1,38 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package dto;
 
 import entidades.ColorFicha;
 
 /**
  *
- * @author pedro
+ * @author 
  */
-public class FichaNegocioDTO {
+public abstract class FichaNegocioDTO {
+    
     private int id;
-    private ColorFicha color;
-    private int numero;
+    private int numeroGrupo;
 
-    public FichaNegocioDTO(int id, ColorFicha color, int numero) {
+    public FichaNegocioDTO(int id, int numeroGrupo) {
         this.id = id;
-        this.color = color;
-        this.numero = numero;
+        this.numeroGrupo = numeroGrupo;
     }
 
     public int getId() {
         return id;
     }
 
-    public ColorFicha getColor() {
-        return color;
+    public int getNumeroGrupo() {
+        return numeroGrupo;
     }
-
-    public int getNumero() {
-        return numero;
-    }
-
-   
     
 }

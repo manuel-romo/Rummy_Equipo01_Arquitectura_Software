@@ -19,7 +19,7 @@ public class FichaNormal extends Ficha {
      * @param color color de la ficha iniciada.
      * @param numero valor de la ficha.
      */
-    public FichaNormal(Integer id, ColorFicha color, int numero){
+    public FichaNormal(Integer id, int numero, ColorFicha color){
         super(id);
         this.color = color;
         this.numero = numero;

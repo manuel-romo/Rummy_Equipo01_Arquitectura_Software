@@ -1,6 +1,10 @@
 
 package objetosPresentacion;
 
+import comunicacion.Comunicacion;
+import comunicacion.IComunicacion;
+import ejercerTurno.Controlador;
+import ejercerTurno.Modelo;
 import ejercerTurno.VistaMesaJuego;
 import java.awt.Color;
 import java.util.HashMap;
@@ -8,7 +12,9 @@ import java.util.Map;
 
 /**
  *
- * @author romom
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
  */
 public class ObjetosPresentacion {
 
@@ -43,10 +49,10 @@ public class ObjetosPresentacion {
         
         panelMesaJuego.agregarComponente(panelMonton);
         panelMesaJuego.agregarComponente(panelTablero);
-        panelMesaJuego.agregarComponente(panelJugadorPrincipal);
         panelMesaJuego.agregarComponente(panelJugadorExterno1);
         panelMesaJuego.agregarComponente(panelJugadorExterno2);
         panelMesaJuego.agregarComponente(panelJugadorExterno3);
+        panelMesaJuego.agregarComponente(panelJugadorPrincipal);
 
         Map<Integer, Color> mapaColoresSeleccionados = Map.of(
             1, Color.RED,
@@ -76,17 +82,21 @@ public class ObjetosPresentacion {
             
         }
         
+        IComunicacion comunicacion = new Comunicacion();
+        
+        Modelo modelo = new Modelo(comunicacion);
+        Controlador controlador = new Controlador(modelo);
+        
         VistaMesaJuego vistaMesaJuego = new VistaMesaJuego(
+                controlador,
                 panelMesaJuego, 
                 mapaColoresSeleccionados,
                 mapaIdsCasillasPanelesTablero,
                 mapaIdsCasillasPanelesMano);
         
-        ((PanelTablero) panelTablero).setActionListener(vistaMesaJuego);
-        ((PanelJugadorPrincipal) panelJugadorPrincipal).setActionListener(vistaMesaJuego);
-        
-        vistaMesaJuego.actualizar(null);
-        
-        
+        ((PanelTablero) panelTablero).setGestorEventos(vistaMesaJuego);
+        ((PanelJugadorPrincipal) panelJugadorPrincipal).setGestorEventos(vistaMesaJuego);
+
+//        modelo.iniciarTurno(tableroNegocio);
     }
 }

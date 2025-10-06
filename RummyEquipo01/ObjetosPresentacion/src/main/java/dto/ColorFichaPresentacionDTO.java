@@ -5,7 +5,7 @@ package dto;
  *
  * @author romom
  */
-public enum ColorFicha {
+public enum ColorFichaPresentacionDTO {
     COLOR_A,
     COLOR_B,
     COLOR_C,

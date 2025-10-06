@@ -6,10 +6,14 @@ public class Controlador {
 
     private Modelo modelo;
 
-    public Controlador(){
-        modelo = new Modelo();
+    public Controlador(Modelo modelo){
+        this.modelo = modelo;
     }
 
+    public void iniciarTurno(){
+        
+    }
+    
     public void seleccionarFichasTablero(int[] idsFichas) {
         modelo.seleccionarFichasTablero(idsFichas);
     }

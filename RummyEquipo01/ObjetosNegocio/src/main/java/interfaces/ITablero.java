@@ -1,10 +1,9 @@
 package interfaces;
 
+import dto.GrupoNegocioDTO;
 import dto.JugadorNegocioDTO;
 import dto.MontonNegocioDTO;
-import entidades.Jugador;
-import entidades.Monton;
-
+import dto.TableroNegocioDTO;
 
 public interface ITablero {
     public abstract boolean agregarFichasTablero(int [] idFichas);
@@ -12,8 +11,10 @@ public interface ITablero {
     public abstract boolean quitarFichasJugador(int []  idFichas);
     public abstract boolean quitarFichasTablero(int [] idFichas);
     public abstract boolean seleccionarFichasTablero(int [] idFichas);
-    public abstract boolean terminarTurno();
+    public abstract void iniciarTurno(TableroNegocioDTO tableroNegocio);
+    public abstract boolean validarGrupos();
     public abstract JugadorNegocioDTO obtenerJugadorPrincipal();
-    public abstract JugadorNegocioDTO obtenerJugadoresExternos();
+    public abstract JugadorNegocioDTO[] obtenerJugadoresExternos();
+    public abstract GrupoNegocioDTO[] obtenerGruposNegocio();
     public abstract MontonNegocioDTO obtenerMonton();
 }

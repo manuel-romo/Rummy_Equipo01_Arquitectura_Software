@@ -1,16 +1,27 @@
 package ejercerTurno;
 
-import dto.ColorFicha;
+import dto.ColorFichaNegocioDTO;
+import dto.ColorFichaPresentacionDTO;
 import dto.FichaNegocioDTO;
 import dto.FichaPresentacionDTO;
+import dto.GrupoNegocioDTO;
 import dto.JugadorExternoPresentacionDTO;
+import dto.JugadorNegocioDTO;
 import dto.JugadorPrincipalPresentacionDTO;
+import dto.MontonNegocioDTO;
 import dto.MontonPresentacionDTO;
+import dto.TableroNegocioDTO;
+import dto.TableroPresentacionDTO;
 import fachada.Fachada;
 import interfaces.ITablero;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import mock.ComunicacionMock;
+import comunicacion.IComunicacion;
+import dto.ComodinNegocioDTO;
+import dto.ComodinPresentacionDTO;
+import dto.FichaNormalNegocioDTO;
+import dto.FichaNormalPresentacionDTO;
 
 /**
  * Clase Modelo que representa la parte lógica del patrón MVC para el caso de
@@ -55,6 +66,14 @@ public class Modelo implements IPublicador, IModelo {
      * Mensaje mostrado cuando el jugador realiza un movimiento no permitido.
      */
     private String MENSAJE_MOVIMIENTO_INVALIDO;
+    
+    private IComunicacion comunicacion;
+    
+    public Modelo(IComunicacion comunicacion){
+        
+        this.comunicacion = comunicacion;
+        
+    }
 
     /**
      * Obtiene la fachada que representa el tablero actual.
@@ -238,19 +257,42 @@ public class Modelo implements IPublicador, IModelo {
         this.notificar();
     }
 
+    public void iniciarTurno(TableroNegocioDTO tableroNegocio){
+    
+        
+        
+        
+    }
+    
+    
     /**
      * Finaliza el turno actual y pasa al siguiente jugador. Si el tablero no es
      * válido, se marca el estado correspondiente.
      */
     public void terminarTurno() {
-        if (tablero.terminarTurno()) {
+        if (tablero.validarGrupos()) {
             this.setTableroInvalido(false);
             this.setVistaHabilitado(false);
+            
+            JugadorNegocioDTO jugadorPrincipal = tablero.obtenerJugadorPrincipal();
+            JugadorNegocioDTO[] jugadoresExternos = tablero.obtenerJugadoresExternos();
+            MontonNegocioDTO montonNegocio = tablero.obtenerMonton();
+            GrupoNegocioDTO[] gruposNegocio = tablero.obtenerGruposNegocio();
+            
+            TableroNegocioDTO tableroNegocio =
+                    new TableroNegocioDTO(jugadorPrincipal, 
+                            jugadoresExternos, 
+                            gruposNegocio, 
+                            montonNegocio);
+            
+            comunicacion.avisarFinalizacionTurno(tableroNegocio);
+            
         } else {
             this.setTableroInvalido(true);
         }
         this.notificar();
-        ComunicacionMock.avisarFinTurno(getTablero().obtenerJugadorPrincipal());
+        
+        
     }
 
     /**
@@ -286,14 +328,18 @@ public class Modelo implements IPublicador, IModelo {
 
     @Override
     public JugadorPrincipalPresentacionDTO obtenerJugadorPrincipal() {
+        
         List<FichaNegocioDTO> fichasNegocio = tablero.obtenerJugadorPrincipal().getFichas();
         
-        List<FichaPresentacionDTO> fichasPresentacion = new ArrayList<>();
+        List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
+        
         for (FichaNegocioDTO fichaNegocioDTO : fichasNegocio) {
-            FichaPresentacionDTO ficha = new FichaPresentacionDTO(fichaNegocioDTO.getId(), fichaNegocioDTO.getNumero(), ColorFicha.COLOR_A);
-            fichasPresentacion.add(ficha);
+            
+            FichaPresentacionDTO fichaPresentacion = obtenerFichaPresentacionDTO(fichaNegocioDTO);
+            fichasPresentacion.add(fichaPresentacion);
             
         }
+        
         FichaPresentacionDTO[] fichasArreglo = fichasPresentacion.toArray(new FichaPresentacionDTO[0]);
         
         return new JugadorPrincipalPresentacionDTO(fichasArreglo);
@@ -301,7 +347,15 @@ public class Modelo implements IPublicador, IModelo {
 
     @Override
     public MontonPresentacionDTO obtenerMontonPresentacion() {
-        return new MontonPresentacionDTO(tablero.obtenerMonton().getFichas().size());
+        
+        return obtenerMontonPresentacionDTO(tablero.obtenerMonton());
+        
+    }
+    
+    private MontonPresentacionDTO obtenerMontonPresentacionDTO(MontonNegocioDTO montonNegocioDTO){
+        
+        return new MontonPresentacionDTO(montonNegocioDTO.getFichas().size());
+        
     }
 
     @Override
@@ -321,7 +375,108 @@ public class Modelo implements IPublicador, IModelo {
 
     @Override
     public JugadorExternoPresentacionDTO[] obtenerJugadoresExternos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        JugadorNegocioDTO[] jugadoresExternosNegocio = tablero.obtenerJugadoresExternos();
+        
+        List<JugadorExternoPresentacionDTO> jugadoresExternosPresentacionDTO = new LinkedList<>();
+        
+        for(JugadorNegocioDTO jugadorExternoNegocio: jugadoresExternosNegocio){
+
+            List<FichaNegocioDTO> fichasNegocio = jugadorExternoNegocio.getFichas();
+           
+            int cantidadFichasRestante = fichasNegocio.size();
+            
+            jugadoresExternosPresentacionDTO.add(new JugadorExternoPresentacionDTO(
+                    jugadorExternoNegocio.getAvatar(), 
+                    jugadorExternoNegocio.getNombre(),
+                    cantidadFichasRestante));
+            
+        }
+
+        JugadorExternoPresentacionDTO[] jugadoresExternosPresentacion 
+                = jugadoresExternosPresentacionDTO.toArray(new JugadorExternoPresentacionDTO[0]);
+        
+        return jugadoresExternosPresentacion;
+        
+ 
+    }
+
+    @Override
+    public TableroPresentacionDTO obtenerTablero() {
+        
+        GrupoNegocioDTO[] gruposNegocio = tablero.obtenerGruposNegocio();
+        
+        List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
+        
+        for(GrupoNegocioDTO grupoNegocio: gruposNegocio){
+            
+            List<FichaNegocioDTO> fichasNegocio = grupoNegocio.getFichasNegocioDTO();
+            
+            for(FichaNegocioDTO fichaNegocioDTO: fichasNegocio){
+                
+                fichasPresentacion.add(obtenerFichaPresentacionDTO(fichaNegocioDTO));
+                
+            }
+            
+        }
+        
+        TableroPresentacionDTO tableroPresentacion 
+                = new TableroPresentacionDTO(fichasPresentacion.toArray(new FichaPresentacionDTO[0]));
+        
+        return tableroPresentacion;
+        
+    }
+    
+    private FichaPresentacionDTO obtenerFichaPresentacionDTO(FichaNegocioDTO fichaNegocioDTO){
+        
+        FichaPresentacionDTO fichaPresentacionDTO;
+        
+        if(fichaNegocioDTO instanceof FichaNormalNegocioDTO){
+            
+            FichaNormalNegocioDTO fichaNormalNegocio = (FichaNormalNegocioDTO) fichaNegocioDTO;
+            
+            ColorFichaNegocioDTO colorFichaNegocio = fichaNormalNegocio.getColor();
+            ColorFichaPresentacionDTO colorFichaPresentacion;
+
+            switch (colorFichaNegocio) {
+
+                case ColorFichaNegocioDTO.COLOR_A:
+                    colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_A;
+                    break;
+                case ColorFichaNegocioDTO.COLOR_B:
+                    colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_B;
+                    break;   
+                case ColorFichaNegocioDTO.COLOR_C:
+                    colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_C;
+                    break;  
+                case ColorFichaNegocioDTO.COLOR_D:
+                    colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_D;
+                    break;
+
+                default:
+                    throw new AssertionError();
+            }
+        
+        fichaPresentacionDTO = new FichaNormalPresentacionDTO(
+                fichaNormalNegocio.getNumero(), 
+                fichaNormalNegocio.getId(),
+                colorFichaPresentacion);
+        
+            
+        } else{
+            
+            ComodinNegocioDTO comodinNegocioDTO = (ComodinNegocioDTO) fichaNegocioDTO;
+             
+            fichaPresentacionDTO = new ComodinPresentacionDTO(
+                comodinNegocioDTO.getValor(), 
+                comodinNegocioDTO.getId());
+            
+        }
+        
+        
+        
+        return fichaPresentacionDTO;
+        
     }
 
 

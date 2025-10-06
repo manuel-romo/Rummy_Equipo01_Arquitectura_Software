@@ -13,7 +13,7 @@ public class Comodin extends Ficha{
      * Constructor que usa el constructor de la clase padre, y además inicializa el valor como "*" por ser comodin.
      * @param id id de la ficha.
      */
-    public Comodin( Integer id) {
+    public Comodin(Integer id) {
         super(id);
         this.valor = "*";
     }

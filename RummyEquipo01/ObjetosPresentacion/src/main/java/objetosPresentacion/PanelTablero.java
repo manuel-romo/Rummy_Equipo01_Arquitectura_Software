@@ -2,6 +2,7 @@
 package objetosPresentacion;
 
 import com.sun.java.accessibility.util.AWTEventMonitor;
+import ejercerTurno.IGestorEventos;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -29,7 +30,7 @@ public class PanelTablero extends JPanel implements IComponente{
     
     private Map<Integer, Integer> mapaCasillasFichas;
     
-    private ActionListener actionListener;
+    private IGestorEventos gestorEventos;
     
     public PanelTablero(PanelCasilla[] panelesCasillas){
         
@@ -47,8 +48,8 @@ public class PanelTablero extends JPanel implements IComponente{
         configurarPanelesCasillas();
     }
     
-    public void setActionListener(ActionListener actionListener){
-        this.actionListener = actionListener;
+    public void setGestorEventos(IGestorEventos gestorEventos){
+        this.gestorEventos = gestorEventos;
     }
     
     private void configurarPanelesCasillas(){
@@ -70,10 +71,11 @@ public class PanelTablero extends JPanel implements IComponente{
             FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
                             
             PanelFicha panelFicha = new PanelFicha(
-                    actionListener, 
+                    gestorEventos, 
                     ficha.getId(), 
                     ficha.getValor(), 
-                    ficha.getColor());
+                    ficha.getColor(),
+                    false);
 
             panelCasilla.agregarFicha(panelFicha);
         }

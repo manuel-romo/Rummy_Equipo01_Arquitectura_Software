@@ -1,27 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package dto;
 
 import java.util.List;
 
 /**
  *
- * @author pedro
+ * @author 
  */
-public class GrupoNegocioDTO {
+public abstract class GrupoNegocioDTO {
+    
     private int numero;
-    
     private List<FichaNegocioDTO> fichasNegocioDTO;
-    
-    
-    private List<ComodinNegocioDTO> comodinesNegocioDTO;
 
-    public GrupoNegocioDTO(int numero, List<FichaNegocioDTO> fichasNegocioDTO, List<ComodinNegocioDTO> comodinesNegocioDTO) {
+    public GrupoNegocioDTO(int numero, List<FichaNegocioDTO> fichasNegocioDTO) {
         this.numero = numero;
         this.fichasNegocioDTO = fichasNegocioDTO;
-        this.comodinesNegocioDTO = comodinesNegocioDTO;
     }
 
     public int getNumero() {
@@ -40,12 +33,6 @@ public class GrupoNegocioDTO {
         this.fichasNegocioDTO = fichasNegocioDTO;
     }
 
-    public List<ComodinNegocioDTO> getComodinesNegocioDTO() {
-        return comodinesNegocioDTO;
-    }
-
-    public void setComodinesNegocioDTO(List<ComodinNegocioDTO> comodinesNegocioDTO) {
-        this.comodinesNegocioDTO = comodinesNegocioDTO;
-    }
+    
     
 }

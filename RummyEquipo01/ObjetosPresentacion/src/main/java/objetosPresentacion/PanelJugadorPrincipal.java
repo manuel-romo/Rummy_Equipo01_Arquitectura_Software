@@ -2,6 +2,7 @@
 package objetosPresentacion;
 
 import dto.FichaPresentacionDTO;
+import ejercerTurno.IGestorEventos;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -40,7 +41,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     
     private Map<Integer, Integer> mapaCasillasFichas;
     
-    private ActionListener actionListener;
+    private IGestorEventos gestorEventos;
     
     private boolean enTurno;
     
@@ -59,8 +60,8 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         configurarBotonesOpciones();
     }
     
-    public void setActionListener(ActionListener actionListener){
-        this.actionListener = actionListener;
+    public void setGestorEventos(IGestorEventos gestorEventos){
+        this.gestorEventos = gestorEventos;
     }
     
     private void configurarPanelManoFichas(){
@@ -213,10 +214,11 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
             FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
             
             PanelFicha panelFicha = new PanelFicha(
-                    actionListener, 
+                    gestorEventos, 
                     ficha.getId(), 
                     ficha.getValor(), 
-                    ficha.getColor());
+                    ficha.getColor(),
+                    false);
 
             panelCasilla.agregarFicha(panelFicha);
         }

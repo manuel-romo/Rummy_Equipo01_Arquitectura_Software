@@ -17,6 +17,8 @@ public class GrupoColores extends Grupo {
     public GrupoColores(Integer numero, List<Ficha> fichas) {
         super(numero, fichas);
     }
+    
+    
 
     /**
      * Se comprueba la validez al momento de que se agregaron ficha(s).
