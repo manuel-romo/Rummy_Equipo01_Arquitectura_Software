@@ -4,10 +4,35 @@
  */
 package dto;
 
+import entidades.ColorFicha;
+
 /**
  *
  * @author pedro
  */
 public class FichaNegocioDTO {
+    public int id;
+    public ColorFicha color;
+    public int numero;
+
+    public FichaNegocioDTO(int id, ColorFicha color, int numero) {
+        this.id = id;
+        this.color = color;
+        this.numero = numero;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public ColorFicha getColor() {
+        return color;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+   
     
 }

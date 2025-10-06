@@ -259,7 +259,7 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     @Override
-    public MontonPresentacionDTO[] obtenerMontonPresentacionDTO() {
+    public MontonPresentacionDTO[] obtenerMontonPresentacion() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

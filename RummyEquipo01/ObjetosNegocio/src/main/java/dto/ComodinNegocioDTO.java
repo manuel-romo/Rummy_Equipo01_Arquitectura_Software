@@ -9,5 +9,21 @@ package dto;
  * @author pedro
  */
 public class ComodinNegocioDTO {
+    public int id;
+    public String valor;
+
+    public ComodinNegocioDTO(int id, String valor) {
+        this.id = id;
+        this.valor = valor;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+    
     
 }
