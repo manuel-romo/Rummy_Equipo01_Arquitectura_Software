@@ -9,6 +9,8 @@ import dto.MontonPresentacionDTO;
 import dto.TableroPresentacionDTO;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 import objetosPresentacion.IComponente;
@@ -29,21 +31,34 @@ import objetosPresentacion.VisitorPintar;
  * ID: 00000253080
  * 
  */
-public class VistaMesaJuego extends JFrame implements ISuscriptor{
+public class VistaMesaJuego extends JFrame implements ISuscriptor, ActionListener{
     
     private IComponente panelMesaJuego;
     
     private Dimension tamanioVentanaVista = new Dimension(1000, 700);
     private Controlador controlador;
     
-    private Map<Integer, FichaPresentacionDTO> mapaFichasCasillasTablero;
-    private Map<Integer, FichaPresentacionDTO> mapaFichasCasillasJugador;
-    
     private Map<Integer, Color> mapaColoresJugador;
     
-//    private Map<Integer, FichaInformacionPanel> mapaCasillasFichas;
+    /**
+     * Mapa con clave igual al id de Casilla y valor igual al id de Ficha, en el tablero.
+     */
+    private Map<Integer, Integer> mapaIdsCasillasFichasTablero;
     
-    public VistaMesaJuego(IComponente componente){
+    /**
+     * Mapa con clave igual al id de Casilla y valor igual al id de Ficha, en la mano del jugador.
+     */
+    private Map<Integer, Integer> mapaIdsCasillasFichasMano;
+    
+    public VistaMesaJuego(
+            IComponente componente,
+            Map<Integer, Color> mapaColoresJugador, 
+            Map<Integer, Integer> mapaIdsCasillasFichasTablero, 
+            Map<Integer, Integer> mapaIdsCasillasFichasMano){
+        
+        this.mapaColoresJugador = mapaColoresJugador;
+        this.mapaIdsCasillasFichasTablero = mapaIdsCasillasFichasTablero;
+        this.mapaIdsCasillasFichasMano = mapaIdsCasillasFichasMano;
         
         setSize(tamanioVentanaVista);
         setLocationRelativeTo(null);
@@ -120,12 +135,13 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor{
         for(FichaPresentacionDTO ficha: fichas){
             
             listaFichaInformacionPanel.add(new FichaInformacionPanel(
+                    ficha.getIdFicha(),
                     String.valueOf(ficha.getValor()),
                     determinarColor(ficha.getColor())
                     ));   
         }
         
-        FichaInformacionPanel[] fichasInformacionPanel = (FichaInformacionPanel[])listaFichaInformacionPanel.toArray();
+        FichaInformacionPanel[] fichasInformacionPanel = listaFichaInformacionPanel.toArray(new FichaInformacionPanel[0]);
         
         return fichasInformacionPanel;
 
@@ -145,7 +161,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor{
             
         }
         
-        JugadorExternoInformacionPanel[] jugadoresExternoInformacion = (JugadorExternoInformacionPanel[])listaJugadoresExternoInformacion.toArray();
+        JugadorExternoInformacionPanel[] jugadoresExternoInformacion = listaJugadoresExternoInformacion.toArray(new JugadorExternoInformacionPanel[0]);
     
         return jugadoresExternoInformacion;
         
@@ -156,7 +172,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor{
         FichaPresentacionDTO[] fichas = jugadorPrincipalPresentacionDTO.getFichas();
         
         JugadorPrincipalInformacionPanel jugadorPrincipalInformacionPanel 
-                = new JugadorPrincipalInformacionPanel(obtenerFichasInformacionPanel(fichas));
+                = new JugadorPrincipalInformacionPanel(obtenerFichasInformacionPanel(fichas), mapaIdsCasillasFichasMano);
   
         return jugadorPrincipalInformacionPanel;
         
@@ -176,7 +192,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor{
         FichaPresentacionDTO[] fichas = tableroPresentacionDTO.getFichas();
         
         TableroInformacionPanel tableroInformacionPanel 
-                = new TableroInformacionPanel(obtenerFichasInformacionPanel(fichas));
+                = new TableroInformacionPanel(obtenerFichasInformacionPanel(fichas), mapaIdsCasillasFichasTablero);
   
         return tableroInformacionPanel;
         
@@ -190,11 +206,11 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor{
     @Override
     public void actualizar(IModelo modelo) {
         
-        modelo.obtenerJugadorPrincipal();
-        modelo.obtenerJugadoresExternos();
-        modelo.obtenerMensajeMovimientoInvalido();
-        modelo.obtenerMensajeTableroInvalido();
-        modelo.obtenerMontonPresentacion();
+//        modelo.obtenerJugadorPrincipal();
+//        modelo.obtenerJugadoresExternos();
+//        modelo.obtenerMensajeMovimientoInvalido();
+//        modelo.obtenerMensajeTableroInvalido();
+//        modelo.obtenerMontonPresentacion();
         
         FichaPresentacionDTO[] fichasPresentacionJugadorPrincipal = {
             new FichaPresentacionDTO(1, 2, ColorFicha.COLOR_A),
@@ -267,7 +283,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor{
         // -----------------------------------------------------------------------------
         
         
-        
         JugadorExternoInformacionPanel[] jugadoresExternosInformacionPanel 
                 = obtenerJugadoresExternoInformacion(jugadoresExternoPresentacionDTOs);
         
@@ -288,6 +303,11 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor{
         
         VisitorPintar visitorPintar = crearVisitorPintar(estadoActual);
         panelMesaJuego.aceptar(visitorPintar);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
     }
     
     

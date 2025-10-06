@@ -24,21 +24,33 @@ public class PanelCasilla extends JPanel{
     
     private PanelFicha panelFicha;
     
-    public PanelCasilla(){
-        
+    public PanelCasilla(Integer id){
+        this.id = id;
         setOpaque(false);
         setSize(TAMANIO_CASILLA);
         setBackground(COLOR_FONDO_NO_SOBRE);
         configurarMouseListener();
-        
+        pintar();
         
     }
 
     public Integer getId() {
         return id;
     }
+
+    public PanelFicha getPanelFicha() {
+        return panelFicha;
+    }
     
-    private void pintar(PanelFicha panelFicha){
+    public void agregarFicha(PanelFicha panelFicha){
+        
+        add(panelFicha);
+        this.panelFicha = panelFicha;
+        pintar();
+        
+    }
+    
+    private void pintar(){
         
         if(panelFicha != null){
             

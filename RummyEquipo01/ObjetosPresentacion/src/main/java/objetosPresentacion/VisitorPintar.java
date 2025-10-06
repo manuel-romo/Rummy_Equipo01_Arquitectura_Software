@@ -41,5 +41,12 @@ public class VisitorPintar implements IVisitor{
         IEstadoMesaJuego estadoMesaJuego = (IEstadoMesaJuego) estadoActual;
         panelMesaJuego.pintar(estadoMesaJuego);
     }
+
+    @Override
+    public void visitar(PanelTablero panelTablero) {
+        
+        IEstadoTablero estadoTablero = (IEstadoTablero) estadoActual;
+        panelTablero.pintar(estadoTablero);
+    }
     
 }

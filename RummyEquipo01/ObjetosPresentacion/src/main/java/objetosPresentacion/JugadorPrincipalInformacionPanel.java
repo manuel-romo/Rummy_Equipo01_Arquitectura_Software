@@ -11,12 +11,20 @@ import java.util.Map;
 public class JugadorPrincipalInformacionPanel {
    
     private FichaInformacionPanel[] fichasJugadorPrincipal;
+    private Map<Integer, Integer> mapaCasillasFichas;
 
-    public JugadorPrincipalInformacionPanel(FichaInformacionPanel[] fichasJugadorPrincipal) {
+    public JugadorPrincipalInformacionPanel(FichaInformacionPanel[] fichasJugadorPrincipal, Map<Integer, Integer> mapaCasillasFichas) {
         this.fichasJugadorPrincipal = fichasJugadorPrincipal;
+        this.mapaCasillasFichas = mapaCasillasFichas;
     }
 
     public FichaInformacionPanel[] getFichasJugadorPrincipal() {
         return fichasJugadorPrincipal;
     }
+
+    public Map<Integer, Integer> getMapaCasillasFichas() {
+        return mapaCasillasFichas;
+    }
+    
+    
 }

@@ -6,9 +6,11 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import objetosPresentacion.FichaInformacionPanel;
 
 
 public class PanelJugadorPrincipal extends JPanel implements IComponente{
@@ -36,6 +38,10 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     private JButton botonFinalizarPartida = new JButton("Finalizar partida");
     private JButton botonAbandonar = new JButton("Abandonar");
     
+    private Map<Integer, Integer> mapaCasillasFichas;
+    
+    private ActionListener actionListener;
+    
     private boolean enTurno;
     
     public PanelJugadorPrincipal(PanelCasilla[] panelesCasillas){
@@ -51,6 +57,10 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         configurarPanelesMano();
         configurarPanelOpciones();
         configurarBotonesOpciones();
+    }
+    
+    public void setActionListener(ActionListener actionListener){
+        this.actionListener = actionListener;
     }
     
     private void configurarPanelManoFichas(){
@@ -194,22 +204,25 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
     }
     
-    private void agregarFichasMano(Map<Integer, FichaPresentacionDTO> mapaCasillasFichas){
+    private void agregarFichasMano(FichaInformacionPanel[] fichas){
         
-//        for (Integer idCasilla: mapaCasillasFichas.keySet()) {
-//            
-//            FichaPresentacionDTO ficha = mapaCasillasFichas.get(idCasilla);
-//
-//            PanelCasilla panelCasilla = obtenerCasillaPorId(idCasilla);
-//            
-//            String valorFichaS = String.valueOf(ficha.getValor());
-//            
-//            PanelFicha panelFicha = new PanelFicha(valorFichaS, ficha.getColor());
-//            
-//            panelCasilla.pintar(ficha);
-//        }
-        
-        
+        for(Map.Entry<Integer, Integer> entrada: mapaCasillasFichas.entrySet()){
+
+            PanelCasilla panelCasilla = obtenerCasillaPorId(entrada.getKey());
+
+            FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
+            
+            PanelFicha panelFicha = new PanelFicha(
+                    actionListener, 
+                    ficha.getId(), 
+                    ficha.getValor(), 
+                    ficha.getColor());
+
+            panelCasilla.agregarFicha(panelFicha);
+        }
+            
+            
+
     }
     
     private PanelCasilla obtenerCasillaPorId(Integer idCasilla){
@@ -219,10 +232,23 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
             if(panelCasilla.getId().equals(idCasilla)){
                 return panelCasilla;
             }
-            
+        }
+        return null;
+    }
+    
+    
+    private FichaInformacionPanel obtenerInformacionFichaPorId(Integer idFicha, FichaInformacionPanel[] fichas){
+        
+        for(FichaInformacionPanel ficha: fichas){
+
+            if(ficha.getId().equals(idFicha)){
+                return ficha;
+            }
+                
         }
         
         return null;
+        
     }
    
     
@@ -288,8 +314,9 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     }
 
     public void pintar(IEstadoJugadorPrincipal estadoJugadorPrincpal) {
-        FichaInformacionPanel[] ficha = estadoJugadorPrincpal.getJugadorPrincipal().getFichasJugadorPrincipal();
-        
+        mapaCasillasFichas = estadoJugadorPrincpal.getJugadorPrincipal().getMapaCasillasFichas();
+        FichaInformacionPanel[] fichas = estadoJugadorPrincpal.getJugadorPrincipal().getFichasJugadorPrincipal();
+        agregarFichasMano(fichas);
     }
 
     public boolean tienePosicion() {

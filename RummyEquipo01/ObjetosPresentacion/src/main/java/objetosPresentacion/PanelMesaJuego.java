@@ -157,6 +157,11 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     @Override
     public void aceptar(IVisitor visitor) {
         visitor.visitar(this);
+        
+        for(IComponente componente: componentes){
+            componente.aceptar(visitor);
+        }
+        
     }
 
     public void pintar(IEstadoMesaJuego estadoMesaJuego) {
