@@ -9,13 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase Modelo que representa la parte lógica del patrón MVC para el caso de uso "Ejercer Turno".
- * 
- * Se encarga de coordinar la comunicación entre la vista y la capa de negocio (a través de la fachada),
- * manejar el estado actual del tablero y notificar a las vistas suscritas cuando hay cambios.
- * 
- * En esta versión, la fachada funciona como un mock que simula la lógica del tablero real,
- * permitiendo probar el flujo completo del caso de uso sin depender todavía de las entidades finales.
+ * Clase Modelo que representa la parte lógica del patrón MVC para el caso de
+ * uso "Ejercer Turno".
+ *
+ * Se encarga de coordinar la comunicación entre la vista y la capa de negocio
+ * (a través de la fachada), manejar el estado actual del tablero y notificar a
+ * las vistas suscritas cuando hay cambios.
+ *
+ * En esta versión, la fachada funciona como un mock que simula la lógica del
+ * tablero real, permitiendo probar el flujo completo del caso de uso sin
+ * depender todavía de las entidades finales.
  */
 public class Modelo implements IPublicador, IModelo {
 
@@ -34,13 +37,14 @@ public class Modelo implements IPublicador, IModelo {
     /**
      * Indica si la vista está habilitada para interactuar.
      */
-    private boolean vistaHabilitado;
+    private boolean vistaHabilitada;
     /**
      * Indica si el último movimiento realizado fue inválido.
      */
     private boolean movimientoInvalido;
     /**
-     * Mensaje mostrado cuando el tablero resulta inválido al finalizar un turno.
+     * Mensaje mostrado cuando el tablero resulta inválido al finalizar un
+     * turno.
      */
     private String MENSAJE_TABLERO_INVALIDO;
     /**
@@ -50,6 +54,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Obtiene la fachada que representa el tablero actual.
+     *
      * @return objeto que implementa {@link ITablero}.
      */
     public ITablero getTablero() {
@@ -58,6 +63,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Asigna una nueva fachada al tablero.
+     *
      * @param tablero implementación de {@link ITablero}.
      */
     public void setTablero(ITablero tablero) {
@@ -66,6 +72,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Obtiene la lista de vistas suscritas al modelo.
+     *
      * @return lista de objetos que implementan {@link ISuscriptor}.
      */
     public List<ISuscriptor> getSuscriptores() {
@@ -74,6 +81,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Asigna la lista de vistas suscritas al modelo.
+     *
      * @param suscriptores lista de suscriptores.
      */
     public void setSuscriptores(List<ISuscriptor> suscriptores) {
@@ -82,7 +90,9 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Indica si el tablero es inválido.
-     * @return {@code true} si el tablero no cumple las reglas, {@code false} en caso contrario.
+     *
+     * @return {@code true} si el tablero no cumple las reglas, {@code false} en
+     * caso contrario.
      */
     public boolean isTableroInvalido() {
         return tableroInvalido;
@@ -90,7 +100,9 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Define si el tablero es inválido.
-     * @param tableroInvalido valor booleano indicando si el tablero es inválido.
+     *
+     * @param tableroInvalido valor booleano indicando si el tablero es
+     * inválido.
      */
     public void setTableroInvalido(boolean tableroInvalido) {
         this.tableroInvalido = tableroInvalido;
@@ -98,23 +110,27 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Indica si la vista está habilitada para interactuar.
+     *
      * @return {@code true} si está habilitada, {@code false} en caso contrario.
      */
     public boolean isVistaHabilitado() {
-        return vistaHabilitado;
+        return vistaHabilitada;
     }
 
     /**
      * Define si la vista está habilitada para la interacción del jugador.
+     *
      * @param vistaHabilitado valor booleano que indica si la vista está activa.
      */
     public void setVistaHabilitado(boolean vistaHabilitado) {
-        this.vistaHabilitado = vistaHabilitado;
+        this.vistaHabilitada = vistaHabilitado;
     }
 
     /**
      * Indica si el último movimiento fue inválido.
-     * @return {@code true} si el movimiento no fue válido, {@code false} en caso contrario.
+     *
+     * @return {@code true} si el movimiento no fue válido, {@code false} en
+     * caso contrario.
      */
     public boolean isMovimientoInvalido() {
         return movimientoInvalido;
@@ -122,7 +138,9 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Define si el último movimiento fue inválido.
-     * @param movimientoInvalido valor booleano que indica si el movimiento fue inválido.
+     *
+     * @param movimientoInvalido valor booleano que indica si el movimiento fue
+     * inválido.
      */
     public void setMovimientoInvalido(boolean movimientoInvalido) {
         this.movimientoInvalido = movimientoInvalido;
@@ -130,6 +148,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Obtiene el mensaje que se muestra cuando el tablero es inválido.
+     *
      * @return mensaje asociado al tablero inválido.
      */
     public String getMENSAJE_TABLERO_INVALIDO() {
@@ -138,6 +157,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Define el mensaje mostrado cuando el tablero es inválido.
+     *
      * @param MENSAJE_TABLERO_INVALIDO texto del mensaje de error.
      */
     public void setMENSAJE_TABLERO_INVALIDO(String MENSAJE_TABLERO_INVALIDO) {
@@ -145,7 +165,9 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     /**
-     * Obtiene el mensaje que se muestra cuando el jugador realiza un movimiento inválido.
+     * Obtiene el mensaje que se muestra cuando el jugador realiza un movimiento
+     * inválido.
+     *
      * @return mensaje de movimiento inválido.
      */
     public String getMENSAJE_MOVIMIENTO_INVALIDO() {
@@ -153,28 +175,34 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     /**
-     * Define el mensaje que se muestra cuando el jugador realiza un movimiento inválido.
+     * Define el mensaje que se muestra cuando el jugador realiza un movimiento
+     * inválido.
+     *
      * @param MENSAJE_MOVIMIENTO_INVALIDO texto del mensaje de error.
      */
     public void setMENSAJE_MOVIMIENTO_INVALIDO(String MENSAJE_MOVIMIENTO_INVALIDO) {
         this.MENSAJE_MOVIMIENTO_INVALIDO = MENSAJE_MOVIMIENTO_INVALIDO;
     }
 
-
     /**
      * Simula la selección de fichas del tablero.
+     *
      * @param posicionesFichas arreglo con las posiciones seleccionadas.
      */
-    public void seleccionarFichasTablero(int[] posicionesFichas) {}
+    public void seleccionarFichasTablero(int[] posicionesFichas) {
+    }
 
     /**
      * Simula la acción de quitar fichas del jugador actual.
+     *
      * @param posicionesFichas arreglo de posiciones de fichas a eliminar.
      */
-    public void quitarFichasJugador(int[] posicionesFichas) {}
+    public void quitarFichasJugador(int[] posicionesFichas) {
+    }
 
     /**
      * Quita fichas del tablero según los identificadores proporcionados.
+     *
      * @param idFichas colección de IDs de fichas a eliminar.
      */
     public void quitarFichasTablero(int[] idFichas) {
@@ -185,6 +213,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Agrega fichas a un grupo ya existente del tablero.
+     *
      * @param idsFichas colección de IDs de fichas a agregar.
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
      */
@@ -196,6 +225,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Agrega fichas al tablero que no pertenecen a un grupo existente.
+     *
      * @param idsFichas colección de IDs de fichas a agregar.
      */
     public void agregarFichasTablero(int[] idsFichas) {
@@ -205,8 +235,8 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     /**
-     * Finaliza el turno actual y pasa al siguiente jugador.
-     * Si el tablero no es válido, se marca el estado correspondiente.
+     * Finaliza el turno actual y pasa al siguiente jugador. Si el tablero no es
+     * válido, se marca el estado correspondiente.
      */
     public void terminarTurno() {
         if (tablero.terminarTurno()) {
@@ -218,9 +248,9 @@ public class Modelo implements IPublicador, IModelo {
         this.notificar();
     }
 
-
     /**
      * Suscribe una nueva vista (suscriptor) al modelo.
+     *
      * @param suscriptor instancia que implementa {@link ISuscriptor}.
      */
     @Override
@@ -230,6 +260,7 @@ public class Modelo implements IPublicador, IModelo {
 
     /**
      * Elimina una vista (suscriptor) de la lista de notificación.
+     *
      * @param suscriptor instancia que implementa {@link ISuscriptor}.
      */
     @Override
@@ -238,7 +269,8 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     /**
-     * Notifica a todas las vistas suscritas los cambios realizados en el modelo.
+     * Notifica a todas las vistas suscritas los cambios realizados en el
+     * modelo.
      */
     @Override
     public void notificar() {
@@ -247,10 +279,10 @@ public class Modelo implements IPublicador, IModelo {
         }
     }
 
-
     @Override
     public JugadorPrincipalPresentacionDTO obtenerJugadorPrincipal() {
         throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
@@ -260,17 +292,17 @@ public class Modelo implements IPublicador, IModelo {
 
     @Override
     public String obtenerMensajeMovimientoInvalido() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return MENSAJE_MOVIMIENTO_INVALIDO;
     }
 
     @Override
     public String obtenerMensajeTableroInvalido() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return MENSAJE_TABLERO_INVALIDO;
     }
 
     @Override
     public boolean isVistaHabilitada() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return vistaHabilitada;
     }
 
     @Override

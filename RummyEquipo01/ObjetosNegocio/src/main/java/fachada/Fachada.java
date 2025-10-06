@@ -10,6 +10,7 @@ import entidades.FichaNormal;
 import entidades.Grupo;
 import entidades.GrupoSecuencia;
 import entidades.Jugador;
+import entidades.Monton;
 import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -39,6 +40,9 @@ public class Fachada implements ITablero {
 
         Jugador j1 = new Jugador("...", "taza123", true, List.of(f5, f4, f1));
         Jugador j2 = new Jugador("...", "raco123", false, List.of(f2, f3));
+        
+        jugadores.add(j1);
+        jugadores.add(j2);
 
         fichas.addAll(List.of(f1, f2, f3, f4, f5));
 
@@ -147,5 +151,30 @@ public class Fachada implements ITablero {
     @Override
     public boolean terminarTurno() {
         return this.validarGrupos();
+    }
+
+    @Override
+    public Jugador obtenerJugadorPrincipal() {
+        return jugadores.get(0);
+    }
+
+    @Override
+    public Jugador obtenerJugadoresExternos() {
+        return jugadores.get(1);
+    }
+
+    @Override
+    public String obtenerMensajeInvalido() {
+        return
+    }
+
+    @Override
+    public String obtenerMensajeMovimientoInvalido() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Monton obtenerMonton() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
