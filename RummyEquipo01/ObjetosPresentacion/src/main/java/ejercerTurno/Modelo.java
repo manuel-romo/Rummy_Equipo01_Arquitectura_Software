@@ -286,7 +286,7 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     @Override
-    public JugadorExternoPresentacionDTO[] obtenerJugadoresExternos() {
+    public MontonPresentacionDTO[] obtenerMontonPresentacion() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
