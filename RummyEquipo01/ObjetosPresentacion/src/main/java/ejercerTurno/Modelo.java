@@ -10,6 +10,7 @@ import fachada.Fachada;
 import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.List;
+import mock.ComunicacionMock;
 
 /**
  * Clase Modelo que representa la parte lógica del patrón MVC para el caso de
@@ -249,6 +250,7 @@ public class Modelo implements IPublicador, IModelo {
             this.setTableroInvalido(true);
         }
         this.notificar();
+        ComunicacionMock.avisarFinTurno(getTablero().obtenerJugadorPrincipal());
     }
 
     /**
