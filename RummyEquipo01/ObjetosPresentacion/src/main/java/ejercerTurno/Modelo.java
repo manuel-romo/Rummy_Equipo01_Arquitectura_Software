@@ -259,11 +259,6 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     @Override
-    public MontonPresentacionDTO[] obtenerMontonPresentacionDTO() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public String obtenerMensajeMovimientoInvalido() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -276,5 +271,10 @@ public class Modelo implements IPublicador, IModelo {
     @Override
     public boolean isVistaHabilitada() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public MontonPresentacionDTO[] obtenerMontonPresentacion() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
