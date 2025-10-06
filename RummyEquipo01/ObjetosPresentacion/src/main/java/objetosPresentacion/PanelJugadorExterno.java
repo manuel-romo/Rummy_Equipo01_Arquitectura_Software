@@ -430,7 +430,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
 
     @Override
     public void aceptar(IVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        visitor.visitar(this);
     }
 
     public void pintar(IEstadoJugadorExterno estadoJugadorExterno) {

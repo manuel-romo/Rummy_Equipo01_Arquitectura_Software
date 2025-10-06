@@ -13,7 +13,7 @@ import java.util.Map;
  * ID: 00000253080
  * 
  */
-public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEstadoJugadorExterno, IEstadoTablero{
+public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEstadoJugadorExterno, IEstadoTablero, IEstadoMesaJuego{
     
     private JugadorExternoInformacionPanel[] jugadoresExternos;
     private JugadorPrincipalInformacionPanel jugadorPrincipal;
@@ -57,6 +57,16 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
     @Override
     public TableroInformacionPanel getTablero() {
         return tablero;
+    }
+
+    @Override
+    public String getMensajeMovimientoInvalido() {
+        return mensajeMovimientoInvalido;
+    }
+
+    @Override
+    public String getMensajeTableroInvalido() {
+        return mensajeTableroInvalido;
     }
 
     

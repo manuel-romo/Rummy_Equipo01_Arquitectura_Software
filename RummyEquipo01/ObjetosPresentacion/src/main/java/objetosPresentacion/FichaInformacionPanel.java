@@ -10,12 +10,18 @@ import java.awt.Color;
  */
 public class FichaInformacionPanel {
     
+    private Integer id;
     private String valor;
     private Color color;
 
-    public FichaInformacionPanel(String valor, Color color) {
+    public FichaInformacionPanel(Integer id, String valor, Color color) {
+        this.id = id;
         this.valor = valor;
         this.color = color;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getValor() {

@@ -1,14 +1,19 @@
 
 package objetosPresentacion;
 
+import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.util.Map;
 import javax.swing.JPanel;
 
 /**
  *
- * @author romom
+ * @author Manuel Romo López
+ * ID: 00000253080
+ * 
  */
 public class PanelTablero extends JPanel implements IComponente{
 
@@ -21,6 +26,10 @@ public class PanelTablero extends JPanel implements IComponente{
     
     private PosicionPanel POSICION_PANEL = PosicionPanel.CENTRO;
     private Dimension tamanio = new Dimension(1650,1600);
+    
+    private Map<Integer, Integer> mapaCasillasFichas;
+    
+    private ActionListener actionListener;
     
     public PanelTablero(PanelCasilla[] panelesCasillas){
         
@@ -38,6 +47,10 @@ public class PanelTablero extends JPanel implements IComponente{
         configurarPanelesCasillas();
     }
     
+    public void setActionListener(ActionListener actionListener){
+        this.actionListener = actionListener;
+    }
+    
     private void configurarPanelesCasillas(){
         
         for(PanelCasilla panelCasilla: panelesCasillas){
@@ -45,6 +58,52 @@ public class PanelTablero extends JPanel implements IComponente{
             add(panelCasilla);
             
         }
+        
+    }
+    
+    private void agregarFichasTablero(FichaInformacionPanel[] fichas){
+        
+        for(Map.Entry<Integer, Integer> entrada: mapaCasillasFichas.entrySet()){
+
+            PanelCasilla panelCasilla = obtenerCasillaPorId(entrada.getKey());
+
+            FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
+                            
+            PanelFicha panelFicha = new PanelFicha(
+                    actionListener, 
+                    ficha.getId(), 
+                    ficha.getValor(), 
+                    ficha.getColor());
+
+            panelCasilla.agregarFicha(panelFicha);
+        }
+            
+            
+
+    }
+    
+    private PanelCasilla obtenerCasillaPorId(Integer idCasilla){
+        
+        for(PanelCasilla panelCasilla: panelesCasillas){
+            
+            if(panelCasilla.getId().equals(idCasilla)){
+                return panelCasilla;
+            }
+        }
+        return null;
+    }
+    
+    
+    private FichaInformacionPanel obtenerInformacionFichaPorId(Integer idFicha, FichaInformacionPanel[] fichas){
+        
+        for(FichaInformacionPanel ficha: fichas){
+            if(ficha.getId().equals(idFicha)){
+                return ficha;
+            }
+                
+        }
+        
+        return null;
         
     }
     
@@ -61,11 +120,17 @@ public class PanelTablero extends JPanel implements IComponente{
 
     @Override
     public void aceptar(IVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        visitor.visitar(this);
     }
 
     public void pintar(IEstadoTablero estadoTablero) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        mapaCasillasFichas = estadoTablero.getTablero().getMapaCasillasFichas();
+        
+        FichaInformacionPanel[] fichas = estadoTablero.getTablero().getFichasTablero();
+        
+        agregarFichasTablero(fichas);
+
     }
 
     @Override
