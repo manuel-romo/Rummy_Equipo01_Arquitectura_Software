@@ -244,7 +244,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
 
     @Override
     public void actualizar(IModelo modelo) {
-        System.out.println("actualizando.............");
         JugadorPrincipalPresentacionDTO jugadorPrincipalPresentacionDTO = modelo.obtenerJugadorPrincipal();
         JugadorExternoPresentacionDTO[] jugadoresExternoPresentacionDTOs = modelo.obtenerJugadoresExternos();
         TableroPresentacionDTO tableroPresentacionDTO = modelo.obtenerTablero();
@@ -405,10 +404,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
         System.out.println(panelCasillaEliminar);
         System.out.println(movimientoInvalido);
         if(panelCasillaEliminar != null && !movimientoInvalido){
-            System.out.println("paso");
             panelCasillaEliminar.removeAll();
             mapaIdsCasillasFichasTablero.put(((PanelCasilla)panelCasillaEliminar).getId(), null);
-            System.out.println("Ficha eliminada");
         }
         
         
