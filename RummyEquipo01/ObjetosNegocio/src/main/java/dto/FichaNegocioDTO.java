@@ -12,9 +12,8 @@ public abstract class FichaNegocioDTO {
     private int id;
     private int numeroGrupo;
 
-    public FichaNegocioDTO(int id, int numeroGrupo) {
+    public FichaNegocioDTO(int id) {
         this.id = id;
-        this.numeroGrupo = numeroGrupo;
     }
 
     public int getId() {
@@ -24,5 +23,8 @@ public abstract class FichaNegocioDTO {
     public int getNumeroGrupo() {
         return numeroGrupo;
     }
-    
+
+    public void setNumeroGrupo(int numeroGrupo) {
+        this.numeroGrupo = numeroGrupo;
+    }
 }

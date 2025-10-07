@@ -213,6 +213,10 @@ public class Modelo implements IPublicador, IModelo {
      * @param posicionesFichas arreglo con las posiciones seleccionadas.
      */
     public void seleccionarFichasTablero(int[] posicionesFichas) {
+        
+        boolean movimientoValido = tablero.seleccionarFichasTablero(posicionesFichas);
+        this.setMovimientoInvalido(!movimientoValido);
+        this.notificar();
     }
 
     /**
@@ -221,6 +225,10 @@ public class Modelo implements IPublicador, IModelo {
      * @param posicionesFichas arreglo de posiciones de fichas a eliminar.
      */
     public void quitarFichasJugador(int[] posicionesFichas) {
+        
+        boolean movimientoValido = tablero.quitarFichasJugador(posicionesFichas);
+        this.setMovimientoInvalido(!movimientoValido);
+        this.notificar();
     }
 
     /**
@@ -229,8 +237,8 @@ public class Modelo implements IPublicador, IModelo {
      * @param idFichas colección de IDs de fichas a eliminar.
      */
     public void quitarFichasTablero(int[] idFichas) {
-        tablero.quitarFichasTablero(idFichas);
-        this.setMovimientoInvalido(false);
+        boolean movimientoValido = tablero.quitarFichasTablero(idFichas);
+        this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
 
@@ -241,8 +249,8 @@ public class Modelo implements IPublicador, IModelo {
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
      */
     public void agregarFichasTablero(int[] idsFichas, int numeroGrupo) {
-        tablero.agregarFichasTablero(idsFichas, numeroGrupo);
-        this.setMovimientoInvalido(false);
+        boolean movimientoValido = tablero.agregarFichasTablero(idsFichas, numeroGrupo);
+        this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
 
@@ -252,15 +260,15 @@ public class Modelo implements IPublicador, IModelo {
      * @param idsFichas colección de IDs de fichas a agregar.
      */
     public void agregarFichasTablero(int[] idsFichas) {
-        tablero.agregarFichasTablero(idsFichas);
-        this.setMovimientoInvalido(false);
+        boolean movimientoValido = tablero.agregarFichasTablero(idsFichas);
+        this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
 
     public void iniciarTurno(TableroNegocioDTO tableroNegocio){
     
-        
-        
+        tablero.iniciarTurno(tableroNegocio);
+        notificar();
         
     }
     

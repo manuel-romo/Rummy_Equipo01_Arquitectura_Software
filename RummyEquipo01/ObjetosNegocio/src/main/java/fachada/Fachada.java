@@ -40,152 +40,156 @@ public class Fachada implements ITablero {
         this.grupos = new ArrayList<>();
         this.fichas = new ArrayList<>();
         this.jugadores = new ArrayList<>();
-
-        List<Ficha> fichasNegocioJugador1 = List.of(
-            new FichaNormal(1, 8, ColorFicha.COLOR_C),
-            new FichaNormal(2, 5, ColorFicha.COLOR_A),
-            new FichaNormal(3, 13, ColorFicha.COLOR_B),
-            new FichaNormal(4, 1, ColorFicha.COLOR_D),
-            new FichaNormal(5, 10, ColorFicha.COLOR_A),
-            new FichaNormal(6, 4, ColorFicha.COLOR_C),
-            new FichaNormal(7, 7, ColorFicha.COLOR_B),
-            new FichaNormal(8, 2, ColorFicha.COLOR_D),
-            new FichaNormal(9, 6, ColorFicha.COLOR_A),
-            new FichaNormal(10, 11, ColorFicha.COLOR_B),
-            new FichaNormal(11, 9, ColorFicha.COLOR_D)
-        );
-
-        List<Ficha> fichasNegocioJugador2 = List.of(
-            new FichaNormal(12, 1, ColorFicha.COLOR_B),
-            new FichaNormal(13, 12, ColorFicha.COLOR_A),
-            new FichaNormal(14, 5, ColorFicha.COLOR_C),
-            new FichaNormal(15, 8, ColorFicha.COLOR_D),
-            new FichaNormal(16, 3, ColorFicha.COLOR_B),
-            new FichaNormal(17, 7, ColorFicha.COLOR_A),
-            new FichaNormal(18, 10, ColorFicha.COLOR_C),
-            new FichaNormal(19, 13, ColorFicha.COLOR_D),
-            new FichaNormal(20, 2, ColorFicha.COLOR_B),
-            new FichaNormal(21, 6, ColorFicha.COLOR_C)
-        );
-
-
-        List<Ficha> fichasNegocioGrupo1 = List.of(
-            new FichaNormal(22, 9, ColorFicha.COLOR_A),
-            new FichaNormal(23, 9, ColorFicha.COLOR_B),
-            new FichaNormal(24, 9, ColorFicha.COLOR_C)
-        );
-
-
-        List<Ficha> fichasNegocioGrupo2 = List.of(
-            new FichaNormal(25, 4, ColorFicha.COLOR_D),
-            new FichaNormal(26, 5, ColorFicha.COLOR_D),
-            new FichaNormal(27, 6, ColorFicha.COLOR_D),
-            new FichaNormal(28, 7, ColorFicha.COLOR_D),
-            new FichaNormal(29, 8, ColorFicha.COLOR_D)
-        );
-
-
-        List<Ficha> fichasMonton = List.of(
-            new FichaNormal(30, 1, ColorFicha.COLOR_C),
-            new FichaNormal(31, 11, ColorFicha.COLOR_A),
-            new FichaNormal(32, 12, ColorFicha.COLOR_D),
-            new FichaNormal(33, 4, ColorFicha.COLOR_A),
-            new FichaNormal(34, 10, ColorFicha.COLOR_B),
-            new FichaNormal(35, 3, ColorFicha.COLOR_C),
-            new FichaNormal(36, 12, ColorFicha.COLOR_C),
-            new FichaNormal(37, 5, ColorFicha.COLOR_B),
-            new FichaNormal(38, 2, ColorFicha.COLOR_A),
-            new FichaNormal(39, 13, ColorFicha.COLOR_A),
-            new FichaNormal(40, 8, ColorFicha.COLOR_B),
-            new FichaNormal(41, 11, ColorFicha.COLOR_D),
-            new FichaNormal(42, 6, ColorFicha.COLOR_B),
-            new FichaNormal(43, 9, ColorFicha.COLOR_A),
-            new FichaNormal(44, 1, ColorFicha.COLOR_C),
-            new FichaNormal(45, 12, ColorFicha.COLOR_B),
-            new FichaNormal(46, 5, ColorFicha.COLOR_A),
-            new FichaNormal(47, 7, ColorFicha.COLOR_C),
-            new FichaNormal(48, 10, ColorFicha.COLOR_D),
-            new FichaNormal(49, 3, ColorFicha.COLOR_A),
-            new FichaNormal(50, 13, ColorFicha.COLOR_C),
-            new FichaNormal(51, 8, ColorFicha.COLOR_A),
-            new FichaNormal(52, 11, ColorFicha.COLOR_A),
-            new FichaNormal(53, 2, ColorFicha.COLOR_C),
-            new FichaNormal(54, 1, ColorFicha.COLOR_A),
-            new FichaNormal(55, 6, ColorFicha.COLOR_A),
-            new FichaNormal(56, 10, ColorFicha.COLOR_A),
-            new FichaNormal(57, 4, ColorFicha.COLOR_B),
-            new FichaNormal(58, 9, ColorFicha.COLOR_B),
-            new FichaNormal(59, 12, ColorFicha.COLOR_D),
-            new FichaNormal(60, 5, ColorFicha.COLOR_B),
-            new FichaNormal(61, 8, ColorFicha.COLOR_B),
-            new FichaNormal(62, 1, ColorFicha.COLOR_B),
-            new FichaNormal(63, 6, ColorFicha.COLOR_C),
-            new FichaNormal(64, 11, ColorFicha.COLOR_C),
-            new FichaNormal(65, 3, ColorFicha.COLOR_D),
-            new FichaNormal(66, 7, ColorFicha.COLOR_B),
-            new FichaNormal(67, 10, ColorFicha.COLOR_B),
-            new FichaNormal(68, 2, ColorFicha.COLOR_B),
-            new FichaNormal(69, 5, ColorFicha.COLOR_C),
-            new FichaNormal(70, 9, ColorFicha.COLOR_D),
-            new FichaNormal(71, 12, ColorFicha.COLOR_A),
-            new FichaNormal(72, 4, ColorFicha.COLOR_A),
-            new FichaNormal(73, 8, ColorFicha.COLOR_C),
-            new FichaNormal(74, 11, ColorFicha.COLOR_B),
-            new FichaNormal(75, 2, ColorFicha.COLOR_D),
-            new FichaNormal(76, 7, ColorFicha.COLOR_D),
-            new FichaNormal(77, 1, ColorFicha.COLOR_D),
-            new FichaNormal(78, 6, ColorFicha.COLOR_D),
-            new FichaNormal(79, 13, ColorFicha.COLOR_D),
-            new FichaNormal(80, 4, ColorFicha.COLOR_B),
-            new FichaNormal(81, 9, ColorFicha.COLOR_C),
-            new FichaNormal(82, 12, ColorFicha.COLOR_C),
-            new FichaNormal(83, 3, ColorFicha.COLOR_B),
-            new FichaNormal(84, 8, ColorFicha.COLOR_A),
-            new FichaNormal(85, 11, ColorFicha.COLOR_D),
-            new FichaNormal(86, 2, ColorFicha.COLOR_A),
-            new FichaNormal(87, 7, ColorFicha.COLOR_A),
-            new FichaNormal(88, 10, ColorFicha.COLOR_C),
-            new FichaNormal(89, 1, ColorFicha.COLOR_B),
-            new FichaNormal(90, 5, ColorFicha.COLOR_D),
-            new FichaNormal(91, 13, ColorFicha.COLOR_A),
-            new FichaNormal(92, 4, ColorFicha.COLOR_C),
-            new FichaNormal(93, 9, ColorFicha.COLOR_C),
-            new FichaNormal(94, 3, ColorFicha.COLOR_D),
-            new FichaNormal(95, 7, ColorFicha.COLOR_C),
-            new FichaNormal(96, 11, ColorFicha.COLOR_C),
-            new FichaNormal(97, 2, ColorFicha.COLOR_C),
-            new FichaNormal(98, 6, ColorFicha.COLOR_D),
-            new FichaNormal(99, 13, ColorFicha.COLOR_B),
-            new FichaNormal(100, 3, ColorFicha.COLOR_A),
-            new FichaNormal(101, 8, ColorFicha.COLOR_D),
-            new FichaNormal(102, 1, ColorFicha.COLOR_A),
-            new FichaNormal(103, 7, ColorFicha.COLOR_D),
-            new FichaNormal(104, 4, ColorFicha.COLOR_D),
-            new Comodin(105),
-            new Comodin(106)
-        );
-
-        Monton monton = new Monton(fichasMonton);
-
-        Grupo grupo1 = new GrupoColores(1, fichasNegocioGrupo1);
-        Grupo grupo2 = new GrupoSecuencia(2, fichasNegocioGrupo2);
-
-        Jugador jugador1 = new Jugador("/avatar2.png", "Sandy_43", false, fichasNegocioJugador1);
-        Jugador jugador2 = new Jugador("/avatar3.png", "Juan_27", false, fichasNegocioJugador2);
-
-        jugadores.add(jugador1);
-        jugadores.add(jugador2);
-
-        fichas.addAll(fichasMonton);
-        fichas.addAll(fichasNegocioGrupo1);
-        fichas.addAll(fichasNegocioGrupo2);
-        fichas.addAll(fichasNegocioJugador1);
-        fichas.addAll(fichasNegocioJugador2);
         
-        grupos.add(grupo1);
-        grupos.add(grupo2);
-
     }
+    
+    @Override
+    public void iniciarTurno(TableroNegocioDTO tableroNegocio) {
+        
+        JugadorNegocioDTO jugadorPrincipalNegocio = tableroNegocio.getJugadorPrincipal();
+        JugadorNegocioDTO[] jugadoresExternosNegocio = tableroNegocio.getJugadoreExternos();
+        GrupoNegocioDTO[] gruposNegocio = tableroNegocio.getGrupos();
+        MontonNegocioDTO montonNegocio = tableroNegocio.getMonton();
+       
+        List<FichaNegocioDTO> fichasNegocioJugadorPrincipal = jugadorPrincipalNegocio.getFichas();
+        List<Ficha> fichasJugadorPrincipal = new LinkedList<>();
+        
+        for(FichaNegocioDTO fichaNegocio: fichasNegocioJugadorPrincipal){
+            
+            fichasJugadorPrincipal.add(obtenerFicha(fichaNegocio));
+            
+        }
+        
+        Jugador jugadorPrincipal = new Jugador(
+                jugadorPrincipalNegocio.getAvatar(), 
+                jugadorPrincipalNegocio.getNombre(),
+                jugadorPrincipalNegocio.isEsPrimerTurno(),
+                fichasJugadorPrincipal);
+        jugadores.add(jugadorPrincipal);
+        
+        fichas.addAll(fichasJugadorPrincipal);
+        
+
+        for(JugadorNegocioDTO jugadorExternoNegocio: jugadoresExternosNegocio){
+            
+            List<FichaNegocioDTO> fichasNegocioJugadorExterno = jugadorExternoNegocio.getFichas();
+            List<Ficha> fichasJugadorExterno = new LinkedList<>();
+
+            for(FichaNegocioDTO fichaNegocio: fichasNegocioJugadorExterno){
+
+                fichasJugadorExterno.add(obtenerFicha(fichaNegocio));
+
+            }
+            
+            Jugador jugadorExterno = new Jugador(
+                jugadorExternoNegocio.getAvatar(), 
+                jugadorExternoNegocio.getNombre(),
+                jugadorExternoNegocio.isEsPrimerTurno(),
+                fichasJugadorExterno);
+            
+            jugadores.add(jugadorExterno);
+            
+            fichas.addAll(fichasJugadorExterno);
+        }
+        
+
+        for(GrupoNegocioDTO grupoNegocio: gruposNegocio){
+            
+            Grupo grupo;
+            
+            List<FichaNegocioDTO> fichasNegocio = grupoNegocio.getFichasNegocioDTO();
+            List<Ficha> fichasGrupo = new LinkedList<>();
+            
+            for(FichaNegocioDTO fichaNegocio: fichasNegocio){
+                
+                Ficha ficha = obtenerFicha(fichaNegocio);
+                fichasGrupo.add(ficha);
+                
+            }
+            
+            if(grupoNegocio instanceof GrupoSecuenciaNegocioDTO){
+                
+                grupo = new GrupoSecuencia(grupoNegocio.getNumero(), fichasGrupo);
+                
+            } else{
+                
+                grupo = new GrupoColores(grupoNegocio.getNumero(), fichasGrupo);
+            }
+            
+            for(Ficha ficha: fichas){
+                
+                ficha.setGrupo(grupo);
+                
+            }
+            
+            
+            grupos.add(grupo);
+            
+            fichas.addAll(fichasGrupo);
+            
+        }
+        
+        
+        List<FichaNegocioDTO> fichasMonton = montonNegocio.getFichas();
+        List<Ficha> fichas = new LinkedList<>();
+        
+        for(FichaNegocioDTO ficha: fichasMonton){
+            
+            fichas.add(obtenerFicha(ficha));
+            
+        }
+        
+        monton = new Monton(fichas);
+        
+        
+    }
+    
+    private Ficha obtenerFicha(FichaNegocioDTO fichaNegocio){
+        
+        Ficha ficha;
+        
+        if(fichaNegocio instanceof FichaNormalNegocioDTO){
+            
+            FichaNormalNegocioDTO fichaNormalNegocio = (FichaNormalNegocioDTO) fichaNegocio;
+            
+            ColorFichaNegocioDTO colorFichaNegocio = fichaNormalNegocio.getColor();
+            ColorFicha colorFicha;
+            
+            switch (colorFichaNegocio) {
+                case ColorFichaNegocioDTO.COLOR_A:
+                    colorFicha = ColorFicha.COLOR_A;
+                    break;
+                case ColorFichaNegocioDTO.COLOR_B:
+                    colorFicha = ColorFicha.COLOR_B;
+                    break;
+                case ColorFichaNegocioDTO.COLOR_C:
+                    colorFicha = ColorFicha.COLOR_C;
+                    break;
+                case ColorFichaNegocioDTO.COLOR_D:
+                    colorFicha = ColorFicha.COLOR_D;
+                    break;
+
+                default:
+                    throw new AssertionError();
+            }
+            
+            ficha = new FichaNormal(
+                    fichaNormalNegocio.getId(), 
+                    fichaNormalNegocio.getNumero(),
+                    colorFicha);
+            
+        } else{
+            
+            ComodinNegocioDTO comodin = (ComodinNegocioDTO)fichaNegocio;
+            
+            ficha = new Comodin(
+                    comodin.getId());
+        }
+        
+        return ficha;
+        
+    }
+   
 
     @Override
     public boolean agregarFichasTablero(int[] idFichas) {
@@ -307,7 +311,7 @@ public class Fachada implements ITablero {
                 fichasNegocio, 
                 jugadorPrincipal.getAvatar(), 
                 jugadorPrincipal.getNombre(), 
-                jugadorPrincipal.isEsPrimerTurno());
+                jugadorPrincipal.isPrimerTurno());
         
         return jugadorPrincipalDTO;
     }
@@ -333,7 +337,7 @@ public class Fachada implements ITablero {
                 fichasNegocio, 
                 jugadorPrincipal.getAvatar(), 
                 jugadorPrincipal.getNombre(), 
-                jugadorPrincipal.isEsPrimerTurno());
+                jugadorPrincipal.isPrimerTurno());
         
         JugadorNegocioDTO[] jugadoresNegocioDTO = {jugadorPrincipalDTO};
         
@@ -387,9 +391,9 @@ public class Fachada implements ITablero {
         }
 
         FichaNegocioDTO fichaNegocio = new FichaNormalNegocioDTO(
-                colorFichaNegocio,
                 fichaNormal.getNumero(),
-                fichaNormal.getId()
+                fichaNormal.getId(),
+                colorFichaNegocio
         );
 
         return fichaNegocio;
@@ -430,11 +434,6 @@ public class Fachada implements ITablero {
         GrupoNegocioDTO[] gruposNegocio = {grupoNegocio1, grupoNegocio2};
         
         return gruposNegocio;
-        
-    }
-
-    @Override
-    public void iniciarTurno(TableroNegocioDTO tableroNegocio) {
         
     }
 

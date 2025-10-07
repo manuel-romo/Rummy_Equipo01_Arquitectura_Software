@@ -16,4 +16,8 @@ public class GrupoColoresNegocioDTO extends GrupoNegocioDTO{
         super(numero, fichasNegocioDTO);
     }
     
+    public GrupoColoresNegocioDTO(int numero) {
+        super(numero, null);
+    }
+    
 }

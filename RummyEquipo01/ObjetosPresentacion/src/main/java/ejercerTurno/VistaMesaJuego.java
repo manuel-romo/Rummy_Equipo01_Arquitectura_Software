@@ -29,6 +29,7 @@ import objetosPresentacion.JugadorPrincipalInformacionPanel;
 import objetosPresentacion.MontonInformacionPanel;
 import objetosPresentacion.PanelCasilla;
 import objetosPresentacion.PanelFicha;
+import objetosPresentacion.PanelTablero;
 import objetosPresentacion.TableroInformacionPanel;
 import objetosPresentacion.VisitorPintar;
 
@@ -66,6 +67,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
     private JPanel fichaOriginal;
     private JPanel casillaOriginal;
    
+    private JPanel panelCasillaEliminar;
+    private JPanel panelFichaEliminar;
     
     public VistaMesaJuego(
             Controlador controlador,
@@ -229,7 +232,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
         
         TableroInformacionPanel tableroInformacionPanel 
                 = new TableroInformacionPanel(obtenerFichasInformacionPanel(fichas), mapaIdsCasillasFichasTablero);
-  
+        
         return tableroInformacionPanel;
         
     }
@@ -241,7 +244,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
 
     @Override
     public void actualizar(IModelo modelo) {
-        
+        System.out.println("actualizando.............");
         JugadorPrincipalPresentacionDTO jugadorPrincipalPresentacionDTO = modelo.obtenerJugadorPrincipal();
         JugadorExternoPresentacionDTO[] jugadoresExternoPresentacionDTOs = modelo.obtenerJugadoresExternos();
         TableroPresentacionDTO tableroPresentacionDTO = modelo.obtenerTablero();
@@ -260,6 +263,9 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
         
         TableroInformacionPanel tableroInformacionPanel = obtenerTableroInformacionPanel(tableroPresentacionDTO);
         
+        movimientoInvalido = mensajeMovimientoInvalido != null? true : false;
+        tableroInvalido = mensajeTableroInvalido != null? true : false;
+        
         EstadoActual estadoActual = new EstadoActual(
                 jugadoresExternosInformacionPanel,
                 jugadorPrincipalInformacionPanel,
@@ -268,8 +274,13 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
                 mensajeMovimientoInvalido,
                 mensajeTableroInvalido);
         
+        quitarFichasPendientes();
+        
         VisitorPintar visitorPintar = crearVisitorPintar(estadoActual);
         panelMesaJuego.aceptar(visitorPintar);
+        
+        repaint();
+        revalidate();
     }
 
     @Override
@@ -327,7 +338,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
     @Override
     public void fichaSoltada(MouseEvent e) {
         
-        System.out.println("soltada");
         panelMovimiento.setVisible(false);
 
         Point dropPoint = e.getPoint();
@@ -344,8 +354,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
             
             PanelFicha panelFichaOriginal = (PanelFicha) fichaOriginal;
             
-            quitarFichaCasillaTablero(panelCasillaOriginal, panelFichaOriginal);
-
             PanelCasilla panelCasillDestino = (PanelCasilla) componenteDestino;
             
             agregarFichaCasilla(panelCasillDestino, fichaOriginal);
@@ -367,20 +375,42 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
         
     }
     
-    private void quitarFichaCasillaTablero(JPanel panelCasilla, JPanel panelFicha){
+    @Override
+    public void quitarFichaCasillaTablero(JPanel fichaArrastrada){
         
-        Integer idCasillaQuitar = ((PanelCasilla)panelCasilla).getId();
-        Integer idPanelFicha = ((PanelFicha)panelFicha).getIdFicha();
+        JPanel panelFicha = fichaArrastrada;
         
-        Integer idPanelFichaQuitar = mapaIdsCasillasFichasTablero.get(idCasillaQuitar);
+        if(fichaOriginal.getParent() != null){
+
+            panelCasillaEliminar = (JPanel)fichaOriginal.getParent();
         
-        int[] fichasQuitar = {idPanelFichaQuitar};
+            Integer idPanelFichaEliminar = ((PanelFicha)panelFicha).getIdFicha();
+
+            int[] fichasQuitar = {idPanelFichaEliminar};
+
+            if(panelCasillaEliminar.getParent() instanceof PanelTablero){
+                
+                controlador.quitarFichasTablero(fichasQuitar);
+                
+            } else{
+                controlador.quitarFichasJugador(fichasQuitar);
+            }
+            
+        }
+  
+    }
+    
+    private void quitarFichasPendientes(){
         
-        controlador.quitarFichasTablero(fichasQuitar);
+        System.out.println(panelCasillaEliminar);
+        System.out.println(movimientoInvalido);
+        if(panelCasillaEliminar != null && !movimientoInvalido){
+            System.out.println("paso");
+            panelCasillaEliminar.removeAll();
+            mapaIdsCasillasFichasTablero.put(((PanelCasilla)panelCasillaEliminar).getId(), null);
+            System.out.println("Ficha eliminada");
+        }
         
-        System.out.println("SE ELIMNO");
-        
-        panelCasilla.remove(panelFicha);
         
     }
     
@@ -389,6 +419,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
         panelCasilla.add(panelFicha);
 
     }
+    
+    
     
     
     

@@ -63,6 +63,7 @@ public class PanelCasilla extends JPanel{
             removeAll();
             
         }
+        repaint();
                
     }
     

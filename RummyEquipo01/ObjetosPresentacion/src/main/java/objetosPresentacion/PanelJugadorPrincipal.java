@@ -319,6 +319,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         mapaCasillasFichas = estadoJugadorPrincpal.getJugadorPrincipal().getMapaCasillasFichas();
         FichaInformacionPanel[] fichas = estadoJugadorPrincpal.getJugadorPrincipal().getFichasJugadorPrincipal();
         agregarFichasMano(fichas);
+        repaint();
     }
 
     public boolean tienePosicion() {

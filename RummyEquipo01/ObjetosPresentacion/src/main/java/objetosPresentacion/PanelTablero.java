@@ -69,15 +69,18 @@ public class PanelTablero extends JPanel implements IComponente{
             PanelCasilla panelCasilla = obtenerCasillaPorId(entrada.getKey());
 
             FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
-                            
-            PanelFicha panelFicha = new PanelFicha(
+            
+            if(ficha != null){
+                PanelFicha panelFicha = new PanelFicha(
                     gestorEventos, 
                     ficha.getId(), 
                     ficha.getValor(), 
                     ficha.getColor(),
                     false);
 
-            panelCasilla.agregarFicha(panelFicha);
+                panelCasilla.agregarFicha(panelFicha);
+            }
+            
         }
             
             
@@ -99,6 +102,7 @@ public class PanelTablero extends JPanel implements IComponente{
     private FichaInformacionPanel obtenerInformacionFichaPorId(Integer idFicha, FichaInformacionPanel[] fichas){
         
         for(FichaInformacionPanel ficha: fichas){
+            
             if(ficha.getId().equals(idFicha)){
                 return ficha;
             }
@@ -132,7 +136,7 @@ public class PanelTablero extends JPanel implements IComponente{
         FichaInformacionPanel[] fichas = estadoTablero.getTablero().getFichasTablero();
         
         agregarFichasTablero(fichas);
-
+        repaint();
     }
 
     @Override

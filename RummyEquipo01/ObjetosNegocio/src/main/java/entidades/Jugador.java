@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  *
- * @author pedro
+ * @author 
  */
 public class Jugador {
     private String avatar;
@@ -43,7 +43,7 @@ public class Jugador {
      * metedo que regresa si es el primer turno
      * @return regresa true si es el primer turno y false si no lo es
      */
-    public boolean isEsPrimerTurno() {
+    public boolean isPrimerTurno() {
         return esPrimerTurno;
     }
     /**

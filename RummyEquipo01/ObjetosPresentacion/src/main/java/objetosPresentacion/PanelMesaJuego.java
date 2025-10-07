@@ -171,7 +171,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
         
         mostrarMensajeMovimientoInvalido(mensajeMovimientoInvalido);
         mostrarMensajeTableroInvalido(mensajeTableroInvalido);
-        
+        repaint();
     }
 
     @Override

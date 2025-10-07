@@ -435,6 +435,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
 
     public void pintar(IEstadoJugadorExterno estadoJugadorExterno) {
         System.out.println("Pintando PanelJugadorPrincipal");
+        repaint();
     }
 
     @Override

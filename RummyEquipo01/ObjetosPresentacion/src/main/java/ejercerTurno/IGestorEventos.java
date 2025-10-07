@@ -16,6 +16,6 @@ public interface IGestorEventos {
     public abstract void seleccionarFicha(MouseEvent e);
     public abstract void fichaPresionada(MouseEvent e);
     public abstract void fichaSoltada(MouseEvent e);
-    
+    public abstract void quitarFichaCasillaTablero(JPanel fichaArrastrada);
     
 }

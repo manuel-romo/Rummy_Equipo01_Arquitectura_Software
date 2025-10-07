@@ -15,6 +15,7 @@ public class JugadorNegocioDTO {
     private String avatar;
     private String nombre;
     private boolean esPrimerTurno;
+    
     /**
      * Constructor donde el primer turno se setea a true
      * @param fichas
@@ -69,5 +70,7 @@ public class JugadorNegocioDTO {
     public void setEsPrimerTurno(boolean esPrimerTurno) {
         this.esPrimerTurno = esPrimerTurno;
     }
+    
+    
     
 }

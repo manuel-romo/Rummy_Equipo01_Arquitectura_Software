@@ -94,7 +94,7 @@ public class PanelFicha extends JPanel {
             
             @Override
             public void mouseDragged(MouseEvent e) {
-//                gestorEventos.fichaPresionada(e);
+//                gestorEventos.quitarFichaCasillaTablero(e);
             }
             
             @Override

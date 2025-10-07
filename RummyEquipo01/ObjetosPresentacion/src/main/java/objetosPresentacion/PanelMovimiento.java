@@ -27,7 +27,6 @@ public class PanelMovimiento extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 if (fichaArrastrada == null) return;
 
-                System.out.println("moviendo...");
                 // Calculamos la nueva posición de la esquina superior izquierda
                 int newX = e.getX() - offset.x;
                 int newY = e.getY() - offset.y;
@@ -35,6 +34,7 @@ public class PanelMovimiento extends JPanel {
                 // Movemos el componente directamente
                 fichaArrastrada.setLocation(newX, newY);
 
+                gestorEventos.quitarFichaCasillaTablero(fichaArrastrada);
                 revalidate();
                 repaint();
             }

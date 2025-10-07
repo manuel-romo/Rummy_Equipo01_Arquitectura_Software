@@ -54,7 +54,7 @@ public class PanelMonton extends JPanel implements IComponente{
     public void pintar(IEstadoMonton estadoMonton) {
         
         String numeroFichasMonton = estadoMonton.getMonton().getNumeroFichasMonton();
-        
+        repaint();
     }
 
     @Override

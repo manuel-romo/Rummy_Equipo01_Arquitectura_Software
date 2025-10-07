@@ -1,4 +1,4 @@
-
+ 
 package dto;
 
 /**
@@ -12,8 +12,8 @@ public class FichaNormalNegocioDTO extends FichaNegocioDTO{
     private ColorFichaNegocioDTO color;
     private int numero;
 
-    public FichaNormalNegocioDTO(ColorFichaNegocioDTO color, int numero, int id) {
-        super(id, numero);
+    public FichaNormalNegocioDTO(int numero, int id, ColorFichaNegocioDTO color) {
+        super(id);
         this.color = color;
         this.numero = numero;
     }
