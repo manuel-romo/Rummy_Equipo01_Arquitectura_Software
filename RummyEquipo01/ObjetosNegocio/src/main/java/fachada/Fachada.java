@@ -241,6 +241,7 @@ public class Fachada implements ITablero {
         if (idFichas.length == 0) {
             return false;
         }
+        
         for (int i = 0; i < idFichas.length; i++) {
             Ficha ficha = obtenerFichaPorId(idFichas[i]);
             Grupo grupo = ficha.getGrupo();
@@ -248,6 +249,7 @@ public class Fachada implements ITablero {
             fichas.add(ficha);
             grupo.removerFichas(fichas);
         }
+        
         return true;
     }
 

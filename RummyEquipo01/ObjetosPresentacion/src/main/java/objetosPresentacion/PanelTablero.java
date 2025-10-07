@@ -136,7 +136,7 @@ public class PanelTablero extends JPanel implements IComponente{
         FichaInformacionPanel[] fichas = estadoTablero.getTablero().getFichasTablero();
         
         agregarFichasTablero(fichas);
-        repaint();
+
     }
 
     @Override

@@ -13,7 +13,6 @@ public class PanelMovimiento extends JPanel {
 
     private JPanel fichaArrastrada;
     private Point offset; // Diferencia entre la esquina de la ficha y donde se hizo clic
-    private Point posicionArrastre; // Posición actual de la ficha en el panel
 
     private IGestorEventos gestorEventos; // Referencia a tu vista para notificar el drop
 
@@ -34,7 +33,7 @@ public class PanelMovimiento extends JPanel {
                 // Movemos el componente directamente
                 fichaArrastrada.setLocation(newX, newY);
 
-                gestorEventos.quitarFichaCasillaTablero(fichaArrastrada);
+                gestorEventos.quitarFichaCasilla(fichaArrastrada);
                 revalidate();
                 repaint();
             }
@@ -44,9 +43,8 @@ public class PanelMovimiento extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 if (fichaArrastrada == null) return;
                 
-                gestorEventos.fichaSoltada(e);
-                
-                // Limpiamos el panel
+//                gestorEventos.fichaSoltada(e);
+
                 remove(fichaArrastrada);
                 fichaArrastrada = null;
                 

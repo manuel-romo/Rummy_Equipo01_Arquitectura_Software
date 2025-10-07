@@ -206,21 +206,26 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     }
     
     private void agregarFichasMano(FichaInformacionPanel[] fichas){
-        
-        for(Map.Entry<Integer, Integer> entrada: mapaCasillasFichas.entrySet()){
 
+        for(Map.Entry<Integer, Integer> entrada: mapaCasillasFichas.entrySet()){
+            
             PanelCasilla panelCasilla = obtenerCasillaPorId(entrada.getKey());
 
             FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
+
             
-            PanelFicha panelFicha = new PanelFicha(
+            if(ficha != null){
+                PanelFicha panelFicha = new PanelFicha(
                     gestorEventos, 
                     ficha.getId(), 
                     ficha.getValor(), 
                     ficha.getColor(),
                     false);
 
-            panelCasilla.agregarFicha(panelFicha);
+                panelCasilla.agregarFicha(panelFicha);
+            }
+            
+            
         }
             
             
@@ -316,10 +321,10 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     }
 
     public void pintar(IEstadoJugadorPrincipal estadoJugadorPrincpal) {
+        
         mapaCasillasFichas = estadoJugadorPrincpal.getJugadorPrincipal().getMapaCasillasFichas();
         FichaInformacionPanel[] fichas = estadoJugadorPrincpal.getJugadorPrincipal().getFichasJugadorPrincipal();
         agregarFichasMano(fichas);
-        repaint();
     }
 
     public boolean tienePosicion() {

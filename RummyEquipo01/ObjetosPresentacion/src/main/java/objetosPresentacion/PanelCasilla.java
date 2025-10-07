@@ -43,7 +43,7 @@ public class PanelCasilla extends JPanel{
     }
     
     public void agregarFicha(PanelFicha panelFicha){
-        
+        removeAll();
         add(panelFicha);
         this.panelFicha = panelFicha;
         pintar();

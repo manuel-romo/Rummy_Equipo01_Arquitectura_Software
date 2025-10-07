@@ -92,6 +92,10 @@ public class ObjetosPresentacion {
         mapaIdsCasillasPanelesMano.put(8, 8);
         mapaIdsCasillasPanelesMano.put(9, 9);
         mapaIdsCasillasPanelesMano.put(10, 10);
+        mapaIdsCasillasPanelesMano.put(11, null);
+        mapaIdsCasillasPanelesMano.put(12, null);
+        mapaIdsCasillasPanelesMano.put(13, null);
+        mapaIdsCasillasPanelesMano.put(14, null);
         
         Map<Integer,Integer> mapaIdsCasillasPanelesTablero = new HashMap<>();
         

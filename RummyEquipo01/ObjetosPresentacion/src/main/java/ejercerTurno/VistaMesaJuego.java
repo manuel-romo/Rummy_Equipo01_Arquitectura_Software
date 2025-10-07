@@ -29,6 +29,7 @@ import objetosPresentacion.JugadorPrincipalInformacionPanel;
 import objetosPresentacion.MontonInformacionPanel;
 import objetosPresentacion.PanelCasilla;
 import objetosPresentacion.PanelFicha;
+import objetosPresentacion.PanelJugadorPrincipal;
 import objetosPresentacion.PanelTablero;
 import objetosPresentacion.TableroInformacionPanel;
 import objetosPresentacion.VisitorPintar;
@@ -64,11 +65,17 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
     private boolean movimientoInvalido;
     
     private PanelMovimiento panelMovimiento;
-    private JPanel fichaOriginal;
+    private JPanel fichaMover;
     private JPanel casillaOriginal;
    
     private JPanel panelCasillaEliminar;
-    private JPanel panelFichaEliminar;
+    
+    private JPanel panelCasillaAgregar;
+    private JPanel panelCasillaAgregarDerecha;
+    private JPanel panelCasillaAgregarIzquierda;
+    
+    private boolean comprobacionPendienteAgregarDerecha = false;
+    private boolean comprobacionPendienteAgregarIzquierda = false;
     
     public VistaMesaJuego(
             Controlador controlador,
@@ -124,7 +131,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
     }
     
     private void habilitarVista(boolean vistaHabilitada){
-        
+        this.setVisible(vistaHabilitada);
     }
     
     private Color determinarColor(ColorFichaPresentacionDTO colorFicha){
@@ -211,7 +218,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
         FichaPresentacionDTO[] fichas = jugadorPrincipalPresentacionDTO.getFichas();
         
         JugadorPrincipalInformacionPanel jugadorPrincipalInformacionPanel 
-                = new JugadorPrincipalInformacionPanel(obtenerFichasInformacionPanel(fichas), mapaIdsCasillasFichasMano);
+                = new JugadorPrincipalInformacionPanel(obtenerFichasInformacionPanel(fichas), 
+                        mapaIdsCasillasFichasMano);
   
         return jugadorPrincipalInformacionPanel;
         
@@ -244,6 +252,9 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
 
     @Override
     public void actualizar(IModelo modelo) {
+        
+        quitarFichasPendientes();
+        
         JugadorPrincipalPresentacionDTO jugadorPrincipalPresentacionDTO = modelo.obtenerJugadorPrincipal();
         JugadorExternoPresentacionDTO[] jugadoresExternoPresentacionDTOs = modelo.obtenerJugadoresExternos();
         TableroPresentacionDTO tableroPresentacionDTO = modelo.obtenerTablero();
@@ -273,13 +284,16 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
                 mensajeMovimientoInvalido,
                 mensajeTableroInvalido);
         
-        quitarFichasPendientes();
         
         VisitorPintar visitorPintar = crearVisitorPintar(estadoActual);
         panelMesaJuego.aceptar(visitorPintar);
         
         repaint();
         revalidate();
+        
+        
+        
+            
     }
 
     @Override
@@ -287,9 +301,9 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
         
         PanelFicha ficha = (PanelFicha)e.getSource();
         
-        if(!ficha.isSeleccionada() && fichaOriginal == null){
+        if(!ficha.isSeleccionada() && fichaMover == null){
             
-            fichaOriginal = ficha;
+            fichaMover = ficha;
             
             casillaOriginal = (JPanel)ficha.getParent();
             
@@ -316,72 +330,113 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
             
             panelMovimiento.removeAll();
 
-            ((PanelFicha)fichaOriginal).setSeleccionada(false);
+            ficha.setSeleccionada(false);
             
-            fichaOriginal.setVisible(true);
+            ficha.setVisible(true);
             
-            this.fichaOriginal = null;
+            this.fichaMover = null;
             
         }
         
-    }
-
-    @Override
-    public void fichaPresionada(MouseEvent e) {
-        
-        
-
-       
     }
 
     @Override
     public void fichaSoltada(MouseEvent e) {
         
-        panelMovimiento.setVisible(false);
-
         Point dropPoint = e.getPoint();
         
-        // Convierte el punto del glass pane al del content pane
         Point contentPanePoint = SwingUtilities.convertPoint(panelMovimiento, dropPoint, getContentPane());
         
-        // Encuentra el componente en esa posición
         Component componenteDestino = getContentPane().findComponentAt(contentPanePoint);
+        
 
-        if(componenteDestino instanceof PanelCasilla){
+        if(componenteDestino instanceof PanelCasilla || componenteDestino instanceof PanelFicha){
             
-            PanelCasilla panelCasillaOriginal = (PanelCasilla) casillaOriginal;
+            if(componenteDestino instanceof PanelCasilla){
+                
+                PanelCasilla casillaDestino = (PanelCasilla)componenteDestino;
+                
+                if(casillaDestino.getComponentCount() > 0){
+                    
+                    System.out.println("Error");
+                    
+                } else{
+                    
+                    int nuevoValorX;
+                    int nuevoValorY;
+                    
+                    nuevoValorX = panelCasillaAgregar.getWidth() + panelCasillaAgregar.getWidth()/2;
+                    nuevoValorY = dropPoint.y + panelCasillaAgregar.getHeight()/2;
+                    
+                    Point contentPanePointDerecha = new Point(nuevoValorX, nuevoValorY);
+                    
+                    Component componenteDestinoDerecha = getContentPane().findComponentAt(contentPanePointDerecha);
+                    
+                    if(componenteDestinoDerecha != null){
+                        panelCasillaAgregarDerecha = (JPanel)componenteDestinoDerecha;
+                        comprobacionPendienteAgregarDerecha = true;
+                    }
+                    
+                    nuevoValorX = panelCasillaAgregar.getWidth() - panelCasillaAgregar.getWidth()/2;
+                    nuevoValorY = dropPoint.y + panelCasillaAgregar.getHeight()/2;
+                    
+                    Point contentPanePointIzquierda = new Point(nuevoValorX, nuevoValorY);
+                    
+                    Component componenteDestinoIzquierda = getContentPane().findComponentAt(contentPanePointIzquierda);
+                    
+                    if(componenteDestinoIzquierda != null){
+                        panelCasillaAgregarIzquierda = (JPanel)componenteDestinoIzquierda;
+                        comprobacionPendienteAgregarIzquierda = true;
+                    }
+                }
+                
+                
+            } else{
+                
+                System.out.println("Error");
+                
+            }
             
-            PanelFicha panelFichaOriginal = (PanelFicha) fichaOriginal;
-            
-            PanelCasilla panelCasillDestino = (PanelCasilla) componenteDestino;
-            
-            agregarFichaCasilla(panelCasillDestino, fichaOriginal);
-            fichaOriginal.setVisible(true);
+//            
+//            PanelCasilla panelCasillaOriginal = (PanelCasilla) casillaOriginal;
+//            
+//            PanelFicha panelFichaOriginal = (PanelFicha) fichaMover;
+//            
+//            PanelCasilla panelCasillDestino = (PanelCasilla) componenteDestino;
+//            
+//            agregarFichaCasilla(panelCasillDestino, fichaMover);
+//            fichaMover.setVisible(true);
             
         }
         
+        panelMovimiento.setVisible(false);
+        
     }
     
-    private void quitarFichaCasillaJugador(JPanel panelCasilla, JPanel panelFicha){
+    
+    private void agregarFichasPendientes(){
         
-        Integer idCasillaQuitar = ((PanelCasilla)panelCasilla).getId();
-        Integer idPanelFicha = ((PanelFicha)panelFicha).getIdFicha();
+        if(!comprobacionPendienteAgregarDerecha && !comprobacionPendienteAgregarIzquierda){
+            
+        } else if(comprobacionPendienteAgregarDerecha){
+            
+        } else if(comprobacionPendienteAgregarIzquierda){
+            
+        } else{
+            
+        }
         
-        int[] idsFichasAgregar = {idPanelFicha};
-        quitarFichasTablero(idsFichasAgregar);
-        
-        panelCasilla.remove(panelFicha);
         
     }
     
     @Override
-    public void quitarFichaCasillaTablero(JPanel fichaArrastrada){
-        
+    public void quitarFichaCasilla(JPanel fichaArrastrada){
+
         JPanel panelFicha = fichaArrastrada;
         
-        if(fichaOriginal.getParent() != null){
+        if(fichaMover.getParent() != null){
 
-            panelCasillaEliminar = (JPanel)fichaOriginal.getParent();
+            panelCasillaEliminar = (JPanel)fichaMover.getParent();
         
             Integer idPanelFichaEliminar = ((PanelFicha)panelFicha).getIdFicha();
 
@@ -389,9 +444,10 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
 
             if(panelCasillaEliminar.getParent() instanceof PanelTablero){
                 
+                
                 controlador.quitarFichasTablero(fichasQuitar);
                 
-            } else{
+            } else if(panelCasillaEliminar.getParent() instanceof PanelJugadorPrincipal){
                 controlador.quitarFichasJugador(fichasQuitar);
             }
             
@@ -401,21 +457,29 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IGestorEvento
     
     private void quitarFichasPendientes(){
         
-        System.out.println(panelCasillaEliminar);
-        System.out.println(movimientoInvalido);
         if(panelCasillaEliminar != null && !movimientoInvalido){
-            panelCasillaEliminar.removeAll();
-            mapaIdsCasillasFichasTablero.put(((PanelCasilla)panelCasillaEliminar).getId(), null);
+            
+            if(panelCasillaEliminar.getParent() instanceof PanelJugadorPrincipal){
+                mapaIdsCasillasFichasMano.replace(((PanelCasilla)panelCasillaEliminar).getId(), null);  
+                
+            } else if (panelCasillaEliminar.getParent() instanceof PanelTablero){
+                mapaIdsCasillasFichasTablero.replace(((PanelCasilla)panelCasillaEliminar).getId(), null);
+            }
+            
         }
         
-        
     }
     
     
-    private void agregarFichaCasilla(JPanel panelCasilla, JPanel panelFicha){
-        panelCasilla.add(panelFicha);
-
-    }
+    
+//    private void agregarFichasPendientes(){
+//         
+//        Integer idCasillaDestino = ((PanelCasilla)panelCasillaAgregar).getId();
+//        Integer idFichaAgregar = ((PanelFicha)fichaMover).getIdFicha();
+//
+//        mapaIdsCasillasFichasTablero.replace(idCasillaDestino, idFichaAgregar);
+//
+//    }
     
     
     

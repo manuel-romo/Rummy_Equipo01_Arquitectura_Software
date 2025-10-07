@@ -17,6 +17,8 @@ public interface ISuscriptor {
     
     /**
      * Permite que al publicador actualizar a este Sucriptor que lo observa. 
+     * @param modelo Objeto que implementa la interfaz IModelo, es el modelo al que accede
+     * la vista suscriptora.
      * @param publicador Objeto que implementa la interfaz IPublicador, es el 
      * Publicador que se envía a sí mismo.
      */

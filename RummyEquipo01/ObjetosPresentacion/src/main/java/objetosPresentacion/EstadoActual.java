@@ -1,12 +1,6 @@
 
 package objetosPresentacion;
 
-import dto.FichaPresentacionDTO;
-import dto.JugadorExternoPresentacionDTO;
-import dto.JugadorPrincipalPresentacionDTO;
-import dto.MontonPresentacionDTO;
-import java.util.Map;
-
 /**
  *
  * @author Manuel Romo López
