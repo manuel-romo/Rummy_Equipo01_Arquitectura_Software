@@ -26,8 +26,8 @@ public class Controlador {
         modelo.quitarFichasTablero(idsFichas);
     }
 
-    public void agregarFichasTablero(int[] idsFichas, int numeroGrupo) {
-        modelo.agregarFichasTablero(idsFichas, numeroGrupo);
+    public void agregarFichasTablero(int[] idsFichas, int idsFichasGrupo[]) {
+        modelo.agregarFichasTablero(idsFichas, idsFichasGrupo);
     }
     
     public void agregarFichasTablero(int[] idsFichas) {

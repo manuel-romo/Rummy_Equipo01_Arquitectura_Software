@@ -35,6 +35,8 @@ public class Fachada implements ITablero {
     private List<Ficha> fichas;
     private List<Jugador> jugadores;
     private Monton monton;
+    
+    private int numeroGrupoActual = 3;
 
     public Fachada() {
         this.grupos = new ArrayList<>();
@@ -202,12 +204,16 @@ public class Fachada implements ITablero {
             Ficha fichaNueva = obtenerFichaPorId(idFichas[i]);
             listaFichas.add(fichaNueva);
         }
-        Grupo grupo = new GrupoSecuencia(1, listaFichas);
+
+        Grupo grupoNuevo = new GrupoSecuencia(numeroGrupoActual++, listaFichas);
+        
+        grupos.add(grupoNuevo);
+        
         return true;
     }
 
     @Override
-    public boolean agregarFichasTablero(int[] idFichas, int numeroGrupo) {
+    public boolean agregarFichasTablero(int[] idFichas, int[] idsFichasGrupo) {
         if (idFichas.length == 0) {
             return false;
         }
@@ -216,23 +222,41 @@ public class Fachada implements ITablero {
             Ficha fichaNueva = obtenerFichaPorId(idFichas[i]);
             listaFichas.add(fichaNueva);
         }
-        Grupo grupo = obtenerGrupoPorId(numeroGrupo);
-        grupo.agregarFichas(fichas);
+        
+        List<Grupo> listaGruposAgregar = new ArrayList<>();
+        for (int i = 0; i < idsFichasGrupo.length; i++) {
+            Ficha fichaGrupo = obtenerFichaPorId(idsFichasGrupo[i]);
+            
+            System.out.println("Id de FICHA " + fichaGrupo.getId());
+            System.out.println("Grupo de FICHA: " + fichaGrupo.getGrupo().getNumero());
+            Grupo grupoAgregar = fichaGrupo.getGrupo();
+            
+            if(!listaGruposAgregar.contains(grupoAgregar)){
+                listaGruposAgregar.add(grupoAgregar);
+            }
+            
+        }
+        
+        for(Grupo grupo: listaGruposAgregar){
+            
+            System.out.println("AGREGANDO A GRUPO: " + grupo.getNumero());
+
+            grupo.agregarFichas(listaFichas);
+            
+        }
+       
         return true;
     }
 
     @Override
-    public boolean quitarFichasJugador(int[] idFichas) {
-        if (idFichas.length == 0) {
+    public boolean quitarFichasJugador(int[] idsFichas) {
+        if (idsFichas.length == 0) {
             return false;
         }
-        List fichas = new LinkedList();
-        Jugador jugador1 = jugadores.get(1);
-        for (int i = 0; i < idFichas.length; i++) {
-            Ficha ficha = obtenerFichaPorId(idFichas[i]);
-            fichas.add(ficha);
-        }
-        jugador1.quitarFichas(fichas);
+        
+        Jugador jugador1 = jugadores.get(0);
+        
+        jugador1.quitarFichas(idsFichas);
         return true;
     }
 
@@ -248,6 +272,8 @@ public class Fachada implements ITablero {
             List fichas = new LinkedList();
             fichas.add(ficha);
             grupo.removerFichas(fichas);
+            
+            
         }
         
         return true;
@@ -268,6 +294,7 @@ public class Fachada implements ITablero {
 
     private Ficha obtenerFichaPorId(int idFicha) {
         for (Ficha ficha : fichas) {
+            
             if (ficha.getId() == idFicha) {
                 return ficha;
             }
@@ -407,33 +434,47 @@ public class Fachada implements ITablero {
     @Override
     public GrupoNegocioDTO[] obtenerGruposNegocio() {
         
+        List<GrupoNegocioDTO> listaGruposNegocio = new LinkedList<>();
+        for(Grupo grupo: grupos){
+            
+            List<FichaNegocioDTO> fichasNegocioGrupo = new LinkedList<>();
 
-        List<FichaNegocioDTO> fichasNegocioGrupo1 = new LinkedList<>();
-        
-        for(Ficha fichaGrupo1: grupos.get(0).getFichas()){
-            
-            fichasNegocioGrupo1.add(obtenerFichaNegocioDTO((FichaNormal)fichaGrupo1));
-            
-        }
-         
-        
-        GrupoNegocioDTO grupoNegocio1 = 
-            new GrupoColoresNegocioDTO(1, fichasNegocioGrupo1);
-        
-        
-        List<FichaNegocioDTO> fichasNegocioGrupo2 = new LinkedList<>();
-        
-        for(Ficha fichaGrupo2: grupos.get(1).getFichas()){
-            
-            fichasNegocioGrupo1.add(obtenerFichaNegocioDTO((FichaNormal)fichaGrupo2));
+            for(Ficha fichaGrupo: grupo.getFichas()){
+
+                fichasNegocioGrupo.add(obtenerFichaNegocioDTO((FichaNormal)fichaGrupo));
+
+            }
+
+            if(grupo instanceof GrupoColores){
+                
+                GrupoNegocioDTO grupoNegocio = new GrupoColoresNegocioDTO(grupo.getNumero(), fichasNegocioGrupo);
+                listaGruposNegocio.add(grupoNegocio);
+                
+            } else if(grupo instanceof GrupoSecuencia){
+                GrupoNegocioDTO grupoNegocio = new GrupoSecuenciaNegocioDTO(grupo.getNumero(), fichasNegocioGrupo);
+                listaGruposNegocio.add(grupoNegocio);
+            }
             
         }
         
-        GrupoNegocioDTO grupoNegocio2 = 
-            new GrupoSecuenciaNegocioDTO(2, fichasNegocioGrupo2);
+        GrupoNegocioDTO[] gruposNegocio = listaGruposNegocio.toArray(new GrupoNegocioDTO[0]);
         
+        System.out.println("GRUPOS NEGOCIO OBTENIDOS......");
         
-        GrupoNegocioDTO[] gruposNegocio = {grupoNegocio1, grupoNegocio2};
+        for(GrupoNegocioDTO grupo: gruposNegocio){
+            System.out.println("---");
+            System.out.println(grupo.getNumero());
+            System.out.println("---");
+            System.out.println("Fichas del grupo: ");
+            
+            for(FichaNegocioDTO ficha: grupo.getFichasNegocioDTO()){
+                
+                System.out.println(ficha.getId());
+                
+            }
+        }
+        
+        System.out.println("-------------------------------");
         
         return gruposNegocio;
         

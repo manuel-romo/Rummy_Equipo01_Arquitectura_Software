@@ -27,4 +27,15 @@ public class GrupoSecuencia extends Grupo {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    @Override
+    public void agregarFichas(List<Ficha> fichas) {
+        
+        for(Ficha ficha: fichas){
+            ficha.setGrupo(this);
+        }
+        
+        this.fichas.addAll(fichas);
+        
+    }
+    
 }

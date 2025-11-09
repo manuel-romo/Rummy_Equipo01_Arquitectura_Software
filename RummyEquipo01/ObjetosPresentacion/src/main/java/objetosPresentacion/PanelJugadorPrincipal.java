@@ -2,7 +2,6 @@
 package objetosPresentacion;
 
 import dto.FichaPresentacionDTO;
-import ejercerTurno.IGestorEventos;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,7 +19,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     private Color COLOR_FONDO = new Color(45, 54, 140);
     private Color COLOR_FONDO_MANO = new Color(69, 42, 32);
     
-    private Insets SEPARACION_CASILLAS = new Insets(3, 3, 3, 3);
+    private Insets SEPARACION_CASILLAS = new Insets(4, 4, 0, 4);
     
     private final PosicionPanel POSICION_PANEL = PosicionPanel.ABAJO_CENTRO;
     
@@ -70,7 +69,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gridBagConstraintsPanelMano.gridx = 1;
         gridBagConstraintsPanelMano.gridy = 0;
-        gridBagConstraintsPanelMano.weightx = 6;
+        gridBagConstraintsPanelMano.weightx = 1;
         gridBagConstraintsPanelMano.weighty = 1;
         gridBagConstraintsPanelMano.gridwidth = 1;
         gridBagConstraintsPanelMano.gridheight = 2;
@@ -87,7 +86,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gbcPanelOpciones.gridx = 2;
         gbcPanelOpciones.gridy = 0;
-        gbcPanelOpciones.weightx = 1;
+        gbcPanelOpciones.weightx = 7;
         gbcPanelOpciones.weighty = 1;
         gbcPanelOpciones.gridwidth = 1;
         gbcPanelOpciones.gridheight = 1;
@@ -104,7 +103,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gbcPanelSuperiorFichas.gridx = 1;
         gbcPanelSuperiorFichas.gridy = 0;
-        gbcPanelSuperiorFichas.weightx = 7.5;
+        gbcPanelSuperiorFichas.weightx = 1;
         gbcPanelSuperiorFichas.weighty = 1;
         gbcPanelSuperiorFichas.gridwidth = 1;
         gbcPanelSuperiorFichas.gridheight = 1;
@@ -121,7 +120,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gbcPanelInferiorFichas.gridx = 0;
         gbcPanelInferiorFichas.gridy = 1;
-        gbcPanelInferiorFichas.weightx = 1;
+        gbcPanelInferiorFichas.weightx = 0.7;
         gbcPanelInferiorFichas.weighty = 1;
         gbcPanelInferiorFichas.gridwidth = 3;
         gbcPanelInferiorFichas.gridheight = 1;
@@ -138,7 +137,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gbcPanelEsquinaSuperiorDerecha.gridx = 0;
         gbcPanelEsquinaSuperiorDerecha.gridy = 0;
-        gbcPanelEsquinaSuperiorDerecha.weightx = 1;
+        gbcPanelEsquinaSuperiorDerecha.weightx = 3;
         gbcPanelEsquinaSuperiorDerecha.weighty = 1;
         gbcPanelEsquinaSuperiorDerecha.gridwidth = 1;
         gbcPanelEsquinaSuperiorDerecha.gridheight = 1;
@@ -151,7 +150,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gbcPanelEsquinaSuperiorIzquierda.gridx = 2;
         gbcPanelEsquinaSuperiorIzquierda.gridy = 0;
-        gbcPanelEsquinaSuperiorIzquierda.weightx = 1;
+        gbcPanelEsquinaSuperiorIzquierda.weightx = 3;
         gbcPanelEsquinaSuperiorIzquierda.weighty = 1;
         gbcPanelEsquinaSuperiorIzquierda.gridwidth = 1;
         gbcPanelEsquinaSuperiorIzquierda.gridheight = 1;
@@ -171,11 +170,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
                 GridBagConstraints gbcPanelFichaActual = new GridBagConstraints();
         
                 gbcPanelFichaActual.gridx = cantidadFichasPanelInferior;
-                gbcPanelFichaActual.gridy = 0;
-                gbcPanelFichaActual.weightx = 1;
-                gbcPanelFichaActual.weighty = 1;
-                gbcPanelFichaActual.gridwidth = 1;
-                gbcPanelFichaActual.gridheight = 1;
+                gbcPanelFichaActual.gridy = 1;
                 gbcPanelFichaActual.fill = GridBagConstraints.BOTH;
 
                 gbcPanelFichaActual.insets = SEPARACION_CASILLAS;
@@ -189,10 +184,6 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
                 gbcPanelFichaActual.gridx = cantidadFichasPanelSuperior;
                 gbcPanelFichaActual.gridy = 0;
-                gbcPanelFichaActual.weightx = 1;
-                gbcPanelFichaActual.weighty = 1;
-                gbcPanelFichaActual.gridwidth = 1;
-                gbcPanelFichaActual.gridheight = 1;
                 gbcPanelFichaActual.fill = GridBagConstraints.BOTH;
 
                 gbcPanelFichaActual.insets = SEPARACION_CASILLAS;
@@ -227,6 +218,16 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
             
             
         }
+        
+        for(PanelCasilla panelCasilla: panelesCasillas){
+            
+            if(!mapaCasillasFichas.keySet().contains(panelCasilla.getId())){
+                
+                panelCasilla.removeAll();
+                
+            }
+            
+        }
             
             
 
@@ -237,6 +238,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         for(PanelCasilla panelCasilla: panelesCasillas){
             
             if(panelCasilla.getId().equals(idCasilla)){
+                panelCasilla.removeAll();
                 return panelCasilla;
             }
         }

@@ -7,7 +7,7 @@ package objetosPresentacion;
  * ID: 00000253080
  * 
  */
-public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEstadoJugadorExterno, IEstadoTablero, IEstadoMesaJuego{
+public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEstadoJugadorExterno, IEstadoTablero, IEstadoMesaJuego, IEstadoPanelMovimiento{
     
     private JugadorExternoInformacionPanel[] jugadoresExternos;
     private JugadorPrincipalInformacionPanel jugadorPrincipal;
@@ -15,6 +15,7 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
     private TableroInformacionPanel tablero;
     private String mensajeMovimientoInvalido;
     private String mensajeTableroInvalido;
+    private boolean movimientoValido;
 
     public EstadoActual(
             JugadorExternoInformacionPanel[] jugadoresExternos, 
@@ -22,7 +23,8 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
             MontonInformacionPanel monton, 
             TableroInformacionPanel tablero, 
             String mensajeMovimientoInvalido,
-            String mensajeTableroInvalido) {
+            String mensajeTableroInvalido,
+            boolean movimientoValido) {
         
         this.jugadoresExternos = jugadoresExternos;
         this.jugadorPrincipal = jugadorPrincipal;
@@ -30,6 +32,7 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
         this.tablero = tablero;
         this.mensajeMovimientoInvalido = mensajeMovimientoInvalido;
         this.mensajeTableroInvalido = mensajeTableroInvalido;
+        this.movimientoValido = movimientoValido;
     }
 
     
@@ -63,7 +66,9 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
         return mensajeTableroInvalido;
     }
 
-    
-    
+    @Override
+    public boolean getMovimientoValido() {
+        return movimientoValido;
+    }
     
 }

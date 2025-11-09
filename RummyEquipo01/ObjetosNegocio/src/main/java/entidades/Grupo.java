@@ -17,7 +17,7 @@ public abstract class Grupo {
     /**
      * Lista de fichas pertenecientes al grupo.
      */
-    private List<Ficha> fichas;
+    protected List<Ficha> fichas;
 
     /**
      * Crea un nuevo grupo con un número identificador y 
@@ -29,6 +29,10 @@ public abstract class Grupo {
     public Grupo(Integer numero, List<Ficha> fichas) {
         this.numero = numero;
         this.fichas = fichas;
+        
+        for(Ficha ficha: fichas){
+            ficha.setGrupo(this);
+        }
     }
 
     /**
@@ -61,7 +65,7 @@ public abstract class Grupo {
      * 
      * @param fichas arreglo de fichas a agregar al grupo.
      */
-    public void agregarFichas(List<Ficha> fichas) { }
+    public abstract void agregarFichas(List<Ficha> fichas);
     
     /**
      * Remueve una o más fichas del grupo.

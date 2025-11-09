@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class PanelCasilla extends JPanel{
     
     private Integer id;
-    private Dimension TAMANIO_CASILLA = new Dimension(50, 200);
+    private Dimension TAMANIO_CASILLA = new Dimension(60, 80);
     private Color COLOR_FONDO_NO_SOBRE = new Color(217, 217, 217, 40);
     private Color COLOR_FONDO_SOBRE = new Color(217, 217, 217, 80);
     
@@ -27,7 +27,9 @@ public class PanelCasilla extends JPanel{
     public PanelCasilla(Integer id){
         this.id = id;
         setOpaque(false);
-        setSize(TAMANIO_CASILLA);
+        setPreferredSize(TAMANIO_CASILLA);
+        setMinimumSize(TAMANIO_CASILLA);
+        setMaximumSize(TAMANIO_CASILLA);
         setBackground(COLOR_FONDO_NO_SOBRE);
         configurarMouseListener();
         pintar();
@@ -43,6 +45,7 @@ public class PanelCasilla extends JPanel{
     }
     
     public void agregarFicha(PanelFicha panelFicha){
+        
         removeAll();
         add(panelFicha);
         this.panelFicha = panelFicha;

@@ -16,8 +16,8 @@ public class GrupoColores extends Grupo {
      */
     public GrupoColores(Integer numero, List<Ficha> fichas) {
         super(numero, fichas);
+        
     }
-    
     
 
     /**
@@ -27,6 +27,17 @@ public class GrupoColores extends Grupo {
     @Override
     public boolean comprobarValidez() {
         throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public void agregarFichas(List<Ficha> fichas) {
+        
+        for(Ficha ficha: fichas){
+            ficha.setGrupo(this);
+        }
+        
+        this.fichas.addAll(fichas);
+        
     }
     
 }

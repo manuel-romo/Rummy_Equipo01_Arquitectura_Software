@@ -170,44 +170,6 @@ public class Modelo implements IPublicador, IModelo {
     }
 
     /**
-     * Obtiene el mensaje que se muestra cuando el tablero es inválido.
-     *
-     * @return mensaje asociado al tablero inválido.
-     */
-    public String getMENSAJE_TABLERO_INVALIDO() {
-        return MENSAJE_TABLERO_INVALIDO;
-    }
-
-    /**
-     * Define el mensaje mostrado cuando el tablero es inválido.
-     *
-     * @param MENSAJE_TABLERO_INVALIDO texto del mensaje de error.
-     */
-    public void setMENSAJE_TABLERO_INVALIDO(String MENSAJE_TABLERO_INVALIDO) {
-        this.MENSAJE_TABLERO_INVALIDO = MENSAJE_TABLERO_INVALIDO;
-    }
-
-    /**
-     * Obtiene el mensaje que se muestra cuando el jugador realiza un movimiento
-     * inválido.
-     *
-     * @return mensaje de movimiento inválido.
-     */
-    public String getMENSAJE_MOVIMIENTO_INVALIDO() {
-        return MENSAJE_MOVIMIENTO_INVALIDO;
-    }
-
-    /**
-     * Define el mensaje que se muestra cuando el jugador realiza un movimiento
-     * inválido.
-     *
-     * @param MENSAJE_MOVIMIENTO_INVALIDO texto del mensaje de error.
-     */
-    public void setMENSAJE_MOVIMIENTO_INVALIDO(String MENSAJE_MOVIMIENTO_INVALIDO) {
-        this.MENSAJE_MOVIMIENTO_INVALIDO = MENSAJE_MOVIMIENTO_INVALIDO;
-    }
-
-    /**
      * Simula la selección de fichas del tablero.
      *
      * @param posicionesFichas arreglo con las posiciones seleccionadas.
@@ -248,8 +210,8 @@ public class Modelo implements IPublicador, IModelo {
      * @param idsFichas colección de IDs de fichas a agregar.
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
      */
-    public void agregarFichasTablero(int[] idsFichas, int numeroGrupo) {
-        boolean movimientoValido = tablero.agregarFichasTablero(idsFichas, numeroGrupo);
+    public void agregarFichasTablero(int[] idsFichas, int[] idsFichasGrupo) {
+        boolean movimientoValido = tablero.agregarFichasTablero(idsFichas, idsFichasGrupo);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
@@ -368,12 +330,22 @@ public class Modelo implements IPublicador, IModelo {
 
     @Override
     public String obtenerMensajeMovimientoInvalido() {
-        return MENSAJE_MOVIMIENTO_INVALIDO;
+        
+        if(movimientoInvalido){
+            return MENSAJE_MOVIMIENTO_INVALIDO;
+        }
+        
+        return null;
     }
 
     @Override
     public String obtenerMensajeTableroInvalido() {
-        return MENSAJE_TABLERO_INVALIDO;
+        
+        if(tableroInvalido){
+            return MENSAJE_TABLERO_INVALIDO;
+        }
+        
+        return null;
     }
 
     @Override
@@ -413,6 +385,9 @@ public class Modelo implements IPublicador, IModelo {
     public TableroPresentacionDTO obtenerTablero() {
         
         GrupoNegocioDTO[] gruposNegocio = tablero.obtenerGruposNegocio();
+        
+        System.out.println("Cantidad de grupos obtenidos");
+        System.out.println(gruposNegocio.length);
         
         List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
         

@@ -57,7 +57,22 @@ public class Jugador {
      * elimina las fichas que tengan su id dentro del parametro
      * @param posiciones lista de ids de las fichas a ser eliminadas
      */
-    public boolean quitarFichas(List<Integer> idFichas){
+    public boolean quitarFichas(int[] idsFichas){
+        
+        List<Ficha> fichasEliminar = new LinkedList<>();
+        
+        for (Ficha ficha : fichas) {
+            for (int idFicha : idsFichas) {
+                if (ficha.getId() == idFicha) {
+                    fichasEliminar.add(ficha);
+                    break;
+                }
+            }
+        }
+
+        System.out.println("Eliminando fochas de jugador");
+        fichas.removeAll(fichasEliminar);
+        
         return true;
     }
     /**

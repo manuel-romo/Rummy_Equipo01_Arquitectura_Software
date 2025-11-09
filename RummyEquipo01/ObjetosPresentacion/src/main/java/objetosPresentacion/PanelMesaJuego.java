@@ -47,7 +47,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
             gridBagConstraints.gridx = 0;
             gridBagConstraints.gridy = 0;
             gridBagConstraints.weightx = 1;
-            gridBagConstraints.weighty = 1;
+            gridBagConstraints.weighty = 4;
             gridBagConstraints.gridwidth = 3;
             gridBagConstraints.fill = GridBagConstraints.BOTH;
 
@@ -82,7 +82,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
             gridBagConstraints.gridx = 1;
             gridBagConstraints.gridy = 1;
             gridBagConstraints.weightx = 9;
-            gridBagConstraints.weighty = 6;
+            gridBagConstraints.weighty = 20;
             gridBagConstraints.gridwidth = 1;
             gridBagConstraints.fill = GridBagConstraints.BOTH;
 
@@ -96,8 +96,8 @@ public class PanelMesaJuego extends JPanel implements IComponente{
             
             gridBagConstraints.gridx = 1;
             gridBagConstraints.gridy = 2;
-            gridBagConstraints.weightx = 1;
-            gridBagConstraints.weighty = 1.5;
+            gridBagConstraints.weightx = 3;
+            gridBagConstraints.weighty = 1;
             gridBagConstraints.gridwidth = 3;
             gridBagConstraints.fill = GridBagConstraints.BOTH;
 

@@ -7,7 +7,7 @@ import dto.TableroNegocioDTO;
 
 public interface ITablero {
     public abstract boolean agregarFichasTablero(int [] idFichas);
-    public abstract boolean agregarFichasTablero(int [] idFichas, int numeroGrupo);
+    public abstract boolean agregarFichasTablero(int [] idFichas, int[] numerosGrupo);
     public abstract boolean quitarFichasJugador(int []  idFichas);
     public abstract boolean quitarFichasTablero(int [] idFichas);
     public abstract boolean seleccionarFichasTablero(int [] idFichas);

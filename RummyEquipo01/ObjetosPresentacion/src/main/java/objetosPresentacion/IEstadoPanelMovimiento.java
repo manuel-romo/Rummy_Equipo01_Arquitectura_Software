@@ -1,0 +1,14 @@
+
+package objetosPresentacion;
+
+/**
+ *
+ * @author Romo López Manuel
+ * ID: 00000253080
+ * 
+ */
+public interface IEstadoPanelMovimiento {
+    
+    public abstract boolean getMovimientoValido();
+    
+}

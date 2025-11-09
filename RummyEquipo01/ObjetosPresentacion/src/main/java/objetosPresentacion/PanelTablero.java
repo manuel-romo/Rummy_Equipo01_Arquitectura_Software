@@ -2,7 +2,7 @@
 package objetosPresentacion;
 
 import com.sun.java.accessibility.util.AWTEventMonitor;
-import ejercerTurno.IGestorEventos;
+import dto.FichaPresentacionDTO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -22,8 +22,10 @@ public class PanelTablero extends JPanel implements IComponente{
     private PanelCasilla[] panelesCasillas;
     private int CANTIDAD_FILAS_CASILLAS = 20;
     private int CANTIDAD_COLUMNAS_CASILLAS = 50;
-    private int ESPACION_VERTICAL_CASILLAS = 6;
-    private int ESPACION_HORIZONTAL_CASILLAS = 6;
+    private int ESPACION_VERTICAL_CASILLAS = 0;
+    private int ESPACION_HORIZONTAL_CASILLAS = 0;
+    
+    private int numeroCasillas = 0;
     
     private PosicionPanel POSICION_PANEL = PosicionPanel.CENTRO;
     private Dimension tamanio = new Dimension(1650,1600);
@@ -64,6 +66,7 @@ public class PanelTablero extends JPanel implements IComponente{
     
     private void agregarFichasTablero(FichaInformacionPanel[] fichas){
         
+        int nuevoNumeroCasillas = 0;
         for(Map.Entry<Integer, Integer> entrada: mapaCasillasFichas.entrySet()){
 
             PanelCasilla panelCasilla = obtenerCasillaPorId(entrada.getKey());
@@ -71,6 +74,7 @@ public class PanelTablero extends JPanel implements IComponente{
             FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
             
             if(ficha != null){
+                
                 PanelFicha panelFicha = new PanelFicha(
                     gestorEventos, 
                     ficha.getId(), 
@@ -79,12 +83,28 @@ public class PanelTablero extends JPanel implements IComponente{
                     false);
 
                 panelCasilla.agregarFicha(panelFicha);
+                
+                nuevoNumeroCasillas++;
+                
+                
             }
             
         }
+        
+        for(PanelCasilla panelCasilla: panelesCasillas){
+            if(!mapaCasillasFichas.keySet().contains(panelCasilla.getId())){
+                
+                panelCasilla.removeAll();
+                
+            }  
+        }
+        
+        if(nuevoNumeroCasillas > numeroCasillas){
+            gestorEventos.borrarFichasMovimiento();
+        }
+        
+        numeroCasillas = nuevoNumeroCasillas;
             
-            
-
     }
     
     private PanelCasilla obtenerCasillaPorId(Integer idCasilla){

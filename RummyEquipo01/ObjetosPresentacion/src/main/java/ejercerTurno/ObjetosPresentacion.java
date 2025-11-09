@@ -16,17 +16,19 @@ import dto.TableroNegocioDTO;
 import ejercerTurno.Controlador;
 import ejercerTurno.Modelo;
 import ejercerTurno.VistaMesaJuego;
-import interfaces.ITablero;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import objetosPresentacion.GestorEventos;
 import objetosPresentacion.IComponente;
+import objetosPresentacion.IGestorEventos;
 import objetosPresentacion.PanelCasilla;
 import objetosPresentacion.PanelJugadorExterno;
 import objetosPresentacion.PanelJugadorPrincipal;
 import objetosPresentacion.PanelMesaJuego;
 import objetosPresentacion.PanelMonton;
+import objetosPresentacion.PanelMovimiento;
 import objetosPresentacion.PanelTablero;
 import objetosPresentacion.PosicionPanel;
 
@@ -77,53 +79,58 @@ public class ObjetosPresentacion {
         Map<Integer, Color> mapaColoresSeleccionados = Map.of(
             1, Color.RED,
             2, Color.BLUE,
-            3, Color.GREEN
+            3, Color.GREEN,
+            4, Color.DARK_GRAY
         );      
         
-        Map<Integer,Integer> mapaIdsCasillasPanelesMano = new HashMap<>();
+        Map<Integer,Integer> mapaIdsCasillasPanelesJugador = new HashMap<>();
         
-        mapaIdsCasillasPanelesMano.put(1, 1);
-        mapaIdsCasillasPanelesMano.put(2, 2);
-        mapaIdsCasillasPanelesMano.put(3, 3);
-        mapaIdsCasillasPanelesMano.put(4, 4);
-        mapaIdsCasillasPanelesMano.put(5, 5);
-        mapaIdsCasillasPanelesMano.put(6, 6);
-        mapaIdsCasillasPanelesMano.put(7, 7);
-        mapaIdsCasillasPanelesMano.put(8, 8);
-        mapaIdsCasillasPanelesMano.put(9, 9);
-        mapaIdsCasillasPanelesMano.put(10, 10);
-        mapaIdsCasillasPanelesMano.put(11, null);
-        mapaIdsCasillasPanelesMano.put(12, null);
-        mapaIdsCasillasPanelesMano.put(13, null);
-        mapaIdsCasillasPanelesMano.put(14, null);
+        mapaIdsCasillasPanelesJugador.put(1, 1);
+        mapaIdsCasillasPanelesJugador.put(2, 2);
+        mapaIdsCasillasPanelesJugador.put(3, 3);
+        mapaIdsCasillasPanelesJugador.put(4, 4);
+        mapaIdsCasillasPanelesJugador.put(5, 5);
+        mapaIdsCasillasPanelesJugador.put(6, 6);
+        mapaIdsCasillasPanelesJugador.put(7, 7);
+        mapaIdsCasillasPanelesJugador.put(8, 8);
+        mapaIdsCasillasPanelesJugador.put(9, 9);
+        mapaIdsCasillasPanelesJugador.put(10, 10);
+        mapaIdsCasillasPanelesJugador.put(11, 11);
         
         Map<Integer,Integer> mapaIdsCasillasPanelesTablero = new HashMap<>();
         
         mapaIdsCasillasPanelesTablero.put(1, 22);
         mapaIdsCasillasPanelesTablero.put(2, 23);        
         mapaIdsCasillasPanelesTablero.put(3, 24);
-        mapaIdsCasillasPanelesTablero.put(4, 25);
-
+        
+        mapaIdsCasillasPanelesTablero.put(5, 25);
         mapaIdsCasillasPanelesTablero.put(6, 26);
         mapaIdsCasillasPanelesTablero.put(7, 27);        
         mapaIdsCasillasPanelesTablero.put(8, 28);
+        mapaIdsCasillasPanelesTablero.put(9, 29);
         
         IComunicacion comunicacion = new Comunicacion();
         
         Modelo modelo = new Modelo(comunicacion);
         Controlador controlador = new Controlador(modelo);
         
+        IComponente panelMovimiento = new PanelMovimiento();
+        
         VistaMesaJuego vistaMesaJuego = new VistaMesaJuego(
                 controlador,
                 panelMesaJuego, 
+                panelMovimiento,
                 mapaColoresSeleccionados,
                 mapaIdsCasillasPanelesTablero,
-                mapaIdsCasillasPanelesMano);
+                mapaIdsCasillasPanelesJugador);
         
         modelo.suscribirse(vistaMesaJuego);
+                
+        IGestorEventos gestorEventos = new GestorEventos(vistaMesaJuego, (IReceptorEventos)vistaMesaJuego);
         
-        ((PanelTablero) panelTablero).setGestorEventos(vistaMesaJuego);
-        ((PanelJugadorPrincipal) panelJugadorPrincipal).setGestorEventos(vistaMesaJuego);
+        ((PanelTablero) panelTablero).setGestorEventos(gestorEventos);
+        ((PanelJugadorPrincipal) panelJugadorPrincipal).setGestorEventos(gestorEventos);
+        ((PanelMovimiento) panelMovimiento).setGestorEventos(gestorEventos);
 
         
         List<FichaNegocioDTO> fichasNegocioJugador1 = List.of(
@@ -169,7 +176,6 @@ public class ObjetosPresentacion {
         ficha2Grupo1.setNumeroGrupo(grupo1.getNumero());
         ficha3Grupo1.setNumeroGrupo(grupo1.getNumero());
         
-        
         FichaNormalNegocioDTO ficha1Grupo2 = new FichaNormalNegocioDTO(4, 25, ColorFichaNegocioDTO.COLOR_D);
         FichaNormalNegocioDTO ficha2Grupo2 = new FichaNormalNegocioDTO(5, 26, ColorFichaNegocioDTO.COLOR_D);
         FichaNormalNegocioDTO ficha3Grupo2 = new FichaNormalNegocioDTO(6, 27, ColorFichaNegocioDTO.COLOR_D);
@@ -184,10 +190,11 @@ public class ObjetosPresentacion {
             ficha5Grupo2
         );
         
-        GrupoNegocioDTO grupo2 = new GrupoColoresNegocioDTO(2);
+        GrupoNegocioDTO grupo2 = new GrupoSecuenciaNegocioDTO(2);
         
         ficha1Grupo2.setNumeroGrupo(grupo2.getNumero());
         ficha2Grupo2.setNumeroGrupo(grupo2.getNumero());
+        ficha3Grupo2.setNumeroGrupo(grupo2.getNumero());
         ficha4Grupo2.setNumeroGrupo(grupo2.getNumero());
         ficha5Grupo2.setNumeroGrupo(grupo2.getNumero());
         
