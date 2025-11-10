@@ -10,9 +10,15 @@ import java.util.List;
 public class Tablero {
     
     private List<Jugador> jugadores;
+    private List<Grupo> grupos;
     
     
     public boolean validarTablero(){
-        throw new UnsupportedOperationException();
+        for (Grupo grupo : grupos) {
+            if(!grupo.comprobarValidez()){
+                return false;
+            }
+        }
+        return true;
     }
 }
