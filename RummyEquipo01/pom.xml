@@ -9,6 +9,7 @@
         <module>ObjetosPresentacion</module>
         <module>ObjetosNegocio</module>
         <module>Interfaces</module>
+        <module>Conexion</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
