@@ -10,6 +10,7 @@
         <module>ObjetosNegocio</module>
         <module>Interfaces</module>
         <module>Conexion</module>
+        <module>DirectorioJugadores</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
