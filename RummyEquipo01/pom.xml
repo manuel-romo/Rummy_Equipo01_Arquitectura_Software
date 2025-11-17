@@ -13,6 +13,7 @@
         <module>DirectorioJugadores</module>
         <module>Servidor</module>
         <module>DTORummy</module>
+        <module>Comandos</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
