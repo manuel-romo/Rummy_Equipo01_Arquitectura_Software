@@ -4,11 +4,13 @@
  */
 package comandosSolicitud;
 
+import interfaces.ICommand;
+
 /**
  *
  * @author pedro
  */
-public class ComandoAgregarFichaTablero {
+public class ComandoAgregarFichaTablero implements ICommand{
     private int[] idFichas;
 
     public ComandoAgregarFichaTablero(int[] idFichas) {

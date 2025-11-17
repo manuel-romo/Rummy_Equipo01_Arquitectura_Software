@@ -4,10 +4,28 @@
  */
 package comandosSolicitud;
 
+import interfaces.ICommand;
+
 /**
  *
  * @author pedro
  */
-public class ComandoQuitarFichaTablero {
+public class ComandoQuitarFichaTablero implements ICommand{
+    private int[] idFichas;
+    private int[] idFichasGrupo;
+
+    public ComandoQuitarFichaTablero(int[] idFichas, int[] idFichasGrupo) {
+        this.idFichas = idFichas;
+        this.idFichasGrupo = idFichasGrupo;
+    }
+
+    public int[] getIdFichas() {
+        return idFichas;
+    }
+
+    public int[] getIdFichasGrupo() {
+        return idFichasGrupo;
+    }
+    
     
 }

@@ -4,10 +4,12 @@
  */
 package comandosSolicitud;
 
+import interfaces.ICommand;
+
 /**
  *
  * @author pedro
  */
-public class ComandoRestablecerTablero {
+public class ComandoRestablecerTablero implements ICommand{
     
 }

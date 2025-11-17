@@ -4,10 +4,28 @@
  */
 package comandosSolicitud;
 
+import interfaces.ICommand;
+
 /**
  *
  * @author pedro
  */
-public class ComandoAgregarFichasTableroGrupo {
+public class ComandoAgregarFichasTableroGrupo implements ICommand {
+    private int[] idFichas;
+    private int[] idFichasGrupo;
+
+    public ComandoAgregarFichasTableroGrupo(int[] idFichas, int[] idFichasGrupo) {
+        this.idFichas = idFichas;
+        this.idFichasGrupo = idFichasGrupo;
+    }
+
+    public int[] getIdFichas() {
+        return idFichas;
+    }
+
+    public int[] getIdFichasGrupo() {
+        return idFichasGrupo;
+    }
+    
     
 }
