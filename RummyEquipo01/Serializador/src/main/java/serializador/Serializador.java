@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package serializador;
 
 import com.google.gson.Gson;
@@ -21,10 +18,18 @@ public class Serializador implements IFiltro {
         return gson.toJson(command);
     }
 
+    /***
+     * Método que envia el comando al componente de conexión, con el comando serializado
+     * @param accionSerializada 
+     */
     private void enviarAccionSerializada(String accionSerializada) {
         
     }
 
+    /**
+     * Método de IFiltro que cuando se le llama, envia la acción al componente de conexión. Si hay un filtro siguiente este se ejecuta.  
+     * @param comando 
+     */
     @Override
     public void ejecutar(ICommand comando) {
         String accion = this.serializarAccion(comando);

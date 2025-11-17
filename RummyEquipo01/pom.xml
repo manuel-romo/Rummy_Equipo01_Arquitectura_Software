@@ -15,11 +15,9 @@
         <module>DTORummy</module>
         <module>Comandos</module>
         <module>Serializador</module>
-<<<<<<< Updated upstream
         <module>Deserializador</module>
-=======
         <module>DirectorioServidor</module>
->>>>>>> Stashed changes
+
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
