@@ -3,11 +3,47 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dto;
+import entidades.ColorFicha;
 
 /**
  *
  * @author ramon
  */
 public class FichaDTO {
-    
+   private String valor;
+   private ColorFicha color;
+   private int id;
+
+    public FichaDTO(String valor, ColorFicha color, int id) {
+        this.valor = valor;
+        this.color = color;
+        this.id = id;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
+    public ColorFicha getColor() {
+        return color;
+    }
+
+    public void setColor(ColorFicha color) {
+        this.color = color;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+   
+   
 }
+ 

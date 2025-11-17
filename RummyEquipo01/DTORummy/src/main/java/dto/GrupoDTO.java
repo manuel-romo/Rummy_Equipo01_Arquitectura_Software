@@ -24,5 +24,5 @@ public class GrupoDTO {
     public void setFichas(List<FichaDTO> fichas) {
         this.fichas = fichas;
     }
-    
+     
 }
