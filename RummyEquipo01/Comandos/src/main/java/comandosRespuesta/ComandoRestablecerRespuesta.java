@@ -4,6 +4,7 @@
  */
 package comandosRespuesta;
 
+import comandosSolicitud.CommandType;
 import dto.TableroDTO;
 import interfaces.ICommand;
 
@@ -13,9 +14,11 @@ import interfaces.ICommand;
  */
 public class ComandoRestablecerRespuesta implements ICommand {
     private TableroDTO tablero;
+    private CommandType type;
 
-    public ComandoRestablecerRespuesta(TableroDTO tablero) {
+    public ComandoRestablecerRespuesta(TableroDTO tablero,  CommandType type) {
         this.tablero = tablero;
+        this.type = type;
     }
 
     public TableroDTO getTablero() {

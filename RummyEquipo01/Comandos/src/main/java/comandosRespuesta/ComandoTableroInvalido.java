@@ -4,6 +4,7 @@
  */
 package comandosRespuesta;
 
+import comandosSolicitud.CommandType;
 import interfaces.ICommand;
 
 /**
@@ -11,5 +12,12 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoTableroInvalido implements ICommand{
+    private CommandType type;
+
+    public ComandoTableroInvalido(CommandType type) {
+        this.type = type;
+    }
+    
+    
     
 }

@@ -12,9 +12,11 @@ import interfaces.ICommand;
  */
 public class ComandoCambiarTurnoSerializado implements ICommand{
     private int numeroJugador;
+    private CommandType type;
 
-    public ComandoCambiarTurnoSerializado(int numeroJugador) {
+    public ComandoCambiarTurnoSerializado(int numeroJugador,  CommandType type) {
         this.numeroJugador = numeroJugador;
+        this.type = type;
     }
 
     public int getNumeroJugador() {

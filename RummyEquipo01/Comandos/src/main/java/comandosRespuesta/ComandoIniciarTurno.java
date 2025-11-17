@@ -4,6 +4,7 @@
  */
 package comandosRespuesta;
 
+import comandosSolicitud.CommandType;
 import interfaces.ICommand;
 
 /**
@@ -11,5 +12,10 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoIniciarTurno implements ICommand{
+    private CommandType type;
+
+    public ComandoIniciarTurno(CommandType type) {
+        this.type = type;
+    }
     
 }

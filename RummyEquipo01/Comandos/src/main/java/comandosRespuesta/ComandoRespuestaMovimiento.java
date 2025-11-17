@@ -4,6 +4,7 @@
  */
 package comandosRespuesta;
 
+import comandosSolicitud.CommandType;
 import dto.TableroDTO;
 import interfaces.ICommand;
 
@@ -14,10 +15,12 @@ import interfaces.ICommand;
 public class ComandoRespuestaMovimiento implements ICommand{
     private TableroDTO tablero;
     private boolean movimientoValido;
+    private CommandType type;
 
-    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido) {
+    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido,  CommandType type) {
         this.tablero = tablero;
         this.movimientoValido = movimientoValido;
+        this.type = type;
     }
 
     public TableroDTO getTablero() {

@@ -13,10 +13,12 @@ import interfaces.ICommand;
 public class ComandoQuitarFichaTablero implements ICommand{
     private int[] idFichas;
     private int[] idFichasGrupo;
+    private CommandType type;
 
-    public ComandoQuitarFichaTablero(int[] idFichas, int[] idFichasGrupo) {
+    public ComandoQuitarFichaTablero(int[] idFichas, int[] idFichasGrupo,  CommandType type) {
         this.idFichas = idFichas;
         this.idFichasGrupo = idFichasGrupo;
+        this.type = type;
     }
 
     public int[] getIdFichas() {

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package comandosSolicitud;
 
 import interfaces.ICommand;
@@ -13,10 +10,12 @@ import interfaces.ICommand;
 public class ComandoAgregarFichaGrupo implements ICommand{
     private int[] idFichas;
     private int[] idFichasGrupo;
+    private CommandType type;
 
-    public ComandoAgregarFichaGrupo(int[] idFichas, int[] idFichasGrupo) {
+    public ComandoAgregarFichaGrupo(int[] idFichas, int[] idFichasGrupo, CommandType type) {
         this.idFichas = idFichas;
         this.idFichasGrupo = idFichasGrupo;
+        this.type = type;
     }
 
     public int[] getIdFichas() {

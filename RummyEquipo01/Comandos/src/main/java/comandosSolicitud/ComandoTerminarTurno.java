@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package comandosSolicitud;
 
 import interfaces.ICommand;
@@ -11,5 +8,11 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoTerminarTurno implements ICommand{
+    private CommandType type;
+
+    public ComandoTerminarTurno(CommandType type) {
+        this.type = type;
+    }
+    
     
 }

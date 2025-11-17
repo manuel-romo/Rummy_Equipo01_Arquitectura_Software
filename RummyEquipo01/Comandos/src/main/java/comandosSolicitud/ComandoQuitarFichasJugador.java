@@ -11,5 +11,10 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoQuitarFichasJugador implements ICommand{
+    private CommandType type;
+
+    public ComandoQuitarFichasJugador(CommandType type) {
+        this.type = type;
+    }
     
 }
