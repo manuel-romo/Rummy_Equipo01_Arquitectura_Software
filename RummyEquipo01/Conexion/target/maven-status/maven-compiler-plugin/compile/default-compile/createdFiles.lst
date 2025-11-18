@@ -1,5 +1,10 @@
-interfaces/ISuscriptor.class
-colas/ColaMensajesRecibidos.class
-red/Cliente.class
-red/Servidor.class
-colas/ColaMensajesEnviar.class
+cliente\GestorConexiones.class
+cliente\Cliente.class
+interfaces\IReceptor.class
+interfaces\ISuscriptor.class
+servidor\ManejadorCliente.class
+conexion\Pruebas.class
+servidor\Servidor.class
+conexion\Mensaje.class
+cliente\ColaMensajesEnviar.class
+servidor\ColaMensajesRecibidos.class
