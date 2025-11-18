@@ -10,6 +10,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando de respuesta que informa si el movimiento fue válido y envía el tablero actualizado.
+ * 
  * @author pedro
  */
 public class ComandoRespuestaMovimiento implements ICommand{

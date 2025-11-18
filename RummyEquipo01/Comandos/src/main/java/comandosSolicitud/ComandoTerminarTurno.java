@@ -4,7 +4,9 @@ package comandosSolicitud;
 import interfaces.ICommand;
 
 /**
- *
+ * Comando que indica que un jugador ha terminado su turno.
+ * 
+ * 
  * @author pedro
  */
 public class ComandoTerminarTurno implements ICommand{

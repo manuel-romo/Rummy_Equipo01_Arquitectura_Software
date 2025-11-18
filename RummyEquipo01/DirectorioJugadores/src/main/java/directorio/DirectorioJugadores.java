@@ -1,6 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 package directorio;
 
 import comandoEnvolvente.ComandoEnvolvente;
@@ -12,6 +9,11 @@ import java.util.Map;
 
 /**
  *
+ * Filtro encargado de enviar el mensaje de un comando envolvente a la
+ * dirección del jugador correspondiente. 
+ * 
+ * 
+ * 
  * @author ramon
  */
 public class DirectorioJugadores implements IFiltro {

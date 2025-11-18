@@ -5,6 +5,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando que solicita restablecer el tablero para el jugador indicado.
+ * 
  * @author pedro
  */
 public class ComandoRestablecerTablero implements ICommand{

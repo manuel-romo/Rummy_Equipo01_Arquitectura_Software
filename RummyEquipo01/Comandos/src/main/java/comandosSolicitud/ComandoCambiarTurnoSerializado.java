@@ -8,6 +8,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando que indica que el turno debe cambiar al jugador especificado.
+ * 
  * @author pedro
  */
 public class ComandoCambiarTurnoSerializado implements ICommand{

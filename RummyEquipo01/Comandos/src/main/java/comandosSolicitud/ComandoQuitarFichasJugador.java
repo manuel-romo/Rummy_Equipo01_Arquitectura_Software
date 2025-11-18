@@ -8,6 +8,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando que pide quitar las fichas indicadas del jugador.
+ * 
  * @author pedro
  */
 public class ComandoQuitarFichasJugador implements ICommand{

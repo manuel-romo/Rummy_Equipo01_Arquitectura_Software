@@ -5,6 +5,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando que agrega fichas al grupo del jugador.
+ * 
  * @author pedro
  */
 public class ComandoAgregarFichaGrupo implements ICommand{

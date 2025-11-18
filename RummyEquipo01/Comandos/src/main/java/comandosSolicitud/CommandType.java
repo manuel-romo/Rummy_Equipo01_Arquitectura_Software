@@ -1,6 +1,7 @@
 
 package comandosSolicitud;
 
+import comandoEnvolvente.ComandoEnvolvente;
 import comandosRespuesta.*;
 
 /**
@@ -21,7 +22,8 @@ public enum CommandType {
     INICIAR_TURNO("ComandoIniciarTurno",ComandoIniciarTurno.class),
     RESPUESTA_MOVIMIENTO("ComandoRespuestaMovimiento",ComandoRespuestaMovimiento.class),
     COMANDO_RESTABLECER_RESPUESTA("ComandoRestablecerRespuesta",ComandoRestablecerRespuesta.class),
-    COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido",ComandoTableroInvalido.class) ;
+    COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido",ComandoTableroInvalido.class),
+    COMANDO_ENVOLVENTE("ComandoEnvolvente", ComandoEnvolvente.class);
     
     
 

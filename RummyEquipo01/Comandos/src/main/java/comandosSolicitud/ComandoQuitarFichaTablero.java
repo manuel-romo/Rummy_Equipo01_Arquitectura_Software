@@ -8,6 +8,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando que solicita quitar fichas del tablero y del grupo indicado para un jugador.
+ * 
  * @author pedro
  */
 public class ComandoQuitarFichaTablero implements ICommand{

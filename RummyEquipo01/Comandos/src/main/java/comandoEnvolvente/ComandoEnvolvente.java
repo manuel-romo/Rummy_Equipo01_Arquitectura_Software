@@ -8,6 +8,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando envolvente que lleva un mensaje serializado junto con el nombre del jugador que lo envió.
+ * 
  * @author pedro
  */
 public class ComandoEnvolvente implements ICommand {

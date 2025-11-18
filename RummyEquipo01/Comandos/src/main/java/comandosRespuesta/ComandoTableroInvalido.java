@@ -8,7 +8,8 @@ import comandosSolicitud.CommandType;
 import interfaces.ICommand;
 
 /**
- *
+ * Comando de respuesta que indica que el tablero es inválido para el jugador.
+ * 
  * @author pedro
  */
 public class ComandoTableroInvalido implements ICommand {

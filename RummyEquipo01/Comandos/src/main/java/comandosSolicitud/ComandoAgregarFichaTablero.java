@@ -8,6 +8,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando que agrega las fichas indicadas al tablero para el jugador.
+ * 
  * @author pedro
  */
 public class ComandoAgregarFichaTablero implements ICommand{

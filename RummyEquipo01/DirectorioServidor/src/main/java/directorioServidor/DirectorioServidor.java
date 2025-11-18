@@ -8,6 +8,10 @@ import interfaces.IFiltro;
 /**
  *
  * @author pedro
+ * 
+ * Filtro que recibe un comando envolvente, le saca el mensaje ya serializado
+ * y se lo pasa al dispatcher para enviarlo.
+ * 
  */
 public class DirectorioServidor implements IFiltro {
 

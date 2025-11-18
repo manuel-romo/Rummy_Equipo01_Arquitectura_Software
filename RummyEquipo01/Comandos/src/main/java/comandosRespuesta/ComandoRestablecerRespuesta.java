@@ -10,6 +10,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando de respuesta que envía el tablero restablecido al jugador.
+ * 
  * @author pedro
  */
 public class ComandoRestablecerRespuesta implements ICommand {

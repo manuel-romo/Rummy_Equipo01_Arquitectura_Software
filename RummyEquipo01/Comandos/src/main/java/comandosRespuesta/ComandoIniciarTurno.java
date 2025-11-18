@@ -8,7 +8,8 @@ import comandosSolicitud.CommandType;
 import interfaces.ICommand;
 
 /**
- *
+ * Comando de respuesta que indica que inicia el turno del jugador. 
+ * 
  * @author pedro
  */
 public class ComandoIniciarTurno implements ICommand{

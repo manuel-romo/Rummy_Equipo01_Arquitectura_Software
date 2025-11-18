@@ -7,6 +7,8 @@ import interfaces.ICommand;
 
 /**
  *
+ * Comando de respuesta que notifica el cambio de turno hacia el jugador indicado.
+ * 
  * @author pedro
  */
 public class ComandoCambioTurno implements ICommand {
