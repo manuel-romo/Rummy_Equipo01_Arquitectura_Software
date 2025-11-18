@@ -22,6 +22,7 @@ import dto.ComodinNegocioDTO;
 import dto.ComodinPresentacionDTO;
 import dto.FichaNormalNegocioDTO;
 import dto.FichaNormalPresentacionDTO;
+import interfaces.ICommand;
 import interfaces.IFiltro;
 
 /**
@@ -467,6 +468,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
         
         return fichaPresentacionDTO;
+        
+    }
+
+    @Override
+    public void ejecutar(ICommand comando) {
         
     }
 
