@@ -15,12 +15,11 @@ import interfaces.ICommand;
 public class ComandoRespuestaMovimiento implements ICommand{
     private TableroDTO tablero;
     private boolean movimientoValido;
-    private CommandType type;
+    private final String type = "ComandoRespuestaMovimiento";
 
-    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido,  CommandType type) {
+    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido) {
         this.tablero = tablero;
         this.movimientoValido = movimientoValido;
-        this.type = type;
     }
 
     public TableroDTO getTablero() {
@@ -29,6 +28,11 @@ public class ComandoRespuestaMovimiento implements ICommand{
 
     public boolean isMovimientoValido() {
         return movimientoValido;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
     
     

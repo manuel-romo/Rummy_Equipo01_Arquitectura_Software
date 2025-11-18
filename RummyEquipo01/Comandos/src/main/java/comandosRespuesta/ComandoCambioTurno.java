@@ -11,15 +11,19 @@ import interfaces.ICommand;
  */
 public class ComandoCambioTurno implements ICommand {
     private int numeroJugador;
-    private CommandType type;
+    private final String type = "ComandoCambioTurno";
 
-    public ComandoCambioTurno(int numeroJugador,  CommandType type) {
+    public ComandoCambioTurno(int numeroJugador) {
         this.numeroJugador = numeroJugador;
-        this.type = type;
     }
 
     public int getNumeroJugador() {
         return numeroJugador;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
     
     

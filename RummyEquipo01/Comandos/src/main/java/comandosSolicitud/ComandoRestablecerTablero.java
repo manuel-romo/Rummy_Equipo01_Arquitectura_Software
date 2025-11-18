@@ -8,10 +8,15 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoRestablecerTablero implements ICommand{
-    private CommandType type;
+    private final String type = "ComandoRestablecerTablero";
 
-    public ComandoRestablecerTablero(CommandType type) {
-        this.type = type;
+    public ComandoRestablecerTablero() {
+
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
     
 }

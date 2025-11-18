@@ -8,10 +8,17 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoTerminarTurno implements ICommand{
-    private CommandType type;
+    private final String type = "ComandoTerminarTurno";
 
-    public ComandoTerminarTurno(CommandType type) {
-        this.type = type;
+    public ComandoTerminarTurno() {
+        
+    }
+
+    
+
+    @Override
+    public String getType() {
+        return type;
     }
     
     

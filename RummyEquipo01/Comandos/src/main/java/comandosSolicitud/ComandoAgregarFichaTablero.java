@@ -12,15 +12,19 @@ import interfaces.ICommand;
  */
 public class ComandoAgregarFichaTablero implements ICommand{
     private int[] idFichas;
-    private CommandType type;
+    private final String type = "ComandoAgregarFichaTablero";
 
-    public ComandoAgregarFichaTablero(int[] idFichas, CommandType type) {
+    public ComandoAgregarFichaTablero(int[] idFichas) {
         this.idFichas = idFichas;
-        this.type = type;
     }
 
     public int[] getIdFichas() {
         return idFichas;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
     
     

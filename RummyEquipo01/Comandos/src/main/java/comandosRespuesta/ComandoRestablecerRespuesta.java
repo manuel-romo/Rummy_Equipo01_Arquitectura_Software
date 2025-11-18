@@ -14,15 +14,19 @@ import interfaces.ICommand;
  */
 public class ComandoRestablecerRespuesta implements ICommand {
     private TableroDTO tablero;
-    private CommandType type;
+    private final String type = "ComandoRestablecerRespuesta";
 
-    public ComandoRestablecerRespuesta(TableroDTO tablero,  CommandType type) {
+    public ComandoRestablecerRespuesta(TableroDTO tablero) {
         this.tablero = tablero;
-        this.type = type;
     }
 
     public TableroDTO getTablero() {
         return tablero;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     

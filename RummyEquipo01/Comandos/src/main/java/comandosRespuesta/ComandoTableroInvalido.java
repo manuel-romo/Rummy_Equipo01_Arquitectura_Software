@@ -11,13 +11,16 @@ import interfaces.ICommand;
  *
  * @author pedro
  */
-public class ComandoTableroInvalido implements ICommand{
-    private CommandType type;
+public class ComandoTableroInvalido implements ICommand {
 
-    public ComandoTableroInvalido(CommandType type) {
-        this.type = type;
+    private final String type = "ComandoTableroInvalido";
+
+    public ComandoTableroInvalido() {
     }
-    
-    
-    
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
 }

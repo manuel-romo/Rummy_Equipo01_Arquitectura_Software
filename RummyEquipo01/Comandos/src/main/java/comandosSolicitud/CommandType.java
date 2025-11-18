@@ -41,4 +41,18 @@ public enum CommandType {
         return nombre;
     }
     
+    /**
+     * Método que devuelve el nombre del comando en String para poder instanciarlo despues de que se convierta en JSON.
+     * @param nombre nombre del command
+     * @return 
+     */
+    public static CommandType fromNombre(String nombre) {
+        for (CommandType t : values()) {
+            if (t.nombre.equals(nombre)) {
+                return t;
+            }
+        }
+        throw new IllegalArgumentException("No existe CommandType con nombre: " + nombre);
+    }
+    
 }

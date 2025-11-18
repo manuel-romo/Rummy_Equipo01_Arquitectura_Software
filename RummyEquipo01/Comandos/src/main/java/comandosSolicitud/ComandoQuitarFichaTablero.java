@@ -13,12 +13,11 @@ import interfaces.ICommand;
 public class ComandoQuitarFichaTablero implements ICommand{
     private int[] idFichas;
     private int[] idFichasGrupo;
-    private CommandType type;
+    private final String type = "ComandoQuitarFichaTablero";
 
-    public ComandoQuitarFichaTablero(int[] idFichas, int[] idFichasGrupo,  CommandType type) {
+    public ComandoQuitarFichaTablero(int[] idFichas, int[] idFichasGrupo) {
         this.idFichas = idFichas;
         this.idFichasGrupo = idFichasGrupo;
-        this.type = type;
     }
 
     public int[] getIdFichas() {
@@ -27,6 +26,11 @@ public class ComandoQuitarFichaTablero implements ICommand{
 
     public int[] getIdFichasGrupo() {
         return idFichasGrupo;
+    }
+
+    @Override
+    public String getType() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

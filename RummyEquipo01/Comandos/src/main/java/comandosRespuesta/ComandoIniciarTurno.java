@@ -12,10 +12,15 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoIniciarTurno implements ICommand{
-    private CommandType type;
+    private final String type = "ComandoIniciarTurno";
 
-    public ComandoIniciarTurno(CommandType type) {
-        this.type = type;
+    public ComandoIniciarTurno() {
+
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
     
 }

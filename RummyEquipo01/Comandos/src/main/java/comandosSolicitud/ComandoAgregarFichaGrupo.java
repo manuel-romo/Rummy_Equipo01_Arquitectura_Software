@@ -10,12 +10,11 @@ import interfaces.ICommand;
 public class ComandoAgregarFichaGrupo implements ICommand{
     private int[] idFichas;
     private int[] idFichasGrupo;
-    private CommandType type;
+    private final String type = "ComandoAgregarFichaGrupo";
 
-    public ComandoAgregarFichaGrupo(int[] idFichas, int[] idFichasGrupo, CommandType type) {
+    public ComandoAgregarFichaGrupo(int[] idFichas, int[] idFichasGrupo) {
         this.idFichas = idFichas;
         this.idFichasGrupo = idFichasGrupo;
-        this.type = type;
     }
 
     public int[] getIdFichas() {
@@ -24,6 +23,11 @@ public class ComandoAgregarFichaGrupo implements ICommand{
 
     public int[] getIdFichasGrupo() {
         return idFichasGrupo;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
     
     
