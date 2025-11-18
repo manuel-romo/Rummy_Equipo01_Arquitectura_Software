@@ -8,4 +8,6 @@ package interfaces;
 public interface ICommand {
     
     abstract String getType();
+    
+    abstract String getNombreJugador();
 }

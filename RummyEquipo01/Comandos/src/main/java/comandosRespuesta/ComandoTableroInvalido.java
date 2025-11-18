@@ -14,13 +14,20 @@ import interfaces.ICommand;
 public class ComandoTableroInvalido implements ICommand {
 
     private final String type = "ComandoTableroInvalido";
+    private String nombreJugador;
 
-    public ComandoTableroInvalido() {
+    public ComandoTableroInvalido(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
     }
 
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String getNombreJugador() {
+        return nombreJugador;
     }
 
 }

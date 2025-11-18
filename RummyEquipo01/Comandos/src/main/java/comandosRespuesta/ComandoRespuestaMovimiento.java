@@ -16,10 +16,12 @@ public class ComandoRespuestaMovimiento implements ICommand{
     private TableroDTO tablero;
     private boolean movimientoValido;
     private final String type = "ComandoRespuestaMovimiento";
+    private String nombreJugador;
 
-    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido) {
+    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido, String nombreJugador) {
         this.tablero = tablero;
         this.movimientoValido = movimientoValido;
+        this.nombreJugador = nombreJugador;
     }
 
     public TableroDTO getTablero() {
@@ -33,6 +35,11 @@ public class ComandoRespuestaMovimiento implements ICommand{
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String getNombreJugador() {
+        return nombreJugador;
     }
     
     

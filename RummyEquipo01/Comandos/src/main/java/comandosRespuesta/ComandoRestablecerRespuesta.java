@@ -15,9 +15,11 @@ import interfaces.ICommand;
 public class ComandoRestablecerRespuesta implements ICommand {
     private TableroDTO tablero;
     private final String type = "ComandoRestablecerRespuesta";
+    private String nombreJugador;
 
-    public ComandoRestablecerRespuesta(TableroDTO tablero) {
+    public ComandoRestablecerRespuesta(TableroDTO tablero, String nombreJugador) {
         this.tablero = tablero;
+        this.nombreJugador = nombreJugador;
     }
 
     public TableroDTO getTablero() {
@@ -27,6 +29,11 @@ public class ComandoRestablecerRespuesta implements ICommand {
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String getNombreJugador() {
+        return nombreJugador;
     }
 
     

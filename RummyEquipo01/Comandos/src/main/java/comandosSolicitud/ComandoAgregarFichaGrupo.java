@@ -11,10 +11,12 @@ public class ComandoAgregarFichaGrupo implements ICommand{
     private int[] idFichas;
     private int[] idFichasGrupo;
     private final String type = "ComandoAgregarFichaGrupo";
+    private String nombreJugador;
 
-    public ComandoAgregarFichaGrupo(int[] idFichas, int[] idFichasGrupo) {
+    public ComandoAgregarFichaGrupo(int[] idFichas, int[] idFichasGrupo, String nombreJugador) {
         this.idFichas = idFichas;
         this.idFichasGrupo = idFichasGrupo;
+        this.nombreJugador = nombreJugador;
     }
 
     public int[] getIdFichas() {
@@ -28,6 +30,11 @@ public class ComandoAgregarFichaGrupo implements ICommand{
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String getNombreJugador() {
+        return nombreJugador;
     }
     
     

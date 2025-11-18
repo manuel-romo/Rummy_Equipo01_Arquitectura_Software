@@ -12,16 +12,23 @@ import interfaces.ICommand;
  */
 public class ComandoQuitarFichasJugador implements ICommand{
     private String type = "ComandoQuitarFichasJugador";
+    private String nombreJugador;
     
     private int[] idFichas;
 
-    public ComandoQuitarFichasJugador(int[] idFichas) {
+    public ComandoQuitarFichasJugador(int[] idFichas, String nombreJugador) {
         this.idFichas = idFichas;
+        this.nombreJugador = nombreJugador;
     }
 
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String getNombreJugador() {
+        return nombreJugador;
     }
     
 }

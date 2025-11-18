@@ -4,27 +4,35 @@
 
 package directorio;
 
+import interfaces.ICommand;
 import interfaces.IDirectorio;
 import interfaces.IDispatcher;
+import interfaces.IFiltro;
 import java.util.Map;
 
 /**
  *
  * @author ramon
  */
-public class DirectorioJugadores implements IDirectorio{
+public class DirectorioJugadores implements IFiltro{
     
     private Map<String, String[]> jugadoresDirecciones;
     private IDispatcher dispatcher;
     
-    @Override
+    
     public void agregarJugador(String nombreJugador, String[] direccion) {
         jugadoresDirecciones.put(nombreJugador, direccion);
     }
 
-    @Override
+    
     public void enviarMensajeJugadores(String respuesta) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        String direccion = 
+        
+    }
+
+    @Override
+    public void ejecutar(ICommand comando) {
+//        enviarMensajeJugadores(respuesta);
     }
 
 }

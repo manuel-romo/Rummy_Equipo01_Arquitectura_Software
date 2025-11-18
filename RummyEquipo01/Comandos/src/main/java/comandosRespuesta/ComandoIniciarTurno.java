@@ -13,14 +13,20 @@ import interfaces.ICommand;
  */
 public class ComandoIniciarTurno implements ICommand{
     private final String type = "ComandoIniciarTurno";
-
-    public ComandoIniciarTurno() {
-
+    private String nombreJugador;
+    
+    public ComandoIniciarTurno(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
     }
 
     @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String getNombreJugador() {
+        return nombreJugador;
     }
     
 }

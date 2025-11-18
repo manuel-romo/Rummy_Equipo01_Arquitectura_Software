@@ -14,9 +14,11 @@ public class ComandoEnvolvente implements ICommand {
 
     private final String type = "ComandoEnvolvente";
     private String mensajeSerializado;
+    private String nombreJugador;
 
-    public ComandoEnvolvente(String mensajeSerializado) {
+    public ComandoEnvolvente(String mensajeSerializado, String nombreJugador) {
         this.mensajeSerializado = mensajeSerializado;
+        this.nombreJugador = nombreJugador;
     }
 
     @Override
@@ -26,5 +28,10 @@ public class ComandoEnvolvente implements ICommand {
 
     public String getMensajeSerializado() {
         return mensajeSerializado;
+    }
+
+    @Override
+    public String getNombreJugador() {
+        return nombreJugador;
     }
 }
