@@ -14,8 +14,6 @@ public class ComandoTerminarTurno implements ICommand{
         
     }
 
-    
-
     @Override
     public String getType() {
         return type;

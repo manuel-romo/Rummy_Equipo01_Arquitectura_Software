@@ -17,7 +17,7 @@
         <module>Serializador</module>
         <module>Deserializador</module>
         <module>DirectorioServidor</module>
-
+        <module>DirectorioServidor</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

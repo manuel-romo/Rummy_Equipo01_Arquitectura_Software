@@ -11,15 +11,15 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoCambiarTurnoSerializado implements ICommand{
-    private int numeroJugador;
+    private String nombreJugador;
     private final String type = "ComandoCambiarTurnoSerializado";
 
-    public ComandoCambiarTurnoSerializado(int numeroJugador) {
-        this.numeroJugador = numeroJugador;
+    public ComandoCambiarTurnoSerializado(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
     }
 
-    public int getNumeroJugador() {
-        return numeroJugador;
+    public String getNombreJugador() {
+        return nombreJugador;
     }
 
     @Override
