@@ -3,6 +3,7 @@ package objetosPresentacion;
 
 import dto.FichaPresentacionDTO;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,14 +11,17 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import objetosPresentacion.FichaInformacionPanel;
 
 
 public class PanelJugadorPrincipal extends JPanel implements IComponente{
 
-    
-    private Color COLOR_FONDO = new Color(45, 54, 140);
     private Color COLOR_FONDO_MANO = new Color(69, 42, 32);
+    
+    private Color COLOR_FONDO_TERMINAR_TURNO = new Color(30, 152, 198);
+    private Color COLOR_FONDO_ABANDONAR = new Color(219, 81, 81);
+    private Color COLOR_FONDO_FINALIZAR_PARTIDA = new Color(255, 223, 167);
     
     private Insets SEPARACION_CASILLAS = new Insets(4, 4, 0, 4);
     
@@ -34,9 +38,13 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     private JPanel panelEsquinaSuperiorDerechaMano = new JPanel();
     private JPanel panelEsquinaSuperiorIzquierdaMano = new JPanel();
     
+    Font fuenteDatosJugador = new Font("Arial", Font.BOLD, 15);
+    
     private JButton botonTerminarTurno = new JButton("Terminar turno");
     private JButton botonFinalizarPartida = new JButton("Finalizar partida");
     private JButton botonAbandonar = new JButton("Abandonar");
+    
+    private LineBorder BORDE_BOTONES = new LineBorder(Color.BLACK, 3, true);
     
     private Map<Integer, Integer> mapaCasillasFichas;
     
@@ -46,9 +54,10 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     
     public PanelJugadorPrincipal(PanelCasilla[] panelesCasillas){
         
+        
         this.panelesCasillas = panelesCasillas;
         
-        setBackground(COLOR_FONDO);
+        setOpaque(false);
         
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
@@ -263,6 +272,15 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     
     private void configurarBotonesOpciones(){
         
+        panelOpciones.setOpaque(false);
+        
+        botonTerminarTurno.setFont(fuenteDatosJugador);
+        
+        botonTerminarTurno.setBackground(COLOR_FONDO_TERMINAR_TURNO);
+        botonTerminarTurno.setForeground(Color.WHITE);
+        
+        botonTerminarTurno.setBorder(BORDE_BOTONES);
+        
         GridBagConstraints gbcBtnTerminarTurno = new GridBagConstraints();
         
         gbcBtnTerminarTurno.gridx = 0;
@@ -277,6 +295,13 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         panelOpciones.add(botonTerminarTurno, gbcBtnTerminarTurno);
         
         
+        botonFinalizarPartida.setFont(fuenteDatosJugador);
+        
+        botonFinalizarPartida.setBackground(COLOR_FONDO_FINALIZAR_PARTIDA);
+        botonFinalizarPartida.setForeground(Color.BLACK);
+        
+        botonFinalizarPartida.setBorder(BORDE_BOTONES);
+        
         GridBagConstraints gbcBtnFinalizarPartida= new GridBagConstraints();
         
         gbcBtnFinalizarPartida.gridx = 1;
@@ -290,6 +315,13 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         gbcBtnFinalizarPartida.insets = SEPARACION_CASILLAS;
         panelOpciones.add(botonFinalizarPartida, gbcBtnFinalizarPartida);
         
+        
+        botonAbandonar.setFont(fuenteDatosJugador);
+        
+        botonAbandonar.setBackground(COLOR_FONDO_ABANDONAR);
+        botonAbandonar.setForeground(Color.WHITE);
+        
+        botonAbandonar.setBorder(BORDE_BOTONES);
         
         GridBagConstraints gbcBtnAbandonarPartida = new GridBagConstraints();
         

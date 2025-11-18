@@ -308,82 +308,75 @@ public class GestorEventos implements IGestorEventos{
             
             Component componenteDestino = framePrincipal.getContentPane().findComponentAt(contentPanePoint);
             
-            if(componenteDestino instanceof PanelCasilla || componenteDestino instanceof PanelFicha){
+            if(componenteDestino instanceof PanelCasilla){
 
-                if(componenteDestino instanceof PanelCasilla){
+                PanelCasilla casillaDestino = (PanelCasilla)componenteDestino;
 
-                    PanelCasilla casillaDestino = (PanelCasilla)componenteDestino;
+                panelesCasillaAgregarFicha.add(casillaDestino);
 
-                    panelesCasillaAgregarFicha.add(casillaDestino);
+                if(casillaDestino.getComponentCount() > 0){
 
-                    if(casillaDestino.getComponentCount() > 0){
-
-                        System.out.println("Error");
-                        
-                        return;
-
-                    } else{
-
-                        Container contenedorCasillas = casillaDestino.getParent();
-
-                        // Búsqueda de Ficha derecha
-                        int puntoX_Derecha = casillaDestino.getX() + casillaDestino.getWidth() + 25;
-                        int puntoY_Centro = casillaDestino.getY() + casillaDestino.getHeight() / 2; // Centro vertical
-
-                        Point puntoPruebaDerecha = SwingUtilities.convertPoint(
-                            contenedorCasillas, 
-                            new Point(puntoX_Derecha, puntoY_Centro), 
-                            framePrincipal.getContentPane()
-                        );
-
-                        Component componenteDerecho = framePrincipal.getContentPane().findComponentAt(puntoPruebaDerecha);
-
-                        if (componenteDerecho instanceof PanelCasilla || componenteDerecho instanceof PanelFicha) {
-
-                            if(componenteDerecho instanceof PanelFicha){
-                                componenteDerecho = componenteDerecho.getParent();
-                            }
-
-                            PanelCasilla casillaDerecha = (PanelCasilla) componenteDerecho;
-
-                            if (casillaDerecha.getComponentCount() > 0) {
-
-                                PanelFicha fichaEncontrada = (PanelFicha) casillaDerecha.getComponent(0);
-
-                                listaFichasIdsGrupo.add(fichaEncontrada.getIdFicha()); 
-                            }
-                        }
-
-                        // Búsqueda Ficha izquierda
-                        int puntoX_Izquierda = casillaDestino.getX() - 25;
-
-                        Point puntoPruebaIzquierda = SwingUtilities.convertPoint(
-                            contenedorCasillas, 
-                            new Point(puntoX_Izquierda, puntoY_Centro), 
-                            framePrincipal.getContentPane()
-                        );
-
-                        Component componenteIzquierdo = framePrincipal.getContentPane().findComponentAt(puntoPruebaIzquierda);
-
-                        if (componenteIzquierdo instanceof PanelCasilla || componenteIzquierdo instanceof PanelFicha) {
-
-                            if(componenteIzquierdo instanceof PanelFicha){
-                                componenteIzquierdo = componenteIzquierdo.getParent();
-                            }
-
-                            PanelCasilla casillaIzquierda = (PanelCasilla) componenteIzquierdo;
-                            if (casillaIzquierda.getComponentCount() > 0) {
-                                PanelFicha fichaEncontrada = (PanelFicha) casillaIzquierda.getComponent(0);
-                                listaFichasIdsGrupo.add(fichaEncontrada.getIdFicha());
-                            }
-                        }
-                        
-                        listaIdsFichasAgregar.add(ficha.getIdFicha());
-                    }
-                } else{
                     System.out.println("Error");
-                
+
                     return;
+
+                } else{
+
+                    Container contenedorCasillas = casillaDestino.getParent();
+
+                    // Búsqueda de Ficha derecha
+                    int puntoX_Derecha = casillaDestino.getX() + casillaDestino.getWidth() + 25;
+                    int puntoY_Centro = casillaDestino.getY() + casillaDestino.getHeight() / 2; // Centro vertical
+
+                    Point puntoPruebaDerecha = SwingUtilities.convertPoint(
+                        contenedorCasillas, 
+                        new Point(puntoX_Derecha, puntoY_Centro), 
+                        framePrincipal.getContentPane()
+                    );
+
+                    Component componenteDerecho = framePrincipal.getContentPane().findComponentAt(puntoPruebaDerecha);
+
+                    if (componenteDerecho instanceof PanelCasilla || componenteDerecho instanceof PanelFicha) {
+
+                        if(componenteDerecho instanceof PanelFicha){
+                            componenteDerecho = componenteDerecho.getParent();
+                        }
+
+                        PanelCasilla casillaDerecha = (PanelCasilla) componenteDerecho;
+
+                        if (casillaDerecha.getComponentCount() > 0) {
+
+                            PanelFicha fichaEncontrada = (PanelFicha) casillaDerecha.getComponent(0);
+
+                            listaFichasIdsGrupo.add(fichaEncontrada.getIdFicha()); 
+                        }
+                    }
+
+                    // Búsqueda Ficha izquierda
+                    int puntoX_Izquierda = casillaDestino.getX() - 25;
+
+                    Point puntoPruebaIzquierda = SwingUtilities.convertPoint(
+                        contenedorCasillas, 
+                        new Point(puntoX_Izquierda, puntoY_Centro), 
+                        framePrincipal.getContentPane()
+                    );
+
+                    Component componenteIzquierdo = framePrincipal.getContentPane().findComponentAt(puntoPruebaIzquierda);
+
+                    if (componenteIzquierdo instanceof PanelCasilla || componenteIzquierdo instanceof PanelFicha) {
+
+                        if(componenteIzquierdo instanceof PanelFicha){
+                            componenteIzquierdo = componenteIzquierdo.getParent();
+                        }
+
+                        PanelCasilla casillaIzquierda = (PanelCasilla) componenteIzquierdo;
+                        if (casillaIzquierda.getComponentCount() > 0) {
+                            PanelFicha fichaEncontrada = (PanelFicha) casillaIzquierda.getComponent(0);
+                            listaFichasIdsGrupo.add(fichaEncontrada.getIdFicha());
+                        }
+                    }
+
+                    listaIdsFichasAgregar.add(ficha.getIdFicha());
                 }
                 
             } else{

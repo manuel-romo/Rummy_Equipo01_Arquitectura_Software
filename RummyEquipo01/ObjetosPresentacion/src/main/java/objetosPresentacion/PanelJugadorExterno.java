@@ -1,11 +1,26 @@
 
 package objetosPresentacion;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import objetosPresentacion.PanelFichasRestantesJugador;
 
 /**
  *
@@ -29,17 +44,27 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
     private JPanel panelEsquina1 = new JPanel();
     private JPanel panelEsquina2 = new JPanel();
 
-    private JLabel nombreJugador = new JLabel();
-    private JLabel avatarJugadro = new JLabel();
-    private JLabel cantidadFichasRestantes = new JLabel();
+    private String nombreJugador;
+    private String avatarJugador;
+    private String cantidadFichasRestantes;
     
+    private String IMAGEN_FICHAS = "fichas.png";
     
-    public PanelJugadorExterno(PosicionPanel posicionPanel){
+    private int ANCHO_ALTO_ICONOS = 35;
+    
+    Font fuenteDatosJugador = new Font("Arial", Font.BOLD, 26);
+    
+    public PanelJugadorExterno(PosicionPanel posicionPanel, String nombreJugador, String avatarJugador, String cantidadFichasRestantes){
         
+        this.nombreJugador = nombreJugador;
+        this.avatarJugador = avatarJugador;
+        this.cantidadFichasRestantes = cantidadFichasRestantes;
         this.posicionPanel = posicionPanel;
                 
         setOpaque(false);
-        
+
+        panelMano.setLayout(new GridBagLayout());
+         
         panelMano.setBackground(COLOR_FONDO_PANEL_MANO);
         panelLateralMano1.setBackground(COLOR_FONDO_PANEL_MANO);
         panelLateralMano2.setBackground(COLOR_FONDO_PANEL_MANO);
@@ -59,6 +84,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
             configurarPanelSuperiorLateralMano2IzquierdaCentro();
             configurarPanelEsquina1IzquierdaCentro();
             configurarPanelEsquina2IzquierdaCentro();
+            configurarPanelDatosJugadorIzquierdaCentro();
         } 
         else if(posicionPanel.equals(PosicionPanel.DERECHA_CENTRO)){
             configurarPanelManoDerechaCentro();
@@ -68,6 +94,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
             configurarPanelSuperiorLateralMano2DerechaCentro();
             configurarPanelEsquina1DerechaCentro();
             configurarPanelEsquina2DerechaCentro();
+            configurarPanelDatosJugadorDerechaCentro();
         } 
         else if(posicionPanel.equals(PosicionPanel.CENTRO_ARRIBA)){
             configurarPanelManoCentroArriba();
@@ -77,6 +104,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
             configurarPanelSuperiorLateralMano2CentroArriba();
             configurarPanelEsquina1CentroArriba();
             configurarPanelEsquina2CentroArriba();
+            configurarPanelDatosJugadorCentroArriba();
         }
         
     }
@@ -191,7 +219,136 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
     }
     
+    private void configurarPanelDatosJugadorDerechaCentro(){
+        
+        GridBagConstraints gridBagConstraintsPanelDatosJugador = new GridBagConstraints();
+        
+        gridBagConstraintsPanelDatosJugador.gridx = 0;
+        gridBagConstraintsPanelDatosJugador.gridy = 0;
+        
+        JPanel panelDatosJugador = new JPanel();
+        panelDatosJugador.setLayout(new BoxLayout(panelDatosJugador, BoxLayout.Y_AXIS));
+        panelDatosJugador.setOpaque(false);
+                
+        JLabel labelNombreJugador = new JLabel(nombreJugador) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setFont(getFont());
+                g2.setColor(getForeground());
+
+                String texto = nombreJugador;
+
+                FontMetrics fm = g2.getFontMetrics();
+                int anchoTexto = fm.stringWidth(texto);
+                int altoTexto = fm.getAscent();
+
+                g2.translate(getWidth() / 2, getHeight() / 2);
+
+                g2.rotate(Math.toRadians(90));
+
+                g2.drawString(texto, -anchoTexto / 2, altoTexto / 2 - 2);
+
+                g2.dispose();
+            }
+        };
+        
+        labelNombreJugador.setPreferredSize(new java.awt.Dimension(10, 110));
+        
+        labelNombreJugador.setForeground(Color.WHITE);
+        labelNombreJugador.setFont(fuenteDatosJugador);
+
+        labelNombreJugador.repaint();
+        
+        panelDatosJugador.add(obtenerLabelImagenAvatarJugadorDerechaCentro());
+        
+        panelDatosJugador.add(labelNombreJugador);
+        
+        panelDatosJugador.add(obtenerPanelFichasRestantesDerechaCentro());
+        
+        panelMano.add(panelDatosJugador, gridBagConstraintsPanelDatosJugador);
+        
+    }
     
+    private JPanel obtenerPanelFichasRestantesDerechaCentro(){
+        
+        
+        JPanel panelFichasRestantes = new PanelFichasRestantesJugador(12);
+        panelFichasRestantes.setBackground(Color.WHITE);
+        
+        URL urlImagen = getClass().getClassLoader().getResource(IMAGEN_FICHAS);
+         
+        ImageIcon iconoFichas = new ImageIcon(urlImagen);
+        
+        Image imagenOrignal = iconoFichas.getImage();
+
+        Image imagenEscalada = imagenOrignal.getScaledInstance(
+            ANCHO_ALTO_ICONOS, 
+            ANCHO_ALTO_ICONOS, 
+            Image.SCALE_SMOOTH
+        );
+
+        ImageIcon iconoFichasEscalado = new ImageIcon(imagenEscalada);
+            
+        JLabel labelFichas = new JLabel(iconoFichasEscalado);
+        
+        panelFichasRestantes.add(labelFichas);
+        
+        JLabel labelFichasRestantes = new JLabel(cantidadFichasRestantes);
+        
+        labelFichasRestantes.setFont(fuenteDatosJugador);
+        
+        panelFichasRestantes.add(labelFichasRestantes);
+        
+        return panelFichasRestantes;
+        
+        
+    }
+    
+    private JLabel obtenerLabelImagenAvatarJugadorDerechaCentro(){
+        
+        try{
+            URL url = getClass().getClassLoader().getResource(avatarJugador);
+
+            BufferedImage original = ImageIO.read(url);
+
+            int ancho = original.getWidth();
+            int alto = original.getHeight();
+
+            BufferedImage rotada = new BufferedImage(alto, ancho, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = rotada.createGraphics();
+
+            g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, 
+                                java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+
+            AffineTransform at = new AffineTransform();
+            at.translate(alto / 2.0, ancho / 2.0);
+            at.rotate(Math.toRadians(90));
+            at.translate(-ancho / 2.0, -alto / 2.0);
+
+            g2.setTransform(at);
+            g2.drawImage(original, 0, 0, null);
+            g2.dispose();
+            
+            Image imagenEscalada = rotada.getScaledInstance(
+                ANCHO_ALTO_ICONOS, 
+                ANCHO_ALTO_ICONOS, 
+                Image.SCALE_SMOOTH
+            );
+            
+            JLabel labelFinal = new JLabel(new ImageIcon(imagenEscalada));
+
+            labelFinal.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
+    
+            return labelFinal;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     
     // Métodos para panel en Izquierda Centro
@@ -303,7 +460,135 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
     }
     
+    private void configurarPanelDatosJugadorIzquierdaCentro(){
+        
+        GridBagConstraints gridBagConstraintsPanelDatosJugador = new GridBagConstraints();
+        
+        gridBagConstraintsPanelDatosJugador.gridx = 0;
+        gridBagConstraintsPanelDatosJugador.gridy = 2;
+        
+        JPanel panelDatosJugador = new JPanel();
+        panelDatosJugador.setLayout(new BoxLayout(panelDatosJugador, BoxLayout.Y_AXIS));
+        panelDatosJugador.setOpaque(false);
+                
+        JLabel labelNombreJugador = new JLabel(nombreJugador) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setFont(getFont());
+                g2.setColor(getForeground());
+
+                String texto = nombreJugador;
+
+                FontMetrics fm = g2.getFontMetrics();
+                int anchoTexto = fm.stringWidth(texto);
+                int altoTexto = fm.getAscent();
+
+                g2.translate(getWidth() / 2, getHeight() / 2);
+
+                g2.rotate(Math.toRadians(-90));
+
+                g2.drawString(texto, -anchoTexto / 2, altoTexto / 2 - 2);
+
+                g2.dispose();
+            }
+        };
+        
+        labelNombreJugador.setPreferredSize(new java.awt.Dimension(10, 100));
+        
+        labelNombreJugador.setForeground(Color.WHITE);
+        labelNombreJugador.setFont(fuenteDatosJugador);
+
+        labelNombreJugador.repaint();
+        panelDatosJugador.add(labelNombreJugador);
+        
+        panelDatosJugador.add(obtenerLabelImagenAvatarJugadorIzquierdaCentro());
+        
+        panelDatosJugador.add(obtenerPanelFichasRestantesIzquierdaCentro());
+        
+        panelMano.add(panelDatosJugador, gridBagConstraintsPanelDatosJugador);
+        
+    }
     
+    private JPanel obtenerPanelFichasRestantesIzquierdaCentro(){
+        
+        
+        JPanel panelFichasRestantes = new PanelFichasRestantesJugador(12);
+        panelFichasRestantes.setBackground(Color.WHITE);
+        
+        URL urlImagen = getClass().getClassLoader().getResource(IMAGEN_FICHAS);
+         
+        ImageIcon iconoFichas = new ImageIcon(urlImagen);
+        
+        Image imagenOrignal = iconoFichas.getImage();
+
+        Image imagenEscalada = imagenOrignal.getScaledInstance(
+            ANCHO_ALTO_ICONOS, 
+            ANCHO_ALTO_ICONOS, 
+            Image.SCALE_SMOOTH
+        );
+
+        ImageIcon iconoFichasEscalado = new ImageIcon(imagenEscalada);
+            
+        JLabel labelFichas = new JLabel(iconoFichasEscalado);
+        
+        panelFichasRestantes.add(labelFichas);
+        
+        JLabel labelFichasRestantes = new JLabel(cantidadFichasRestantes);
+        
+        labelFichasRestantes.setFont(fuenteDatosJugador);
+        
+        panelFichasRestantes.add(labelFichasRestantes);
+        
+        return panelFichasRestantes;
+        
+        
+    }
+    
+    private JLabel obtenerLabelImagenAvatarJugadorIzquierdaCentro(){
+        
+        try{
+            URL url = getClass().getClassLoader().getResource(avatarJugador);
+
+            BufferedImage original = ImageIO.read(url);
+
+            int ancho = original.getWidth();
+            int alto = original.getHeight();
+
+            BufferedImage rotada = new BufferedImage(alto, ancho, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = rotada.createGraphics();
+
+            g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, 
+                                java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+
+            AffineTransform at = new AffineTransform();
+            at.translate(alto / 2.0, ancho / 2.0);
+            at.rotate(Math.toRadians(-90));
+            at.translate(-ancho / 2.0, -alto / 2.0);
+
+            g2.setTransform(at);
+            g2.drawImage(original, 0, 0, null);
+            g2.dispose();
+            
+            Image imagenEscalada = rotada.getScaledInstance(
+                ANCHO_ALTO_ICONOS, 
+                ANCHO_ALTO_ICONOS, 
+                Image.SCALE_SMOOTH
+            );
+            
+            JLabel labelFinal = new JLabel(new ImageIcon(imagenEscalada));
+
+            labelFinal.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
+    
+            return labelFinal;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     
     
@@ -320,6 +605,9 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         gridBagConstraintsPanelMano.gridwidth = 3;
         gridBagConstraintsPanelMano.gridheight = 2;
         gridBagConstraintsPanelMano.fill = GridBagConstraints.BOTH;
+        
+        panelMano.repaint();
+        
         add(panelMano, gridBagConstraintsPanelMano);
     }
     
@@ -415,6 +703,87 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         add(panelEsquina2, gridBagConstraintsPanelEsquina2);
         
+    }
+    
+    private void configurarPanelDatosJugadorCentroArriba(){
+        
+        GridBagConstraints gridBagConstraintsPanelDatosJugador = new GridBagConstraints();
+        
+        gridBagConstraintsPanelDatosJugador.gridx = 0;
+        gridBagConstraintsPanelDatosJugador.gridy = 0;
+        
+        JPanel panelDatosJugador = new JPanel(new FlowLayout());
+        panelDatosJugador.setOpaque(false);
+        
+        panelDatosJugador.add(obtenerPanelFichasRestantesCentroArriba());
+        
+        panelDatosJugador.add(obtenerLabelImagenAvatarJugadorCentroArriba());
+        
+        JLabel labelNombreJugador = new JLabel(nombreJugador);
+        labelNombreJugador.setForeground(Color.WHITE);
+        labelNombreJugador.setFont(fuenteDatosJugador);
+        
+        panelDatosJugador.add(labelNombreJugador);
+        
+        panelMano.add(panelDatosJugador, gridBagConstraintsPanelDatosJugador);
+        
+    }
+    
+    private JPanel obtenerPanelFichasRestantesCentroArriba(){
+        
+        
+        JPanel panelFichasRestantes = new PanelFichasRestantesJugador(12);
+        panelFichasRestantes.setBackground(Color.WHITE);
+        
+        URL urlImagen = getClass().getClassLoader().getResource(IMAGEN_FICHAS);
+         
+        ImageIcon iconoFichas = new ImageIcon(urlImagen);
+        
+        Image imagenOrignal = iconoFichas.getImage();
+
+        Image imagenEscalada = imagenOrignal.getScaledInstance(
+            ANCHO_ALTO_ICONOS, 
+            ANCHO_ALTO_ICONOS, 
+            Image.SCALE_SMOOTH
+        );
+
+        ImageIcon iconoFichasEscalado = new ImageIcon(imagenEscalada);
+            
+        JLabel labelFichas = new JLabel(iconoFichasEscalado);
+        
+        panelFichasRestantes.add(labelFichas);
+        
+        JLabel labelFichasRestantes = new JLabel(cantidadFichasRestantes);
+        
+        labelFichasRestantes.setFont(fuenteDatosJugador);
+        
+        panelFichasRestantes.add(labelFichasRestantes);
+        
+        return panelFichasRestantes;
+        
+        
+    }
+    
+    private JLabel obtenerLabelImagenAvatarJugadorCentroArriba(){
+        
+        URL urlImagen = getClass().getClassLoader().getResource(avatarJugador);
+         
+        ImageIcon iconoAvatar = new ImageIcon(urlImagen);
+        
+        Image imagenOrignal = iconoAvatar.getImage();
+
+        Image imagenEscalada = imagenOrignal.getScaledInstance(
+            ANCHO_ALTO_ICONOS, 
+            ANCHO_ALTO_ICONOS, 
+            Image.SCALE_SMOOTH
+        );
+
+        ImageIcon iconoAvatarEscalado = new ImageIcon(imagenEscalada);
+            
+        JLabel labelAvatar = new JLabel(iconoAvatarEscalado);
+
+        return labelAvatar;
+         
     }
     
     

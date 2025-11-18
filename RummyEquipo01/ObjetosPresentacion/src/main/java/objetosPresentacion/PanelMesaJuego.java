@@ -81,7 +81,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
             
             gridBagConstraints.gridx = 1;
             gridBagConstraints.gridy = 1;
-            gridBagConstraints.weightx = 9;
+            gridBagConstraints.weightx = 100;
             gridBagConstraints.weighty = 20;
             gridBagConstraints.gridwidth = 1;
             gridBagConstraints.fill = GridBagConstraints.BOTH;

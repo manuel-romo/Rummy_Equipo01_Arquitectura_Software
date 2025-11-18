@@ -63,9 +63,9 @@ public class ObjetosPresentacion {
         }
         
         IComponente panelJugadorPrincipal = new PanelJugadorPrincipal(panelesCasillaJugador);
-        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA);
-        IComponente panelJugadorExterno2 = new PanelJugadorExterno(PosicionPanel.DERECHA_CENTRO);
-        IComponente panelJugadorExterno3 = new PanelJugadorExterno(PosicionPanel.IZQUIERDA_CENTRO);
+        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA, "Sandy43", "avatar2.png", "14");
+        IComponente panelJugadorExterno2 = new PanelJugadorExterno(PosicionPanel.DERECHA_CENTRO, "Lucas12", "avatar1.png", "14");
+        IComponente panelJugadorExterno3 = new PanelJugadorExterno(PosicionPanel.IZQUIERDA_CENTRO, "Juan27", "avatar3.png", "14");
         
         IComponente panelMesaJuego = new PanelMesaJuego();
         
