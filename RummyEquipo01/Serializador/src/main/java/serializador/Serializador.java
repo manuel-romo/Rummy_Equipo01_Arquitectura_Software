@@ -19,6 +19,11 @@ public class Serializador implements IFiltro {
         return gson.toJson(command);
     }
 
+    public void setFiltroSiguiente(IFiltro filtroSiguiente) {
+        this.filtroSiguiente = filtroSiguiente;
+    }  
+    
+
     /***
      * Método que envia el comando al componente de directorio, con el comando serializado
      * @param accionSerializada 

@@ -12,8 +12,8 @@ public class ColaMensajesRecibidos implements Runnable, IReceptor{
     private IReceptorExterno receptor;
     private boolean estaCorriendo = true;
 
-    public ColaMensajesRecibidos(IReceptorExterno receptor) {
-        this.receptor = receptor;
+    public ColaMensajesRecibidos() {
+
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ColaMensajesRecibidos implements Runnable, IReceptor{
                 
                 System.out.println("MENSAJE RECIBIDO: ");
                 System.out.println(mensaje);
-//                receptor.notificar(mensaje);
+                receptor.notificar(mensaje);
             }
         } catch (InterruptedException e) {
             System.err.println("Hilo interrumpido.");
@@ -42,5 +42,11 @@ public class ColaMensajesRecibidos implements Runnable, IReceptor{
     public void detener() {
         this.estaCorriendo = false;
     }
+
+    public void setReceptor(IReceptorExterno receptor) {
+        this.receptor = receptor;
+    }
+    
+    
 
 }

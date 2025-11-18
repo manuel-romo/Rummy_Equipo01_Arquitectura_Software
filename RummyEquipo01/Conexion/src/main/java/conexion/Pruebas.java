@@ -25,11 +25,7 @@ public class Pruebas {
         
         new Thread(colaMensajesEnviar).start();
         
-        
-        
-        IReceptorExterno receptorExterno = null;
-        
-        ColaMensajesRecibidos colaMensajesRecibidos = new ColaMensajesRecibidos(receptorExterno);
+        ColaMensajesRecibidos colaMensajesRecibidos = new ColaMensajesRecibidos();
         
         IReceptor receptor = (IReceptor)colaMensajesRecibidos;
         

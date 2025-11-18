@@ -18,6 +18,9 @@ public class DirectorioServidor implements IFiltro {
     private String[] direccion;
     private IDispatcher dispatcher;
 
+    
+    
+    
     public DirectorioServidor(String[] direccion) {
         this.direccion = direccion;
     }
@@ -27,5 +30,11 @@ public class DirectorioServidor implements IFiltro {
         ComandoEnvolvente envolvente = (ComandoEnvolvente) comando;
         dispatcher.agregarMensaje(envolvente.getMensajeSerializado(), direccion);
     }
+
+    public void setDispatcher(IDispatcher dispatcher) {
+        this.dispatcher = dispatcher;
+    }
+    
+    
 
 }

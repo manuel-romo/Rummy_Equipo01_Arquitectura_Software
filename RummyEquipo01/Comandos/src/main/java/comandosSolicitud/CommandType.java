@@ -9,35 +9,29 @@ import comandosRespuesta.*;
  * @author juanpheras
  */
 public enum CommandType {
-    
-    AGREGAR_FICHA_GRUPO("ComandoAgregarFichaGrupo", ComandoAgregarFichaGrupo.class),
-    AGREGAR_FICHA_TABLERO("ComandoAgregarFichaTablero", ComandoAgregarFichaTablero.class),
-    AGREGAR_FICHAS_TABLERO_GRUPO("ComandoAgregarFichasTableroGrupo",ComandoAgregarFichasTableroGrupo.class),
-    CAMBIAR_TURNO_SERIALIZADO("ComandoCambiarTurnoSerializado",ComandoCambiarTurnoSerializado.class),
-    QUITAR_FICHAS_TABLERO("ComandoQuitarFichaTablero",ComandoQuitarFichaTablero.class),
-    QUITAR_FICHAS_JUGADOR("ComandoQuitarFichasJugador",ComandoQuitarFichasJugador.class),
-    RESTABLECER_TABLERO("ComandoRestablecerTablero",ComandoRestablecerTablero.class),
-    TERMINAR_TURNO("ComandoTerminarTurno",ComandoTerminarTurno.class),
-    CAMBIO_TURNO("ComandoTerminarTurno",ComandoTerminarTurno.class),
-    INICIAR_TURNO("ComandoIniciarTurno",ComandoIniciarTurno.class),
-    RESPUESTA_MOVIMIENTO("ComandoRespuestaMovimiento",ComandoRespuestaMovimiento.class),
-    COMANDO_RESTABLECER_RESPUESTA("ComandoRestablecerRespuesta",ComandoRestablecerRespuesta.class),
-    COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido",ComandoTableroInvalido.class),
-    COMANDO_ENVOLVENTE("ComandoEnvolvente", ComandoEnvolvente.class);
-    
-    
+          
+    SELECCIONAR_FICHAS_TABLERO("SeleccionarFichasTablero"),
+    AGREGAR_FICHAS_GRUPO("ComandoAgregarFichasGrupo"),
+    AGREGAR_FICHAS_TABLERO("ComandoAgregarFichasTablero"),
+    AGREGAR_FICHAS_TABLERO_GRUPO("ComandoAgregarFichasTableroGrupo"),
+    CAMBIAR_TURNO_SERIALIZADO("ComandoCambiarTurnoSerializado"),
+    QUITAR_FICHAS_TABLERO("ComandoQuitarFichaTablero"),
+    QUITAR_FICHAS_JUGADOR("ComandoQuitarFichasJugador"),
+    RESTABLECER_TABLERO("ComandoRestablecerTablero"),
+    TERMINAR_TURNO("ComandoTerminarTurno"),
+    CAMBIO_TURNO("ComandoTerminarTurno"),
+    INICIAR_TURNO("ComandoIniciarTurno"),
+    RESPUESTA_MOVIMIENTO("ComandoRespuestaMovimiento"),
+    COMANDO_RESTABLECER_RESPUESTA("ComandoRestablecerRespuesta"),
+    COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido"),
+    COMANDO_ENVOLVENTE("ComandoEnvolvente");
 
     private final String nombre;
-    private final Class<?> clazz;
 
-    CommandType(String nombre, Class<?> clazz) {
+    CommandType(String nombre) {
         this.nombre = nombre;
-        this.clazz = clazz;
     }
 
-    public Class<?> getClazz() {
-        return clazz;
-    }
 
     public String getNombre() {
         return nombre;

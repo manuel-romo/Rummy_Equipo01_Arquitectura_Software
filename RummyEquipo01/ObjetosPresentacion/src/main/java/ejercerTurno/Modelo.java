@@ -22,6 +22,7 @@ import dto.ComodinNegocioDTO;
 import dto.ComodinPresentacionDTO;
 import dto.FichaNormalNegocioDTO;
 import dto.FichaNormalPresentacionDTO;
+import interfaces.IFiltro;
 
 /**
  * Clase Modelo que representa la parte lógica del patrón MVC para el caso de
@@ -35,7 +36,7 @@ import dto.FichaNormalPresentacionDTO;
  * tablero real, permitiendo probar el flujo completo del caso de uso sin
  * depender todavía de las entidades finales.
  */
-public class Modelo implements IPublicador, IModelo {
+public class Modelo implements IPublicador, IModelo, IFiltro {
 
     /**
      * Referencia a la fachada que actúa como simulador del tablero.
@@ -67,12 +68,19 @@ public class Modelo implements IPublicador, IModelo {
      */
     private String MENSAJE_MOVIMIENTO_INVALIDO;
     
+    private IFiltro filtroEnvioMensaje;
+    
+    // Quitar
     private IComunicacion comunicacion;
     
     public Modelo(IComunicacion comunicacion){
         
         this.comunicacion = comunicacion;
         
+    }
+
+    public void setFiltroEnvioMensaje(IFiltro filtroEnvioMensaje) {
+        this.filtroEnvioMensaje = filtroEnvioMensaje;
     }
 
     /**

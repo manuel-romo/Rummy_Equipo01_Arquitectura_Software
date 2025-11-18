@@ -430,7 +430,6 @@ public class Fachada implements ITablero {
     }
 
         
-
     @Override
     public GrupoNegocioDTO[] obtenerGruposNegocio() {
         
