@@ -25,6 +25,11 @@ public class Comodin extends Ficha{
     public String getValor() {
         return valor;
     }
+
+    @Override
+    public boolean isComodin() {
+        return true;
+    }
     
     
     

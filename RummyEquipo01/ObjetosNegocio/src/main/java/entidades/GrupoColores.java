@@ -14,8 +14,8 @@ public class GrupoColores extends Grupo {
      * @param numero numero identificador del grupo.
      * @param fichas  Fichas con las que se iniciara en el grupo.
      */
-    public GrupoColores(Integer numero, List<Ficha> fichas) {
-        super(numero, fichas);
+    public GrupoColores(List<Ficha> fichas) {
+        super(fichas);
         
     }
     

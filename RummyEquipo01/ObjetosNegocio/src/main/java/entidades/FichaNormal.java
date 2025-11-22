@@ -56,6 +56,11 @@ public class FichaNormal extends Ficha {
     public void setNumero(int numero) {
         this.numero = numero;
     }
+
+    @Override
+    public boolean isComodin() {
+        return false;
+    }
     
     
 }

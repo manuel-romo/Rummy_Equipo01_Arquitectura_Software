@@ -12,7 +12,7 @@ public abstract class Grupo {
     /**
      * Número identificador del grupo.
      */
-    private Integer numero;
+    private Integer numero = 1;
     
     /**
      * Lista de fichas pertenecientes al grupo.
@@ -26,13 +26,13 @@ public abstract class Grupo {
      * @param numero identificador del grupo.
      * @param fichas lista de fichas que forman parte del grupo.
      */
-    public Grupo(Integer numero, List<Ficha> fichas) {
-        this.numero = numero;
+    public Grupo(List<Ficha> fichas) {
         this.fichas = fichas;
         
         for(Ficha ficha: fichas){
             ficha.setGrupo(this);
         }
+        numero++;
     }
 
     /**

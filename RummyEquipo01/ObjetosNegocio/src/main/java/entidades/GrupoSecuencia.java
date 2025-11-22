@@ -14,8 +14,8 @@ public class GrupoSecuencia extends Grupo {
      * @param numero numero identificador del grupo.
      * @param fichas  Fichas con las que se iniciara en el grupo.
      */
-    public GrupoSecuencia(Integer numero, List<Ficha> fichas) {
-        super(numero, fichas);
+    public GrupoSecuencia(List<Ficha> fichas) {
+        super(fichas);
     }
 
     /**

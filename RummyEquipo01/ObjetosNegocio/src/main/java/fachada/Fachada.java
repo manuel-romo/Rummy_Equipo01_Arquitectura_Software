@@ -36,7 +36,6 @@ public class Fachada implements ITablero {
     private List<Jugador> jugadores;
     private Monton monton;
     
-    private int numeroGrupoActual = 3;
 
     public Fachada() {
         this.grupos = new ArrayList<>();
@@ -111,11 +110,11 @@ public class Fachada implements ITablero {
             
             if(grupoNegocio instanceof GrupoSecuenciaNegocioDTO){
                 
-                grupo = new GrupoSecuencia(grupoNegocio.getNumero(), fichasGrupo);
+                grupo = new GrupoSecuencia(fichasGrupo);
                 
             } else{
                 
-                grupo = new GrupoColores(grupoNegocio.getNumero(), fichasGrupo);
+                grupo = new GrupoColores(fichasGrupo);
             }
             
             for(Ficha ficha: fichas){
@@ -198,6 +197,7 @@ public class Fachada implements ITablero {
         if (idFichas.length == 0) {
             return false;
         }
+        
 
         List<Ficha> listaFichas = new ArrayList<>();
         for (int i = 0; i < idFichas.length; i++) {
@@ -205,7 +205,7 @@ public class Fachada implements ITablero {
             listaFichas.add(fichaNueva);
         }
 
-        Grupo grupoNuevo = new GrupoSecuencia(numeroGrupoActual++, listaFichas);
+        Grupo grupoNuevo = new GrupoSecuencia(listaFichas);
         
         grupos.add(grupoNuevo);
         

@@ -5,8 +5,7 @@ package entidades;
  *
  * @author juanpheras
  */
-public class Ficha {
-    
+public abstract class Ficha {
     /**
      * Identicador de cada ficha de Rummy(no es el valor solo su identificador).
      */
@@ -59,6 +58,7 @@ public class Ficha {
         this.grupo = grupo;
     }
     
+    public abstract boolean isComodin();
     
     
     

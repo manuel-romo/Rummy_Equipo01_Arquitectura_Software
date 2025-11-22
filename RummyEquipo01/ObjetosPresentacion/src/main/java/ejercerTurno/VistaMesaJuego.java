@@ -120,7 +120,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     
     @Override
     public void agregarFichasTablero(int[] idsCasillas, int[] idsFichas, int idsFichasGrupo[]){
-        
         idsCasillasAgregarTablero = idsCasillas;
         idsFichasAgregar = idsFichas;
         
@@ -129,7 +128,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     
     @Override
     public void agregarFichasTablero(int[] idsCasillas, int[] idsFichas){
-        
         idsCasillasAgregarTablero = idsCasillas;
         idsFichasAgregar = idsFichas;
         
