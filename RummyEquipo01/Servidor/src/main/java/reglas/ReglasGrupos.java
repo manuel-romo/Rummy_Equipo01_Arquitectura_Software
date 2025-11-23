@@ -68,17 +68,38 @@ public class ReglasGrupos {
 
                     numeroSecuenciaSiguiente++;
 
-                } else{
+                } else if(ficha.getColor() == color){
 
                     if(listaComodines.isEmpty()){
                        return false; 
                     }
+                    
+                    int cantidadComodinesNecesarios = ((FichaNormal)ficha).getNumero() - numeroSecuenciaSiguiente;
 
-                    listaFinalFichas.add(listaComodines.get(0));    
-                    listaComodines.remove(0);
+                    if(cantidadComodinesNecesarios <= 0 || cantidadComodinesNecesarios > listaComodines.size()){
+                        return false;
+                    }
+                    
+                    for(int i = 0; i < cantidadComodinesNecesarios; i++){
+                        
+                        listaFinalFichas.add(listaComodines.get(i));    
+                    
+                    }
+                    
+                    for(int i = 0; i < cantidadComodinesNecesarios; i++){
+                        
+                        listaComodines.remove(0); 
+                    
+                    }
+                    
+                    listaFinalFichas.add(ficha);
+                                       
+                    numeroSecuenciaSiguiente+= cantidadComodinesNecesarios + 1;
 
-                    numeroSecuenciaSiguiente++;
-
+                } else{
+                    
+                    return false;
+                    
                 }
                 
             } 
