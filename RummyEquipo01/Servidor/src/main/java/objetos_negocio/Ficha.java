@@ -23,6 +23,8 @@ public abstract class Ficha {
     private ColorFicha color;
     
     private boolean esComodin;
+    
+    private Grupo grupo;
 
 
     /**
@@ -35,6 +37,16 @@ public abstract class Ficha {
         this.tieneGrupo = tieneGrupo;
         this.esComodin = esComodin;
     }
+
+    public Ficha(Integer id, boolean tieneGrupo, ColorFicha color, boolean esComodin, Grupo grupo) {
+        this.id = id;
+        this.tieneGrupo = tieneGrupo;
+        this.color = color;
+        this.esComodin = esComodin;
+        this.grupo = grupo;
+    }
+    
+    
 
     /**
      * Getter del id de la ficha.
@@ -80,6 +92,15 @@ public abstract class Ficha {
         return esComodin;
     }
 
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    
     
     
 }
