@@ -2,8 +2,11 @@
 package objetos_negocio;
 
 import comandosSolicitud.CommandType;
+import excepciones.RummyException;
 import interfaces.ICommand;
 import interfaces.IFiltro;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,10 +19,12 @@ public class FachadaTablero implements IFiltro{
     private Tablero tablero;
     
     @Override
-    public void ejecutar(ICommand comando) {
-        
-        tablero.ejecutar(comando);
-        
+    public void ejecutar(ICommand comando)  {
+        try {
+            tablero.ejecutar(comando);
+        } catch (RummyException ex) {
+            Logger.getLogger(FachadaTablero.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setFiltroSiguiente(IFiltro filtroSiguiente) {

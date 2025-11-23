@@ -140,26 +140,28 @@ public class Tablero {
 
     }
 
-    private void agregarFichasTablero(int[] idsFichas, String nombreJugador) throws RummyException {
-        List<Ficha> fichasObtenidas = new LinkedList<>();
+    private void agregarFichasTablero(int[] idsFichas, String nombreJugador) {
+        try {
+            List<Ficha> fichasObtenidas = new LinkedList<>();
+            for (int id : idsFichas) {
+                Ficha ficha = encontrarFichaPorId(id);
+                fichasObtenidas.add(ficha);
+            }
 
-        for (int id : idsFichas) {
-            Ficha ficha = encontrarFichaPorId(id);
-            fichasObtenidas.add(ficha);
-        }
-
-        if (!esPrimerTurnoJugador(nombreJugador)) {
-            Grupo grupo = verificarTipoGrupo(fichasObtenidas);
-            grupo.agregarFichas(fichasObtenidas);
-            grupos.add(grupo);
-        } else {
-            if (validarPrimerTurno(fichasObtenidas)) {
+            if (!esPrimerTurnoJugador(nombreJugador)) {
                 Grupo grupo = verificarTipoGrupo(fichasObtenidas);
                 grupo.agregarFichas(fichasObtenidas);
                 grupos.add(grupo);
             } else {
-                throw new RummyException("Debes bajar al menos 30 puntos");
+                if (validarPrimerTurno(fichasObtenidas)) {
+                    Grupo grupo = verificarTipoGrupo(fichasObtenidas);
+                    grupo.agregarFichas(fichasObtenidas);
+                    grupos.add(grupo);
+                }
             }
+        } catch (RummyException ex){
+            ICommand comandoTableroInvalido = new ComandoTableroInvalido(nombreJugador);
+            fachadaTablero.enviarComando(comandoTableroInvalido);
         }
 
     }
