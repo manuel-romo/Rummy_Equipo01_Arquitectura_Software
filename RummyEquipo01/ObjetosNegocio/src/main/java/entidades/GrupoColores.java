@@ -20,14 +20,7 @@ public class GrupoColores extends Grupo {
      */
     public GrupoColores(List<Ficha> fichas) {
         super(fichas);
-        
-
-
-    /**
-     * Se comprueba la validez al momento de que se agregaron ficha(s).
-     *
-     * @return verdadero si el grupo si es valido, falso si no.
-     */
+    }
     @Override
     public boolean comprobarValidez() {
         // Máximo 4 fichas
@@ -65,6 +58,15 @@ public class GrupoColores extends Grupo {
                 .filter(f -> f instanceof FichaNormal)
                 .count();
     }
+
+        
+
+    /**
+     * Se comprueba la validez al momento de que se agregaron ficha(s).
+     *
+     * @return verdadero si el grupo si es valido, falso si no.
+     */
+    
 
     @Override
     public void agregarFichas(List<Ficha> fichas) throws RummyException {
