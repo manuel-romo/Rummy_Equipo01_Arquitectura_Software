@@ -17,5 +17,4 @@ public interface ITablero {
     public abstract JugadorNegocioDTO[] obtenerJugadoresExternos();
     public abstract GrupoNegocioDTO[] obtenerGruposNegocio();
     public abstract MontonNegocioDTO obtenerMonton();
-    public abstract void terminarTurno();
 }
