@@ -14,7 +14,7 @@ public class ColaMensajesEnviar implements IDispatcher, Runnable{
     
     private ISuscriptor suscriptor;
 
-    public ColaMensajesEnviar(ISuscriptor suscriptor) {
+    public ColaMensajesEnviar() {
         this.suscriptor = suscriptor;
     }
 
@@ -74,6 +74,12 @@ public class ColaMensajesEnviar implements IDispatcher, Runnable{
             Thread.currentThread().interrupt();
         }
     }
+
+    public void setSuscriptor(ISuscriptor suscriptor) {
+        this.suscriptor = suscriptor;
+    }
+    
+    
     
     
 }

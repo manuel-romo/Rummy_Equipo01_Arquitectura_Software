@@ -136,14 +136,15 @@ public class EnsambladorCliente {
 
         DirectorioServidor directorioServidor = new DirectorioServidor(new String[]{"127.0.0.1", "50000"});
  
-        ISuscriptor gestor = new GestorConexiones(); 
-        ColaMensajesEnviar colaMensajesEnviar = new ColaMensajesEnviar(gestor);
+        ISuscriptor gestorConexiones = new GestorConexiones(); 
+        
+        ColaMensajesEnviar colaMensajesEnviar = new ColaMensajesEnviar();
+        
+        colaMensajesEnviar.setSuscriptor(gestorConexiones);
         
         new Thread(colaMensajesEnviar).start();
         
         ColaMensajesRecibidos colaMensajesRecibidos = new ColaMensajesRecibidos();
-        
-        IReceptor receptor = (IReceptor)colaMensajesRecibidos;
         
         Servidor servidor = new Servidor(50000);
         

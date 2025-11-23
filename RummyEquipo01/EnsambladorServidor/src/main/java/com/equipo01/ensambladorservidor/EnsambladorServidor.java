@@ -3,12 +3,11 @@ package com.equipo01.ensambladorservidor;
 
 import cliente.Cliente;
 import cliente.ColaMensajesEnviar;
+import cliente.GestorConexiones;
 import deserializador.Deserializador;
 import directorio.DirectorioJugadores;
 import interfaces.ISuscriptor;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import objetos_negocio.FachadaTablero;
 import serializador.Serializador;
 import servidor.ColaMensajesRecibidos;
@@ -28,12 +27,9 @@ public class EnsambladorServidor {
         try {
             
             // Creación de clases de componentes.
+            GestorConexiones gestorConexiones = new GestorConexiones();
             
-            ISuscriptor clienteServidor;
-            
-            clienteServidor = new Cliente("127.0.0.1", 50000);
-            
-            ColaMensajesEnviar colaMensajesEnviar = new ColaMensajesEnviar(clienteServidor);
+            ColaMensajesEnviar colaMensajesEnviar = new ColaMensajesEnviar();
             
             DirectorioJugadores directorioJugadores = new DirectorioJugadores();
             
@@ -48,6 +44,8 @@ public class EnsambladorServidor {
             Deserializador deserializador = new Deserializador();
             
             // Conexión de componentes (Envío).
+            
+            colaMensajesEnviar.setSuscriptor(gestorConexiones);
             
             directorioJugadores.setDispatcher(colaMensajesEnviar);
             
@@ -65,7 +63,7 @@ public class EnsambladorServidor {
             deserializador.setFiltroSiguiente(fachadaTablero);
                
             
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             
         }
         
