@@ -1,6 +1,7 @@
 
 package objetos_negocio;
 
+import excepciones.RummyException;
 import java.util.List;
 
 /**
@@ -21,6 +22,11 @@ public class GrupoSecuencia extends Grupo{
     @Override
     public boolean comprobarValidez() {
         return true;
+    }
+
+    @Override
+    public void agregarFichas(List<Ficha> fichas) throws RummyException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

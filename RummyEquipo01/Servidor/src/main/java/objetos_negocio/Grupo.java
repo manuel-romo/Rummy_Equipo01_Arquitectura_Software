@@ -1,6 +1,7 @@
 
 package objetos_negocio;
 
+import excepciones.RummyException;
 import java.util.List;
 
 /**
@@ -56,6 +57,9 @@ public abstract class Grupo {
      * @return true si el grupo cumple con las reglas; false en caso contrario.
      */
     public abstract boolean comprobarValidez();
+    
+    
+    public abstract void agregarFichas(List<Ficha> fichas) throws RummyException;
     
 
     /**
