@@ -25,6 +25,9 @@ public class DirectorioJugadores implements IFiltro {
         jugadoresDirecciones.put(nombreJugador, direccion);
     }
 
+    public void setDispatcher(IDispatcher dispatcher) {
+        this.dispatcher = dispatcher;
+    }
 
     @Override
     public void ejecutar(ICommand comando) {

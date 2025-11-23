@@ -14,9 +14,8 @@ public class Servidor implements Runnable{
     private boolean estaCorriendo = true;
     private ServerSocket serverSocket;
 
-    public Servidor(int puerto, IReceptor receptor) {
+    public Servidor(int puerto) {
         this.puerto = puerto;
-        this.receptor = receptor;
     }
 
     @Override
@@ -62,5 +61,10 @@ public class Servidor implements Runnable{
         }
     }
 
+    public void setReceptor(IReceptor receptor) {
+        this.receptor = receptor;
+    }
+
+    
     
 }

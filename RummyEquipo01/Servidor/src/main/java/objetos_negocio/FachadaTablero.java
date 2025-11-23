@@ -7,10 +7,13 @@ import interfaces.IFiltro;
 
 /**
  *
- * @author romom
+ * @author Romo López Manuel
+ * ID: 00000253080
  */
 public class FachadaTablero implements IFiltro{
 
+    private IFiltro filtroSiguiente;
+    
     @Override
     public void ejecutar(ICommand comando) {
         
@@ -46,5 +49,10 @@ public class FachadaTablero implements IFiltro{
         }
         
     }
+
+    public void setFiltroSiguiente(IFiltro filtroSiguiente) {
+        this.filtroSiguiente = filtroSiguiente;
+    }
+    
     
 }

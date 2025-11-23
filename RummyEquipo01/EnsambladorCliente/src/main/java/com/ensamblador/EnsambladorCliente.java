@@ -1,6 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 
 package com.ensamblador;
 
@@ -15,11 +12,9 @@ import ejercerTurno.IReceptorEventos;
 import ejercerTurno.Modelo;
 import ejercerTurno.VistaMesaJuego;
 import interfaces.IReceptor;
-import interfaces.IReceptorExterno;
 import interfaces.ISuscriptor;
 import java.awt.Color;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import objetosPresentacion.GestorEventos;
 import objetosPresentacion.IComponente;
@@ -48,6 +43,7 @@ public class EnsambladorCliente {
     
     public static void main(String[] args) {
         
+        // Creación de clases de componentes
         IComponente panelMonton = new PanelMonton();
         
         PanelCasilla[] panelesCasillaTablero = new PanelCasilla[TOTAL_CASILLAS_TABLERO];
@@ -136,19 +132,10 @@ public class EnsambladorCliente {
         ((PanelMovimiento) panelMovimiento).setGestorEventos(gestorEventos);
 
         
-        
-        // Filtro Serializador
-        
         Serializador serializadorCliente = new Serializador();
-        
-        // Filtro Directorio Servidor
-        
+
         DirectorioServidor directorioServidor = new DirectorioServidor(new String[]{"127.0.0.1", "50000"});
-        
-        
-        // Pipe de Conexión
-        
-        // Cliente
+ 
         ISuscriptor gestor = new GestorConexiones(); 
         ColaMensajesEnviar colaMensajesEnviar = new ColaMensajesEnviar(gestor);
         
@@ -158,28 +145,22 @@ public class EnsambladorCliente {
         
         IReceptor receptor = (IReceptor)colaMensajesRecibidos;
         
-        // Servidor
-        Servidor servidor = new Servidor(50000, receptor);
+        Servidor servidor = new Servidor(50000);
         
         new Thread(servidor).start();
         new Thread(colaMensajesRecibidos).start();
-        
-//        colaMensajesEnviar.agregarMensaje("Prueba de mensaje a enviar", new String[]{"127.0.0.1", "50000"});
-        
-        // Deserializador
-        
+
         Deserializador deserializadorCliente = new Deserializador();
         
-        // Conexiones
         
-        // Ida
+        // Conexión de componentes (Envío):
         modelo.setFiltroEnvioMensaje(serializadorCliente);
         
         serializadorCliente.setFiltroSiguiente(directorioServidor);
         
         directorioServidor.setDispatcher(colaMensajesEnviar);
         
-        // Vuelta
+        // Conexión de componentes (Recepción):
         colaMensajesRecibidos.setReceptor(deserializadorCliente);
         
         deserializadorCliente.setFiltroSiguiente(modelo);

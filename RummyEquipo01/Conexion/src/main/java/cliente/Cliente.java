@@ -1,19 +1,21 @@
 
 package cliente;
 
+import conexion.Mensaje;
+import interfaces.ISuscriptor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 
-public class Cliente {
+public class Cliente implements ISuscriptor {
     private Socket socketCliente;
     private PrintWriter out;
     
     private String ip;
     private int puerto;
 
-    public Cliente(String ip, int puerto) throws IOException {
+    public Cliente(String ip, int puerto) throws IOException{
         this.ip = ip;
         this.puerto = puerto;
         
@@ -24,22 +26,17 @@ public class Cliente {
         System.out.println("Nueva conexión establecida con " + ip + ":" + puerto);
     }
 
-    public boolean enviarMensaje(String mensaje) {
-        System.out.println("Enviando mensaje");
-        System.out.println(mensaje);
+    @Override
+    public void notificar(Mensaje mensaje) {
+        
         if (out != null) {
             out.println(mensaje);
             
             if (out.checkError()) {
                 System.err.println("Error al enviar a " + ip + ":" + puerto + ".");
                 cerrarConexion();
-                return false;
             }
-            
-            return true;
         }
-        
-        return false;
     }
 
     public void cerrarConexion() {
