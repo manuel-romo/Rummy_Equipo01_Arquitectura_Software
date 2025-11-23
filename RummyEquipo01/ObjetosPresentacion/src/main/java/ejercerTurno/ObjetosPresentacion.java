@@ -111,7 +111,7 @@ public class ObjetosPresentacion {
         
         IComunicacion comunicacion = new Comunicacion();
         
-        Modelo modelo = new Modelo(comunicacion);
+        Modelo modelo = new Modelo("prueba_nombre");
         Controlador controlador = new Controlador(modelo);
         
         IComponente panelMovimiento = new PanelMovimiento();

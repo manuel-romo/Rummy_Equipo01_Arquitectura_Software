@@ -5,17 +5,17 @@ import interfaces.ICommand;
 
 /**
  *
- * Comando que pide quitar las fichas indicadas del jugador.
- * 
- * @author pedro
+ * @author Romo López Manuel
+ * ID: 00000253080
  */
-public class ComandoQuitarFichasJugador implements ICommand{
-    private String type = "ComandoQuitarFichasJugador";
-    private String nombreJugador;
+public class ComandoSeleccionarFichasTablero implements ICommand{
+
+    private String type = "ComandoSeleccionarFichasTablero";
     
+    private String nombreJugador;
     private int[] idFichas;
 
-    public ComandoQuitarFichasJugador(int[] idFichas, String nombreJugador) {
+    public ComandoSeleccionarFichasTablero(int[] idFichas, String nombreJugador) {
         this.idFichas = idFichas;
         this.nombreJugador = nombreJugador;
     }
@@ -29,5 +29,7 @@ public class ComandoQuitarFichasJugador implements ICommand{
     public String getNombreJugador() {
         return nombreJugador;
     }
+    
+    
     
 }

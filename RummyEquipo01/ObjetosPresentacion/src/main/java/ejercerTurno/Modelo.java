@@ -1,5 +1,8 @@
 package ejercerTurno;
 
+import comandosSolicitud.ComandoQuitarFichasJugador;
+import comandosSolicitud.ComandoSeleccionarFichasTablero;
+import comandosSolicitud.ComandoTerminarTurno;
 import dto.ColorFichaNegocioDTO;
 import dto.ColorFichaPresentacionDTO;
 import dto.FichaNegocioDTO;
@@ -17,7 +20,6 @@ import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import comunicacion.IComunicacion;
 import dto.ComodinNegocioDTO;
 import dto.ComodinPresentacionDTO;
 import dto.FichaNormalNegocioDTO;
@@ -42,42 +44,54 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     /**
      * Referencia a la fachada que actúa como simulador del tablero.
      */
+    
     private ITablero tablero = new Fachada();
+    
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
      */
     private List<ISuscriptor> suscriptores = new ArrayList<>();
+    
     /**
      * Indica si el tablero actual es inválido.
      */
+    
     private boolean tableroInvalido;
     /**
      * Indica si la vista está habilitada para interactuar.
      */
+    
     private boolean vistaHabilitada;
     /**
      * Indica si el último movimiento realizado fue inválido.
      */
+    
     private boolean movimientoInvalido;
+    
     /**
      * Mensaje mostrado cuando el tablero resulta inválido al finalizar un
      * turno.
      */
+    
     private String MENSAJE_TABLERO_INVALIDO;
+    
     /**
      * Mensaje mostrado cuando el jugador realiza un movimiento no permitido.
      */
     private String MENSAJE_MOVIMIENTO_INVALIDO;
     
+    /**
+     * Filtro al que se enviará la solicitud.
+     */
     private IFiltro filtroEnvioMensaje;
     
-    // Quitar
-    private IComunicacion comunicacion;
+    /**
+     * Nombre del jugador.
+     */
+    private String nombreJugador;
     
-    public Modelo(IComunicacion comunicacion){
-        
-        this.comunicacion = comunicacion;
-        
+    public Modelo(String nombreJugador){
+        this.nombreJugador = nombreJugador;
     }
 
     public void setFiltroEnvioMensaje(IFiltro filtroEnvioMensaje) {
@@ -185,6 +199,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      */
     public void seleccionarFichasTablero(int[] posicionesFichas) {
         
+        ICommand comandoSeleccionarFichasTablero = new ComandoSeleccionarFichasTablero(posicionesFichas, nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoSeleccionarFichasTablero);
+        
+        // Quitar
         boolean movimientoValido = tablero.seleccionarFichasTablero(posicionesFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
@@ -197,6 +216,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      */
     public void quitarFichasJugador(int[] posicionesFichas) {
         
+        ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(posicionesFichas, nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
+        
+        // Quitar
         boolean movimientoValido = tablero.quitarFichasJugador(posicionesFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
@@ -208,6 +232,9 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param idFichas colección de IDs de fichas a eliminar.
      */
     public void quitarFichasTablero(int[] idFichas) {
+        
+        ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(idFichas, nombreJugador);
+        
         boolean movimientoValido = tablero.quitarFichasTablero(idFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
@@ -249,6 +276,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * válido, se marca el estado correspondiente.
      */
     public void terminarTurno() {
+        
+        ICommand comandoFinalizarTurno = new ComandoTerminarTurno(nombreJugador);
+        filtroEnvioMensaje.ejecutar(comandoFinalizarTurno);
+            
+        // Quitar
         if (tablero.validarGrupos()) {
             this.setTableroInvalido(false);
             this.setVistaHabilitado(false);
@@ -264,7 +296,8 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                             gruposNegocio, 
                             montonNegocio);
             
-            comunicacion.avisarFinalizacionTurno(tableroNegocio);
+            
+            
             
         } else {
             this.setTableroInvalido(true);

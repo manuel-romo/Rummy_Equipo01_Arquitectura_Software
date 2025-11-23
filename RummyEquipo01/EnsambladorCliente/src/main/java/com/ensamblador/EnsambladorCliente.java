@@ -110,7 +110,7 @@ public class EnsambladorCliente {
         
         IComunicacion comunicacion = new Comunicacion();
         
-        Modelo modelo = new Modelo(comunicacion);
+        Modelo modelo = new Modelo("nombre_ejemplo");
         Controlador controlador = new Controlador(modelo);
         
         IComponente panelMovimiento = new PanelMovimiento();
@@ -165,6 +165,8 @@ public class EnsambladorCliente {
         colaMensajesRecibidos.setReceptor(deserializadorCliente);
         
         deserializadorCliente.setFiltroSiguiente(modelo);
+        
+        controlador.iniciarTurno();
         
         
     }
