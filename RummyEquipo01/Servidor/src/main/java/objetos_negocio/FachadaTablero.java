@@ -13,46 +13,27 @@ import interfaces.IFiltro;
 public class FachadaTablero implements IFiltro{
 
     private IFiltro filtroSiguiente;
+    private Tablero tablero;
     
     @Override
     public void ejecutar(ICommand comando) {
         
-        CommandType tipoComando = CommandType.fromNombre(comando.getType());
-        
-        switch (tipoComando) {
-            case CommandType.AGREGAR_FICHAS_TABLERO_GRUPO:
-                
-                System.out.println("Agregando Fichas A Grupo");
-                break;
-            case CommandType.AGREGAR_FICHAS_TABLERO:
-                
-                System.out.println("Agregando Fichas Solas");
-                break;
-                
-            case CommandType.QUITAR_FICHAS_JUGADOR:
-                
-                System.out.println("Quitando Fichas Jugador");
-                break;
-                
-            case CommandType.QUITAR_FICHAS_TABLERO:
-                
-                System.out.println("Quitando Fichas Tablero");
-                break;
-                
-            case CommandType.TERMINAR_TURNO:
-                
-                System.out.println("Terminando Turno");
-                break;
-                
-            default:
-                throw new AssertionError();
-        }
+        tablero.ejecutar(comando);
         
     }
 
     public void setFiltroSiguiente(IFiltro filtroSiguiente) {
         this.filtroSiguiente = filtroSiguiente;
     }
+
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
+    }
     
+    public void enviarComando(ICommand comando){
+        
+        filtroSiguiente.ejecutar(comando);
+        
+    }
     
 }

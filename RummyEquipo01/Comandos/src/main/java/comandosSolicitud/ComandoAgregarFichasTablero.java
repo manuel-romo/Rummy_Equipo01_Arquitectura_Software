@@ -11,17 +11,17 @@ import interfaces.ICommand;
  */
 public class ComandoAgregarFichasTablero implements ICommand{
     
-    private int[] idFichas;
+    private int[] idsFichas;
     private final String type = "ComandoAgregarFichaTablero";
     private String nombreJugador;
 
     public ComandoAgregarFichasTablero(int[] idFichas, String nombreJugador) {
-        this.idFichas = idFichas;
+        this.idsFichas = idFichas;
         this.nombreJugador = nombreJugador;
     }
 
-    public int[] getIdFichas() {
-        return idFichas;
+    public int[] getIdsFichas() {
+        return idsFichas;
     }
 
     @Override

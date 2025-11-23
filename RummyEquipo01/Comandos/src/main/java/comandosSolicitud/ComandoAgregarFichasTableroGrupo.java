@@ -10,23 +10,23 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoAgregarFichasTableroGrupo implements ICommand {
-    private int[] idFichas;
-    private int[] idFichasGrupo;
+    private int[] idsFichas;
+    private int[] idsFichasGrupo;
     private final String type = "ComandoAgregarFichasTableroGrupo";
     private String nombreJugador;
 
     public ComandoAgregarFichasTableroGrupo(int[] idFichas, int[] idFichasGrupo, String nombreJugador) {
-        this.idFichas = idFichas;
-        this.idFichasGrupo = idFichasGrupo;
+        this.idsFichas = idFichas;
+        this.idsFichasGrupo = idFichasGrupo;
         this.nombreJugador = nombreJugador;
     }
 
-    public int[] getIdFichas() {
-        return idFichas;
+    public int[] getIdsFichas() {
+        return idsFichas;
     }
 
-    public int[] getIdFichasGrupo() {
-        return idFichasGrupo;
+    public int[] getIdsFichasGrupo() {
+        return idsFichasGrupo;
     }
 
     @Override

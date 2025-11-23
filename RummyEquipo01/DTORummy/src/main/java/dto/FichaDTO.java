@@ -13,6 +13,7 @@ public class FichaDTO {
    private String valor;
    private ColorFicha color;
    private int id;
+   private boolean tieneGrupo;
 
     public FichaDTO(String valor, ColorFicha color, int id) {
         this.valor = valor;
@@ -43,6 +44,16 @@ public class FichaDTO {
     public void setId(int id) {
         this.id = id;
     }
+
+    public boolean isTieneGrupo() {
+        return tieneGrupo;
+    }
+
+    public void setTieneGrupo(boolean tieneGrupo) {
+        this.tieneGrupo = tieneGrupo;
+    }
+    
+    
    
    
 }

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package comandosSolicitud;
 
 import interfaces.ICommand;
@@ -13,25 +10,19 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoQuitarFichasTablero implements ICommand{
-    private int[] idFichas;
-    private int[] idFichasGrupo;
+    private int[] idsFichas;
     private final String type = "ComandoQuitarFichaTablero";
     private String nombreJugador;
 
-    public ComandoQuitarFichasTablero(int[] idFichas, int[] idFichasGrupo, String nombreJugador) {
-        this.idFichas = idFichas;
-        this.idFichasGrupo = idFichasGrupo;
+    public ComandoQuitarFichasTablero(int[] idFichas, String nombreJugador) {
+        this.idsFichas = idFichas;
         this.nombreJugador = nombreJugador;
     }
 
-    public int[] getIdFichas() {
-        return idFichas;
+    public int[] getIdsFichas() {
+        return idsFichas;
     }
-
-    public int[] getIdFichasGrupo() {
-        return idFichasGrupo;
-    }
-
+    
     @Override
     public String getType() {
         return type;
