@@ -112,6 +112,7 @@ public class GrupoColores extends Grupo {
 
         for (Ficha ficha : fichas) {
             ficha.setTieneGrupo(true);
+            ficha.setGrupo(this);
         }
 
         this.fichas.addAll(fichas);
@@ -121,7 +122,9 @@ public class GrupoColores extends Grupo {
     private void agregarEnGrupoVacio(List<Ficha> nuevas) throws RummyException {
         validarMaximoFichas(nuevas.size());
         nuevas.forEach(f -> f.setTieneGrupo(true));
+        nuevas.forEach(f -> f.setGrupo(this));
         this.fichas.addAll(nuevas);
+        
     }
     
     private Integer obtenerNumeroGrupo(){

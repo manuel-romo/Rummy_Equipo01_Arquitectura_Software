@@ -149,12 +149,12 @@ public class Tablero {
             }
 
             if (!esPrimerTurnoJugador(nombreJugador)) {
-                Grupo grupo = verificarTipoGrupo(fichasObtenidas);
+                Grupo grupo = verificarTipoGrupo(fichasObtenidas,nombreJugador );
                 grupo.agregarFichas(fichasObtenidas);
                 grupos.add(grupo);
             } else {
                 if (validarPrimerTurno(fichasObtenidas)) {
-                    Grupo grupo = verificarTipoGrupo(fichasObtenidas);
+                    Grupo grupo = verificarTipoGrupo(fichasObtenidas, nombreJugador);
                     grupo.agregarFichas(fichasObtenidas);
                     grupos.add(grupo);
                 }
@@ -167,7 +167,7 @@ public class Tablero {
     }
 
     private void agregarFichasTableroGrupo(int[] idsFichas, int[] idsFichasGrupo, String nombreJugador) {
-
+       
     }
 
     private void quitarFichasJugador(int[] idsFichas, String nombreJugador) {
@@ -185,7 +185,25 @@ public class Tablero {
     }
 
     private void quitarFichasTablero(int[] idsFichas, String nombreJugador) {
+        List<Ficha> fichasQuitar = new LinkedList<>();
+        for (int idFicha : idsFichas) {
 
+            fichasQuitar.add(encontrarFichaPorId(idFicha));
+        }
+        for(Grupo grupo : grupos){
+            for(Ficha ficha : grupo.getFichas()){
+                for(Ficha fichaQuitar : fichasQuitar){
+                    if(fichaQuitar.getId().equals(grupo.getFichas().getFirst().getId()) || fichaQuitar.getId().equals(grupo.getFichas().getLast().getId())){
+                        if(fichaQuitar.getId().equals(ficha.getId())){
+                            grupo.getFichas().remove(ficha);
+                        }
+                    }else{
+                        ICommand comando = new ComandoTableroInvalido(nombreJugador);
+                        fachadaTablero.ejecutar(comando);
+                    }
+                }
+            }
+        }
     }
 
     private void terminarTurno(String nombreJugador) {
@@ -317,7 +335,12 @@ public class Tablero {
 
     }
 
-    public Grupo verificarTipoGrupo(List<Ficha> fichas) {
+    public Grupo verificarTipoGrupo(List<Ficha> fichas, String nombreJugador) {
+        if(esPrimerTurnoJugador(nombreJugador)){
+            if(!validarPrimerTurno(fichas)){
+                ICommand comando = new ComandoTableroInvalido(nombreJugador);
+            }
+        }
         ColorFicha colorFicha = fichas.getFirst().getColor();
         for (Ficha ficha : fichas) {
             if (ficha.getColor() != colorFicha) {
@@ -346,4 +369,5 @@ public class Tablero {
         }
         return true;
     }
+    
 }

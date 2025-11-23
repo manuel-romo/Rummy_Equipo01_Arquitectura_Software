@@ -7,6 +7,7 @@ objetos_negocio\FachadaTablero.class
 objetos_negocio\Tablero.class
 enumeradores\ColorFicha.class
 objetos_negocio\GrupoColores.class
+excepciones\RummyException.class
 objetos_negocio\Jugador.class
 objetos_negocio\Monton.class
 objetos_negocio\FichaComodin.class
