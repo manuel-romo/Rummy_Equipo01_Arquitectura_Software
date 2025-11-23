@@ -306,6 +306,6 @@ public class ObjetosPresentacion {
                 gruposNegocio, 
                 montonNegocio);
         
-        modelo.iniciarTurno(tableroNegocio);
+//        modelo.iniciarTurno();
     }
 }

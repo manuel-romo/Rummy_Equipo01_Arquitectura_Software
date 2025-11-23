@@ -3,8 +3,6 @@ package ejercerTurno;
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
-import comandosRespuesta.ComandoTableroInvalido;
-import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
