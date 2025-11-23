@@ -4,9 +4,6 @@ import cliente.Cliente;
 import conexion.Mensaje;
 import interfaces.ISuscriptor;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +38,7 @@ public class GestorConexiones implements ISuscriptor{
             }
         }
         
-        boolean exito = cliente.enviarMensaje(contenido);
+        boolean exito = cliente.enviarMensaje(new Mensaje(ip, puerto, contenido));
         
         if (!exito) {
             conexionesActivas.remove(direccionDestino);
