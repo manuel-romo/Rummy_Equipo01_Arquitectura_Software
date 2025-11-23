@@ -21,16 +21,19 @@ public abstract class Ficha {
     private boolean tieneGrupo;
     
     private ColorFicha color;
+    
+    private boolean esComodin;
 
 
     /**
      * Constructor de la clase ficha, donde se inicia su grupo como nulo ya que no pertenece a ninguno.
      * @param id 
      */
-    public Ficha(Integer id, ColorFicha color, boolean tieneGrupo) {
+    public Ficha(Integer id, ColorFicha color, boolean tieneGrupo, boolean esComodin) {
         this.id = id;
         this.color = color;
         this.tieneGrupo = tieneGrupo;
+        this.esComodin = esComodin;
     }
 
     /**
@@ -72,6 +75,11 @@ public abstract class Ficha {
     public void setColor(ColorFicha color) {
         this.color = color;
     }
+
+    public boolean isEsComodin() {
+        return esComodin;
+    }
+
     
     
 }

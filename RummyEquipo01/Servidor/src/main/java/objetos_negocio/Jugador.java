@@ -53,6 +53,12 @@ public class Jugador {
         this.fichas = fichas;
     }
     
+    public void quitarFichas(List<Ficha> fichasQuitar){
+        
+        fichas.removeAll(fichasQuitar);
+        
+    }
+    
     
     
     

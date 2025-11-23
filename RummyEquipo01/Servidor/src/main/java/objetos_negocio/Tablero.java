@@ -143,6 +143,12 @@ public class Tablero {
     
     private void agregarFichasTablero(int[] idsFichas, String nombreJugador){
         
+        if(!esPrimerTurnoJugador(nombreJugador)){
+            
+//            Grupo nuevoGrupo = new Grupo();
+            
+        }
+        
     }
     
     private void agregarFichasTableroGrupo(int[] idsFichas, int[] idsFichasGrupo, String nombreJugador){
@@ -150,6 +156,16 @@ public class Tablero {
     }
     
     private void quitarFichasJugador(int[] idsFichas, String nombreJugador){
+        
+        List<Ficha> fichasQuitar = new LinkedList<>();
+        
+        for(int idFicha: idsFichas){
+            
+            fichasQuitar.add(encontrarFichaPorId(idFicha));
+            
+        }
+        
+        jugadorTurno.quitarFichas(fichasQuitar);
         
     }
     

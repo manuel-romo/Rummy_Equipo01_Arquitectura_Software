@@ -11,10 +11,12 @@ public class FichaNormal extends Ficha{
     
     private int numero;
 
-    public FichaNormal(Integer id, ColorFicha color, boolean tieneGrupo, int numero) {
-        super(id, color, tieneGrupo);
+    public FichaNormal(Integer id, ColorFicha color, boolean tieneGrupo, boolean esComodin, int numero) {
+        super(id, color, tieneGrupo, esComodin);
         this.numero = numero;
     }
+
+
 
     public int getNumero() {
         return numero;
