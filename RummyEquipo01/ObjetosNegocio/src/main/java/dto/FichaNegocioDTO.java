@@ -1,7 +1,6 @@
 
 package dto;
 
-import entidades.ColorFicha;
 
 /**
  *

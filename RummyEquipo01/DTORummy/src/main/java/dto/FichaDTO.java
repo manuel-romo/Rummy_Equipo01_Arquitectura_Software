@@ -1,39 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package dto;
-import entidades.ColorFicha;
+
+import enumeradores.ColorFichaDTO;
 
 /**
  *
  * @author ramon
  */
-public class FichaDTO {
-   private String valor;
-   private ColorFicha color;
+public abstract class FichaDTO {
+   private ColorFichaDTO color;
    private int id;
-   private boolean tieneGrupo;
 
-    public FichaDTO(String valor, ColorFicha color, int id) {
-        this.valor = valor;
+    public FichaDTO(ColorFichaDTO color, int id) {
         this.color = color;
         this.id = id;
     }
 
-    public String getValor() {
-        return valor;
-    }
-
-    public void setValor(String valor) {
-        this.valor = valor;
-    }
-
-    public ColorFicha getColor() {
+    public ColorFichaDTO getColor() {
         return color;
     }
 
-    public void setColor(ColorFicha color) {
+    public void setColor(ColorFichaDTO color) {
         this.color = color;
     }
 
@@ -43,14 +30,6 @@ public class FichaDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isTieneGrupo() {
-        return tieneGrupo;
-    }
-
-    public void setTieneGrupo(boolean tieneGrupo) {
-        this.tieneGrupo = tieneGrupo;
     }
     
     

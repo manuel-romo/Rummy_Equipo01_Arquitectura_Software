@@ -1,7 +1,6 @@
 
 package objetos_negocio;
 
-import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
@@ -10,10 +9,16 @@ import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoTerminarTurno;
 import comandosSolicitud.CommandType;
+import dto.FichaComodinDTO;
 import dto.FichaDTO;
+import dto.FichaNormalDTO;
 import dto.GrupoDTO;
+import dto.MontonDTO;
 import dto.TableroDTO;
+import enumeradores.ColorFicha;
+import enumeradores.ColorFichaDTO;
 import interfaces.ICommand;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,7 +29,9 @@ public class Tablero {
     
     private Jugador jugadorTurno;
     private List<Jugador> jugadores;
-    private TableroDTO tablero;
+    private List<Ficha> fichas;
+    private List<Grupo> grupos;
+    private Monton monton;
     private FachadaTablero fachadaTablero;
     
     public void ejecutar(ICommand comando){
@@ -110,11 +117,11 @@ public class Tablero {
             
             for(int idFicha: idsFichas){
                 
-                FichaDTO ficha = encontrarFichaPorId(idFicha);
+                Ficha ficha = encontrarFichaPorId(idFicha);
                 
                 if(ficha != null && ficha.isTieneGrupo()){
                     
-                    ICommand comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(tablero, false, nombreJugador);
+                    ICommand comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(obtenerTableroDto(), false, nombreJugador);
                     
                     fachadaTablero.enviarComando(comandoRespuestaMovimiento);
                     
@@ -125,7 +132,7 @@ public class Tablero {
             
         } else{
             
-            ICommand comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(tablero, false, nombreJugador);
+            ICommand comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(obtenerTableroDto(), false, nombreJugador);
             
             fachadaTablero.enviarComando(comandoRespuestaMovimiento);
             
@@ -152,6 +159,8 @@ public class Tablero {
     
     private void terminarTurno(String nombreJugador){
         
+        
+        
     }
     
     private boolean esPrimerTurnoJugador(String nombreJugador){
@@ -163,9 +172,105 @@ public class Tablero {
             
     }
     
-    private FichaDTO encontrarFichaPorId(int idFicha){
+    private TableroDTO obtenerTableroDto(){
+        
+        List<FichaDTO> listaFichasJugadorDto = new LinkedList<>();
+        
+        for(Ficha ficha: jugadorTurno.getFichas()){
+            
+            listaFichasJugadorDto.add(obtenerFichaDto(ficha));
+            
+        }
+        
+        List<GrupoDTO> listaGruposDto = new LinkedList<>();
+        
+        for(Grupo grupo: grupos){
+            
+            listaGruposDto.add(obtenerGrupoDto(grupo));
+            
+        }
+        
+        MontonDTO montonDto = obtenerMontoDTO(monton);
+        
+        
+        return new TableroDTO(listaGruposDto, listaFichasJugadorDto, montonDto);
+        
+    }
+    
+    private GrupoDTO obtenerGrupoDto(Grupo grupo){
+        
+        List<FichaDTO> listaFichasDto = new LinkedList<>();
+        
+        for(Ficha ficha: grupo.getFichas()){
+            
+            listaFichasDto.add(obtenerFichaDto(ficha));
+            
+        }
+        
+        return new GrupoDTO(listaFichasDto);
+        
+        
+    }
+    
+    private FichaDTO obtenerFichaDto(Ficha ficha){
+        
+        ColorFichaDTO colorFichaDto = null;
+        
+        switch (ficha.getColor()) {
+            
+            case ColorFicha.COLOR_A:
+                
+                colorFichaDto = ColorFichaDTO.COLOR_A;
+                
+                break;
+                
+            case ColorFicha.COLOR_B:
+                
+                colorFichaDto = ColorFichaDTO.COLOR_B;
+                
+                break;    
+                
+            case ColorFicha.COLOR_C:
+                
+                colorFichaDto = ColorFichaDTO.COLOR_C;
+                
+                break; 
+                
+            case ColorFicha.COLOR_COMODIN:
+                
+                colorFichaDto = ColorFichaDTO.COLOR_COMODIN;
+                
+                break; 
+                
+            default:
+                throw new AssertionError();
+        }
+        
+        if(ficha instanceof FichaComodin){
+                
+            String valorComodin = ((FichaComodin) ficha).getValor();
+            return new FichaComodinDTO(colorFichaDto, ficha.getId(), valorComodin);
 
-        for(FichaDTO ficha: fichas){
+        } else if(ficha instanceof FichaNormal){
+            
+            int numeroFicha = ((FichaNormal) ficha).getNumero();
+            return new FichaNormalDTO(colorFichaDto, ficha.getId(), numeroFicha);
+        }
+        
+        return null;
+        
+        
+    }
+    
+    private MontonDTO obtenerMontoDTO(Monton monton){
+        
+        return new MontonDTO(monton.getCantidadFichas());
+        
+    }
+    
+    private Ficha encontrarFichaPorId(int idFicha){
+
+        for(Ficha ficha: fichas){
             
             if(ficha.getId() == idFicha){
                 return ficha;

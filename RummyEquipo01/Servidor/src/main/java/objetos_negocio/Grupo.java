@@ -30,9 +30,6 @@ public abstract class Grupo {
         this.numero = numero;
         this.fichas = fichas;
         
-        for(Ficha ficha: fichas){
-            ficha.setGrupo(this);
-        }
     }
 
     /**
