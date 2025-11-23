@@ -1,10 +1,15 @@
 package ejercerTurno;
 
+import comandosRespuesta.ComandoCambioTurno;
+import comandosRespuesta.ComandoIniciarTurno;
+import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosRespuesta.ComandoTableroInvalido;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoTerminarTurno;
+import comandosSolicitud.CommandType;
 import dto.ColorFichaNegocioDTO;
 import dto.ColorFichaPresentacionDTO;
 import dto.FichaNegocioDTO;
@@ -26,6 +31,7 @@ import dto.ComodinNegocioDTO;
 import dto.ComodinPresentacionDTO;
 import dto.FichaNormalNegocioDTO;
 import dto.FichaNormalPresentacionDTO;
+import dto.TableroDTO;
 import interfaces.ICommand;
 import interfaces.IFiltro;
 
@@ -44,10 +50,10 @@ import interfaces.IFiltro;
 public class Modelo implements IPublicador, IModelo, IFiltro {
 
     /**
-     * Referencia a la fachada que actúa como simulador del tablero.
+     * Referencia a la fachada que actúa como simulador del tableroQuitar.
      */
     
-    private ITablero tablero = new Fachada();
+    private ITablero tableroQuitar = new Fachada();
     
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
@@ -55,7 +61,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     private List<ISuscriptor> suscriptores = new ArrayList<>();
     
     /**
-     * Indica si el tablero actual es inválido.
+     * Indica si el tableroQuitar actual es inválido.
      */
     
     private boolean tableroInvalido;
@@ -71,8 +77,8 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     private boolean movimientoInvalido;
     
     /**
-     * Mensaje mostrado cuando el tablero resulta inválido al finalizar un
-     * turno.
+     * Mensaje mostrado cuando el tableroQuitar resulta inválido al finalizar un
+ turno.
      */
     
     private String MENSAJE_TABLERO_INVALIDO;
@@ -82,10 +88,14 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      */
     private String MENSAJE_MOVIMIENTO_INVALIDO;
     
+    private TableroDTO tablero;
+    
     /**
      * Filtro al que se enviará la solicitud.
      */
     private IFiltro filtroEnvioMensaje;
+    
+//    private TableroDTO tableroQuitar;
     
     /**
      * Nombre del jugador.
@@ -101,21 +111,21 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
 
     /**
-     * Obtiene la fachada que representa el tablero actual.
+     * Obtiene la fachada que representa el tableroQuitar actual.
      *
      * @return objeto que implementa {@link ITablero}.
      */
-    public ITablero getTablero() {
-        return tablero;
+    public ITablero getTableroQuitar() {
+        return tableroQuitar;
     }
 
     /**
-     * Asigna una nueva fachada al tablero.
+     * Asigna una nueva fachada al tableroQuitar.
      *
-     * @param tablero implementación de {@link ITablero}.
+     * @param tableroQuitar implementación de {@link ITablero}.
      */
-    public void setTablero(ITablero tablero) {
-        this.tablero = tablero;
+    public void setTableroQuitar(ITablero tableroQuitar) {
+        this.tableroQuitar = tableroQuitar;
     }
 
     /**
@@ -137,9 +147,9 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
 
     /**
-     * Indica si el tablero es inválido.
+     * Indica si el tableroQuitar es inválido.
      *
-     * @return {@code true} si el tablero no cumple las reglas, {@code false} en
+     * @return {@code true} si el tableroQuitar no cumple las reglas, {@code false} en
      * caso contrario.
      */
     public boolean isTableroInvalido() {
@@ -147,10 +157,10 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
 
     /**
-     * Define si el tablero es inválido.
+     * Define si el tableroQuitar es inválido.
      *
-     * @param tableroInvalido valor booleano indicando si el tablero es
-     * inválido.
+     * @param tableroInvalido valor booleano indicando si el tableroQuitar es
+ inválido.
      */
     public void setTableroInvalido(boolean tableroInvalido) {
         this.tableroInvalido = tableroInvalido;
@@ -195,7 +205,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
 
     /**
-     * Simula la selección de fichas del tablero.
+     * Simula la selección de fichas del tableroQuitar.
      *
      * @param posicionesFichas arreglo con las posiciones seleccionadas.
      */
@@ -206,7 +216,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         filtroEnvioMensaje.ejecutar(comandoSeleccionarFichasTablero);
         
         // Quitar
-        boolean movimientoValido = tablero.seleccionarFichasTablero(posicionesFichas);
+        boolean movimientoValido = tableroQuitar.seleccionarFichasTablero(posicionesFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
@@ -223,13 +233,13 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
         
         // Quitar
-        boolean movimientoValido = tablero.quitarFichasJugador(posicionesFichas);
+        boolean movimientoValido = tableroQuitar.quitarFichasJugador(posicionesFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
 
     /**
-     * Quita fichas del tablero según los identificadores proporcionados.
+     * Quita fichas del tableroQuitar según los identificadores proporcionados.
      *
      * @param idFichas colección de IDs de fichas a eliminar.
      */
@@ -239,13 +249,13 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
         filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
         
-        boolean movimientoValido = tablero.quitarFichasTablero(idsFichas);
+        boolean movimientoValido = tableroQuitar.quitarFichasTablero(idsFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
 
     /**
-     * Agrega fichas a un grupo ya existente del tablero.
+     * Agrega fichas a un grupo ya existente del tableroQuitar.
      *
      * @param idsFichas colección de IDs de fichas a agregar.
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
@@ -257,13 +267,13 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTableroGrupo);
         
         // Quitar
-        boolean movimientoValido = tablero.agregarFichasTablero(idsFichas, idsFichasGrupo);
+        boolean movimientoValido = tableroQuitar.agregarFichasTablero(idsFichas, idsFichasGrupo);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
 
     /**
-     * Agrega fichas al tablero que no pertenecen a un grupo existente.
+     * Agrega fichas al tableroQuitar que no pertenecen a un grupo existente.
      *
      * @param idsFichas colección de IDs de fichas a agregar.
      */
@@ -274,14 +284,38 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTablero);
         
         // Quitar
-        boolean movimientoValido = tablero.agregarFichasTablero(idsFichas);
+        boolean movimientoValido = tableroQuitar.agregarFichasTablero(idsFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
 
-    public void iniciarTurno(TableroNegocioDTO tableroNegocio){
+    public void iniciarTurno(TableroDTO tablero){
     
-        tablero.iniciarTurno(tableroNegocio);
+        this.tablero = tablero;
+        vistaHabilitada = true;
+        
+        notificar();
+        
+    }
+    
+    private void cambiarTurno(TableroDTO tablero){
+        
+        this.tablero = tablero;
+        vistaHabilitada = false;
+        
+        notificar();
+        
+    }
+    
+    private void responderMovimiento(TableroDTO tablero, boolean movimientoValido){
+        
+        this.tablero = tablero;
+        this.movimientoInvalido = !movimientoValido;
+    }
+    
+    private void avisarTableroInvalido(){
+        
+        this.tableroInvalido = true;
         notificar();
         
     }
@@ -297,14 +331,14 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         filtroEnvioMensaje.ejecutar(comandoFinalizarTurno);
             
         // Quitar
-        if (tablero.validarGrupos()) {
+        if (tableroQuitar.validarGrupos()) {
             this.setTableroInvalido(false);
             this.setVistaHabilitado(false);
             
-            JugadorNegocioDTO jugadorPrincipal = tablero.obtenerJugadorPrincipal();
-            JugadorNegocioDTO[] jugadoresExternos = tablero.obtenerJugadoresExternos();
-            MontonNegocioDTO montonNegocio = tablero.obtenerMonton();
-            GrupoNegocioDTO[] gruposNegocio = tablero.obtenerGruposNegocio();
+            JugadorNegocioDTO jugadorPrincipal = tableroQuitar.obtenerJugadorPrincipal();
+            JugadorNegocioDTO[] jugadoresExternos = tableroQuitar.obtenerJugadoresExternos();
+            MontonNegocioDTO montonNegocio = tableroQuitar.obtenerMonton();
+            GrupoNegocioDTO[] gruposNegocio = tableroQuitar.obtenerGruposNegocio();
             
             TableroNegocioDTO tableroNegocio =
                     new TableroNegocioDTO(jugadorPrincipal, 
@@ -357,7 +391,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public JugadorPrincipalPresentacionDTO obtenerJugadorPrincipal() {
         
-        List<FichaNegocioDTO> fichasNegocio = tablero.obtenerJugadorPrincipal().getFichas();
+        List<FichaNegocioDTO> fichasNegocio = tableroQuitar.obtenerJugadorPrincipal().getFichas();
         
         List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
         
@@ -376,7 +410,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public MontonPresentacionDTO obtenerMontonPresentacion() {
         
-        return obtenerMontonPresentacionDTO(tablero.obtenerMonton());
+        return obtenerMontonPresentacionDTO(tableroQuitar.obtenerMonton());
         
     }
     
@@ -414,7 +448,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public JugadorExternoPresentacionDTO[] obtenerJugadoresExternos() {
         
-        JugadorNegocioDTO[] jugadoresExternosNegocio = tablero.obtenerJugadoresExternos();
+        JugadorNegocioDTO[] jugadoresExternosNegocio = tableroQuitar.obtenerJugadoresExternos();
         
         List<JugadorExternoPresentacionDTO> jugadoresExternosPresentacionDTO = new LinkedList<>();
         
@@ -442,7 +476,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public TableroPresentacionDTO obtenerTablero() {
         
-        GrupoNegocioDTO[] gruposNegocio = tablero.obtenerGruposNegocio();
+        GrupoNegocioDTO[] gruposNegocio = tableroQuitar.obtenerGruposNegocio();
         
         System.out.println("Cantidad de grupos obtenidos");
         System.out.println(gruposNegocio.length);
@@ -522,6 +556,41 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
 
     @Override
     public void ejecutar(ICommand comando) {
+        
+        CommandType tipoComando = CommandType.fromNombre(comando.getType());
+        
+        switch (tipoComando) {
+            case CommandType.INICIAR_TURNO:
+                
+                ComandoIniciarTurno comandoIniciarTurno = (ComandoIniciarTurno) comando;
+                iniciarTurno( comandoIniciarTurno.getTablero());
+                
+                break;
+                
+            case CommandType.CAMBIO_TURNO:
+                
+                ComandoCambioTurno comandoCambioTurno = (ComandoCambioTurno) comando;
+                cambiarTurno(comandoCambioTurno.getTablero());
+
+                break;
+                
+            case CommandType.RESPUESTA_MOVIMIENTO:
+                
+                ComandoRespuestaMovimiento comandoRespuestaMovimiento = (ComandoRespuestaMovimiento) comando;
+                
+                responderMovimiento(comandoRespuestaMovimiento.getTablero(), comandoRespuestaMovimiento.isMovimientoValido());
+                
+                break;
+                
+            case CommandType.COMANDO_TABLERO_INVALIDO:
+                
+                avisarTableroInvalido();
+                
+                break;
+                
+            default:
+                throw new AssertionError();
+        }
         
     }
 

@@ -2,6 +2,7 @@
 package comandosRespuesta;
 
 import comandosSolicitud.CommandType;
+import dto.TableroDTO;
 import interfaces.ICommand;
 
 
@@ -12,10 +13,12 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoCambioTurno implements ICommand {
+    
     private String nombreJugador;
     private final String type = "ComandoCambioTurno";
+    private TableroDTO tablero;
 
-    public ComandoCambioTurno(String nombreJugador) {
+    public ComandoCambioTurno(TableroDTO tablero, String nombreJugador) {
         this.nombreJugador = nombreJugador;
     }
 
@@ -27,6 +30,9 @@ public class ComandoCambioTurno implements ICommand {
     public String getType() {
         return type;
     }
-    
+
+    public TableroDTO getTablero() {
+        return tablero;
+    }
     
 }

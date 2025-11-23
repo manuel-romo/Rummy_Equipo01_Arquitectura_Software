@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package comandosRespuesta;
 
 import comandosSolicitud.CommandType;
+import dto.TableroDTO;
 import interfaces.ICommand;
 
 /**
@@ -13,10 +11,13 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoIniciarTurno implements ICommand{
+    
     private final String type = "ComandoIniciarTurno";
     private String nombreJugador;
+    private TableroDTO tablero;
     
-    public ComandoIniciarTurno(String nombreJugador) {
+    public ComandoIniciarTurno(TableroDTO tablero, String nombreJugador) {
+        this.tablero = tablero;
         this.nombreJugador = nombreJugador;
     }
 
@@ -29,5 +30,11 @@ public class ComandoIniciarTurno implements ICommand{
     public String getNombreJugador() {
         return nombreJugador;
     }
+
+    public TableroDTO getTablero() {
+        return tablero;
+    }
+    
+    
     
 }
