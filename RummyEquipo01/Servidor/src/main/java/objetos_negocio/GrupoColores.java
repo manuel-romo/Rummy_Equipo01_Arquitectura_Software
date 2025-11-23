@@ -23,6 +23,11 @@ public class GrupoColores extends Grupo {
         super(numero, fichas);
     }
 
+    public GrupoColores(List<Ficha> fichas) {
+        super(fichas);
+    }
+    
+
     @Override
     public boolean comprobarValidez() {
         // Máximo 4 fichas

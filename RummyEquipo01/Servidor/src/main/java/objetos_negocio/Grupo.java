@@ -13,7 +13,7 @@ public abstract class Grupo {
     /**
      * Número identificador del grupo.
      */
-    private Integer numero;
+    private Integer numero = 1;
     
     /**
      * Lista de fichas pertenecientes al grupo.
@@ -32,6 +32,13 @@ public abstract class Grupo {
         this.fichas = fichas;
         
     }
+
+    public Grupo(List<Ficha> fichas) {
+        this.fichas = fichas;
+        numero++;
+    }
+    
+    
 
     /**
      * Getter de la lista de fichas del grupo.

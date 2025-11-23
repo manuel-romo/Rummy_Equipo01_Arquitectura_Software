@@ -10,10 +10,15 @@ import java.util.List;
  */
 public class GrupoSecuencia extends Grupo{
 
+    public GrupoSecuencia(List<Ficha> fichas) {
+        super(fichas);
+    }
+    
     public GrupoSecuencia(Integer numero, List<Ficha> fichas) {
         super(numero, fichas);
     }
 
+    
     
     /**
      * Método que regresa true si el grupo es valido, es decir que cumpla con la secuencia de que sean del mismo color 
