@@ -5,28 +5,23 @@ import interfaces.ICommand;
 
 /**
  *
- * Comando que agrega fichas al grupo del jugador.
+ * Comando que agrega las fichas indicadas al tablero para el jugador.
  * 
  * @author pedro
  */
-public class ComandoAgregarFichaGrupo implements ICommand{
+public class ComandoAgregarFichasTablero implements ICommand{
+    
     private int[] idFichas;
-    private int[] idFichasGrupo;
-    private final String type = "ComandoAgregarFichaGrupo";
+    private final String type = "ComandoAgregarFichaTablero";
     private String nombreJugador;
 
-    public ComandoAgregarFichaGrupo(int[] idFichas, int[] idFichasGrupo, String nombreJugador) {
+    public ComandoAgregarFichasTablero(int[] idFichas, String nombreJugador) {
         this.idFichas = idFichas;
-        this.idFichasGrupo = idFichasGrupo;
         this.nombreJugador = nombreJugador;
     }
 
     public int[] getIdFichas() {
         return idFichas;
-    }
-
-    public int[] getIdFichasGrupo() {
-        return idFichasGrupo;
     }
 
     @Override

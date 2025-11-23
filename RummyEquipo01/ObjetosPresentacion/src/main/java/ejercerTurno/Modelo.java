@@ -1,5 +1,7 @@
 package ejercerTurno;
 
+import comandosSolicitud.ComandoAgregarFichasTablero;
+import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoTerminarTurno;
@@ -231,11 +233,13 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      *
      * @param idFichas colección de IDs de fichas a eliminar.
      */
-    public void quitarFichasTablero(int[] idFichas) {
+    public void quitarFichasTablero(int[] idsFichas) {
         
-        ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(idFichas, nombreJugador);
+        ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(idsFichas, nombreJugador);
         
-        boolean movimientoValido = tablero.quitarFichasTablero(idFichas);
+        filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
+        
+        boolean movimientoValido = tablero.quitarFichasTablero(idsFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
     }
@@ -247,6 +251,12 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
      */
     public void agregarFichasTablero(int[] idsFichas, int[] idsFichasGrupo) {
+        
+        ICommand comandoAgregarFichasTableroGrupo = new ComandoAgregarFichasTableroGrupo(idsFichas, idsFichasGrupo, nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoAgregarFichasTableroGrupo);
+        
+        // Quitar
         boolean movimientoValido = tablero.agregarFichasTablero(idsFichas, idsFichasGrupo);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();
@@ -258,6 +268,12 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param idsFichas colección de IDs de fichas a agregar.
      */
     public void agregarFichasTablero(int[] idsFichas) {
+        
+        ICommand comandoAgregarFichasTablero = new ComandoAgregarFichasTableroGrupo(idsFichas, idsFichas, nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoAgregarFichasTablero);
+        
+        // Quitar
         boolean movimientoValido = tablero.agregarFichasTablero(idsFichas);
         this.setMovimientoInvalido(!movimientoValido);
         this.notificar();

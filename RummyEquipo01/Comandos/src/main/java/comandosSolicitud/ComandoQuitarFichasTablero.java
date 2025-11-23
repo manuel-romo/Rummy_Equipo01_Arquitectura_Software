@@ -8,22 +8,28 @@ import interfaces.ICommand;
 
 /**
  *
- * Comando que agrega las fichas indicadas al tablero para el jugador.
+ * Comando que solicita quitar fichas del tablero y del grupo indicado para un jugador.
  * 
  * @author pedro
  */
-public class ComandoAgregarFichaTablero implements ICommand{
+public class ComandoQuitarFichasTablero implements ICommand{
     private int[] idFichas;
-    private final String type = "ComandoAgregarFichaTablero";
+    private int[] idFichasGrupo;
+    private final String type = "ComandoQuitarFichaTablero";
     private String nombreJugador;
 
-    public ComandoAgregarFichaTablero(int[] idFichas, String nombreJugador) {
+    public ComandoQuitarFichasTablero(int[] idFichas, int[] idFichasGrupo, String nombreJugador) {
         this.idFichas = idFichas;
+        this.idFichasGrupo = idFichasGrupo;
         this.nombreJugador = nombreJugador;
     }
 
     public int[] getIdFichas() {
         return idFichas;
+    }
+
+    public int[] getIdFichasGrupo() {
+        return idFichasGrupo;
     }
 
     @Override

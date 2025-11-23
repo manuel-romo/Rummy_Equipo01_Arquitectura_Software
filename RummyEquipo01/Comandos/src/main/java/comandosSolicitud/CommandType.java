@@ -11,7 +11,6 @@ import comandosRespuesta.*;
 public enum CommandType {
           
     SELECCIONAR_FICHAS_TABLERO("ComandoSeleccionarFichasTablero"),
-    AGREGAR_FICHAS_GRUPO("ComandoAgregarFichasGrupo"),
     AGREGAR_FICHAS_TABLERO("ComandoAgregarFichasTablero"),
     AGREGAR_FICHAS_TABLERO_GRUPO("ComandoAgregarFichasTableroGrupo"),
     CAMBIAR_TURNO_SERIALIZADO("ComandoCambiarTurnoSerializado"),
