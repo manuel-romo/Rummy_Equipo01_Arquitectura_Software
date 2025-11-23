@@ -1,6 +1,7 @@
 
 package entidades;
 
+import excepciones.RummyException;
 import java.util.List;
 
 /**
@@ -65,7 +66,7 @@ public abstract class Grupo {
      * 
      * @param fichas arreglo de fichas a agregar al grupo.
      */
-    public abstract void agregarFichas(List<Ficha> fichas);
+    public abstract void agregarFichas(List<Ficha> fichas) throws RummyException;
     
     /**
      * Remueve una o más fichas del grupo.
