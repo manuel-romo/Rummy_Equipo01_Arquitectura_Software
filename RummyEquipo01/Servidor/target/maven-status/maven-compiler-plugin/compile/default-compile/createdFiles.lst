@@ -1,9 +1,13 @@
-objetos_negocio\FachadaTablero$1.class
 objetos_negocio\Ficha.class
-objetos_negocio\GrupoColores.class
 objetos_negocio\Grupo.class
-objetos_negocio\Jugador.class
-objetos_negocio\Monton.class
+reglas\ReglasGrupos.class
+objetos_negocio\FichaNormal.class
 objetos_negocio\GrupoSecuencia.class
 objetos_negocio\FachadaTablero.class
 objetos_negocio\Tablero.class
+enumeradores\ColorFicha.class
+objetos_negocio\GrupoColores.class
+objetos_negocio\Jugador.class
+objetos_negocio\Monton.class
+objetos_negocio\FichaComodin.class
+objetos_negocio\Tablero$1.class

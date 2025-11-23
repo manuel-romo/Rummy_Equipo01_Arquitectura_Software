@@ -20,10 +20,13 @@ import entidades.GrupoColores;
 import entidades.GrupoSecuencia;
 import entidades.Jugador;
 import entidades.Monton;
+import excepciones.RummyException;
 import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -241,7 +244,11 @@ public class Fachada implements ITablero {
             
             System.out.println("AGREGANDO A GRUPO: " + grupo.getNumero());
 
-            grupo.agregarFichas(listaFichas);
+            try {
+                grupo.agregarFichas(listaFichas);
+            } catch (RummyException ex) {
+                Logger.getLogger(Fachada.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         }
        
@@ -314,6 +321,11 @@ public class Fachada implements ITablero {
 
     @Override
     public boolean validarGrupos() {
+        for (Grupo grupo : grupos) {
+            if (!grupo.comprobarValidez()) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -478,5 +490,9 @@ public class Fachada implements ITablero {
         return gruposNegocio;
         
     }
+
+
+
+
 
 }

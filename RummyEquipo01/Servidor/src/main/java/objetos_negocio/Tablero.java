@@ -2,6 +2,7 @@
 package objetos_negocio;
 
 import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosRespuesta.ComandoTableroInvalido;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
@@ -174,7 +175,17 @@ public class Tablero {
     }
     
     private void terminarTurno(String nombreJugador){
-        
+        if (validarTablero()) {
+            
+            ICommand comandoTerminarTurno = new ComandoTerminarTurno(nombreJugador);
+            
+            fachadaTablero.enviarComando(comandoTerminarTurno);
+            
+        } else {
+            ICommand comandoTableroInvalido = new ComandoTableroInvalido(nombreJugador);
+            
+            fachadaTablero.enviarComando(comandoTableroInvalido);
+        }
         
         
     }
