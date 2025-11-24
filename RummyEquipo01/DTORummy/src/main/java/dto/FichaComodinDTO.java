@@ -11,8 +11,8 @@ public class FichaComodinDTO extends FichaDTO{
 
     private String valor;
     
-    public FichaComodinDTO(ColorFichaDTO color, int id, String valor) {
-        super(color, id);
+    public FichaComodinDTO(ColorFichaDTO color, int id, String valor, String tipo) {
+        super(color, id, tipo);
         this.valor = valor;
     }
 

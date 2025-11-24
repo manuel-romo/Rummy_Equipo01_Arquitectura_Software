@@ -393,7 +393,9 @@ public class GestorEventos implements IGestorEventos{
 
         Integer[] idsFichasAgregar = listaIdsFichasAgregar.toArray(new Integer[0]);
 
-        Integer[] casillasAgregar = panelesCasillaAgregarFicha.toArray(new Integer[0]);
+        Integer[] casillasAgregar = panelesCasillaAgregarFicha.stream()
+                .map(panel -> panel.getId())
+                .toArray(Integer[]::new);
 
         panelMovimiento.setVisible(false);
         
@@ -440,7 +442,9 @@ public class GestorEventos implements IGestorEventos{
         
         Integer[] fichasQuitar = idsFichasQuitar.toArray(new Integer[0]);
 
-        Integer[] casillasQuitar = paneleslCasillaEliminarFicha.toArray(new Integer[0]);
+        Integer[] casillasQuitar = paneleslCasillaEliminarFicha.stream()
+            .map(panel -> panel.getId())
+            .toArray(Integer[]::new);
 
         if(fichasJugador){
             

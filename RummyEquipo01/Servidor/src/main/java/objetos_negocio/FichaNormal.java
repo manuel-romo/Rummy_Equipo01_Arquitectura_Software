@@ -11,8 +11,8 @@ public class FichaNormal extends Ficha{
     
     private int numero;
 
-    public FichaNormal(Integer id, ColorFicha color, boolean tieneGrupo, boolean esComodin, int numero) {
-        super(id, color, tieneGrupo, esComodin);
+    public FichaNormal(Integer id, ColorFicha color, boolean esComodin, int numero) {
+        super(id, color, esComodin);
         this.numero = numero;
     }
 

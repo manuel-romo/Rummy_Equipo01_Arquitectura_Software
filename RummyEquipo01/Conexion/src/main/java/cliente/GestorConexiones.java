@@ -32,13 +32,15 @@ public class GestorConexiones implements ISuscriptor{
                 conexionesActivas.put(direccionDestino, cliente);
                 
             } catch (IOException e) {
+                
+                System.out.println(e.getMessage());
 
                 System.err.println("Error al crear conexión para " + direccionDestino);
                 return;
             }
         }
         
-        boolean exito = cliente.enviarMensaje(new Mensaje(ip, puerto, contenido));
+        boolean exito = cliente.enviarMensaje(contenido);
         
         if (!exito) {
             conexionesActivas.remove(direccionDestino);

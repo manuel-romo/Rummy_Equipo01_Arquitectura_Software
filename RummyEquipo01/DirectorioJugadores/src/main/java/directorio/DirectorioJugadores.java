@@ -1,10 +1,12 @@
 package directorio;
 
+import comandoAgregarDireccionJugador.ComandoAgregarDireccionJugador;
 import comandoEnvolvente.ComandoEnvolvente;
+import comandosSolicitud.CommandType;
 import interfaces.ICommand;
-import interfaces.IDirectorio;
 import interfaces.IDispatcher;
 import interfaces.IFiltro;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,7 +20,11 @@ import java.util.Map;
  */
 public class DirectorioJugadores implements IFiltro {
 
-    private Map<String, String[]> jugadoresDirecciones;
+    private Map<String, String[]> jugadoresDirecciones =
+    Map.of(
+        "Sandy_43", new String[]{"127.0.0.1", "51000"},
+        "Juan_27", new String[]{"127.0.0.1", "52000"}
+    );
     private IDispatcher dispatcher;
 
     public void agregarJugador(String nombreJugador, String[] direccion) {
@@ -28,12 +34,36 @@ public class DirectorioJugadores implements IFiltro {
     public void setDispatcher(IDispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
+    
+    public void agregarDireccionNombreJugador(String nombreJugador, String[] direccionJugador){
+        
+        jugadoresDirecciones.put(nombreJugador, direccionJugador);
+        
+    }
 
     @Override
     public void ejecutar(ICommand comando) {
-        ComandoEnvolvente envolvente = (ComandoEnvolvente) comando;
+        
+        CommandType tipoComando = CommandType.fromNombre(comando.getType());
+        
+        switch (tipoComando) {
 
-        dispatcher.agregarMensaje(envolvente.getMensajeSerializado(), jugadoresDirecciones.get(comando.getNombreJugador()));
+            case CommandType.COMANDO_AGREGAR_DIRECCION_JUGADOR:
+
+                ComandoAgregarDireccionJugador comandoAgregarDireccionJugador = (ComandoAgregarDireccionJugador) comando;
+
+                agregarDireccionNombreJugador(comandoAgregarDireccionJugador.getNombreJugador(), comandoAgregarDireccionJugador.getDireccion());
+
+                break;
+
+            case CommandType.COMANDO_ENVOLVENTE:
+
+                ComandoEnvolvente envolvente = (ComandoEnvolvente) comando;
+
+                dispatcher.agregarMensaje(envolvente.getMensajeSerializado(), jugadoresDirecciones.get(comando.getNombreJugador()));
+
+                break;
+        }
     }
 
 }

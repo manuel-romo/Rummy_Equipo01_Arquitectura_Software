@@ -49,7 +49,6 @@ public class ColaMensajesEnviar implements IDispatcher, Runnable{
         }
     
         try {
-
             colaMensajes.put(new Mensaje(ip, puerto, mensaje)); 
 
         } catch (InterruptedException e) {

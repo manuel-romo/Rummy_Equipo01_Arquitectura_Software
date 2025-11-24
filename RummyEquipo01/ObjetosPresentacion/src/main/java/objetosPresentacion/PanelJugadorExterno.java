@@ -54,11 +54,10 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
     
     Font fuenteDatosJugador = new Font("Arial", Font.BOLD, 26);
     
-    public PanelJugadorExterno(PosicionPanel posicionPanel, String nombreJugador, String avatarJugador, String cantidadFichasRestantes){
+    public PanelJugadorExterno(PosicionPanel posicionPanel, String nombreJugador, String avatarJugador){
         
         this.nombreJugador = nombreJugador;
         this.avatarJugador = avatarJugador;
-        this.cantidadFichasRestantes = cantidadFichasRestantes;
         this.posicionPanel = posicionPanel;
                 
         setOpaque(false);
@@ -803,12 +802,87 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
     }
 
     public void pintar(IEstadoJugadorExterno estadoJugadorExterno) {
+        
+        JugadorExternoInformacionPanel[] jugadoresExternosInformacion = estadoJugadorExterno.getJugadoresExternos();
+        
+        JugadorExternoInformacionPanel jugadorExternoInformacionPanel = null;
+        
+        if(jugadoresExternosInformacion.length == 3){
+            
+            switch (posicionPanel) {
+                case PosicionPanel.IZQUIERDA_CENTRO:
+                    
+                    jugadorExternoInformacionPanel = jugadoresExternosInformacion[0];
+                    
+                    
+                    break;
+                    
+                case PosicionPanel.CENTRO_ARRIBA:
+                    
+                    jugadorExternoInformacionPanel = jugadoresExternosInformacion[1];
+                    
+                    break;
+                    
+                case PosicionPanel.DERECHA_CENTRO:
+                    
+                    jugadorExternoInformacionPanel = jugadoresExternosInformacion[2];
+                    
+                    break;
+                    
+                default:
+                    throw new AssertionError();
+            }
+            
+        } else if(jugadoresExternosInformacion.length == 2){
+            
+            switch (posicionPanel) {
+                case PosicionPanel.IZQUIERDA_CENTRO:
+                    
+                    jugadorExternoInformacionPanel = jugadoresExternosInformacion[0];
+                    
+                    break;
+                    
+                case PosicionPanel.CENTRO_ARRIBA:
+                    
+                    jugadorExternoInformacionPanel = jugadoresExternosInformacion[1];
+                    
+                    break;
+                    
+                default:
+                    throw new AssertionError();
+            }
+            
+        } else if(jugadoresExternosInformacion.length == 1){
+            
+            if(posicionPanel == PosicionPanel.CENTRO_ARRIBA){
+                
+                jugadorExternoInformacionPanel = jugadoresExternosInformacion[0];
+                
+                cantidadFichasRestantes = jugadorExternoInformacionPanel.getFichasRestantes();
+            
+            }
+            
+                    
+        }
+        
+        nombreJugador = jugadorExternoInformacionPanel.getNombre();
+        avatarJugador = jugadorExternoInformacionPanel.getAvatar();
+        cantidadFichasRestantes = jugadorExternoInformacionPanel.getFichasRestantes();
+
         repaint();
     }
 
     @Override
     public PosicionPanel getPosicion() {
         return posicionPanel;
+    }
+
+    public void setNombreJugador(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
+    }
+
+    public void setAvatarJugador(String avatarJugador) {
+        this.avatarJugador = avatarJugador;
     }
     
 }

@@ -1,14 +1,12 @@
 
 package com.equipo01.ensambladorservidor;
 
-import cliente.Cliente;
 import cliente.ColaMensajesEnviar;
 import cliente.GestorConexiones;
 import deserializador.Deserializador;
 import directorio.DirectorioJugadores;
-import interfaces.ISuscriptor;
-import java.io.IOException;
 import objetos_negocio.FachadaTablero;
+import objetos_negocio.Tablero;
 import serializador.Serializador;
 import servidor.ColaMensajesRecibidos;
 import servidor.Servidor;
@@ -37,6 +35,8 @@ public class EnsambladorServidor {
             
             FachadaTablero fachadaTablero = new FachadaTablero();
             
+            Tablero tablero = new Tablero();
+            
             Servidor servidorServidor = new Servidor(50000);
             
             ColaMensajesRecibidos colaMensajesRecibidos = new ColaMensajesRecibidos();
@@ -53,6 +53,9 @@ public class EnsambladorServidor {
             
             fachadaTablero.setFiltroSiguiente(serializador);
             
+            tablero.setFachadaTablero(fachadaTablero);
+            
+            fachadaTablero.setTablero(tablero);
             
             // Conexión de componentes (Recepción).
             
@@ -61,15 +64,18 @@ public class EnsambladorServidor {
             colaMensajesRecibidos.setReceptor(deserializador);
             
             deserializador.setFiltroSiguiente(fachadaTablero);
+            
+            new Thread(colaMensajesEnviar).start();
+            
+            new Thread(servidorServidor).start();
+            new Thread(colaMensajesRecibidos).start();
+            
+            tablero.iniciarJuego();
                
             
         } catch (Exception ex) {
-            
+            System.out.println(ex.getMessage());
         }
-        
-        
-        
-        
         
         
     }

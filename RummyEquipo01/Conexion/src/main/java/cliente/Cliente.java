@@ -25,7 +25,7 @@ public class Cliente {
         System.out.println("Nueva conexión establecida con " + ip + ":" + puerto);
     }
 
-    public boolean enviarMensaje(Mensaje mensaje){
+    public boolean enviarMensaje(String mensaje){
         if (out != null) {
             out.println(mensaje);
             

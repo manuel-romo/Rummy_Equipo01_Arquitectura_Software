@@ -26,7 +26,10 @@ public class JugadorDTO {
     public String getNombre() {
         return nombre;
     }
-    
+
+    public void setFichas(List<FichaDTO> fichas) {
+        this.fichas = fichas;
+    }
     
     
 }

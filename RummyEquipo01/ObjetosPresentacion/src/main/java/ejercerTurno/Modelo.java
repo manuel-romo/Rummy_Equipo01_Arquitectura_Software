@@ -3,6 +3,7 @@ package ejercerTurno;
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
@@ -236,7 +237,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      */
     public void agregarFichasTablero(Integer[] idsFichas) {
         
-        ICommand comandoAgregarFichasTablero = new ComandoAgregarFichasTableroGrupo(idsFichas, idsFichas, nombreJugador);
+        ICommand comandoAgregarFichasTablero = new ComandoAgregarFichasTablero(idsFichas, nombreJugador);
         
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTablero);
         
@@ -264,6 +265,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
         this.tablero = tablero;
         this.movimientoInvalido = !movimientoValido;
+        notificar();
     }
     
     private void avisarTableroInvalido(){
@@ -505,6 +507,10 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
             case CommandType.RESPUESTA_MOVIMIENTO:
                 
                 ComandoRespuestaMovimiento comandoRespuestaMovimiento = (ComandoRespuestaMovimiento) comando;
+                
+                
+                System.out.println("RESPUESTA MOVIMIENTO:");
+                System.out.println(comandoRespuestaMovimiento.getTablero().getJugadorTurno().getFichas().size());
                 
                 responderMovimiento(comandoRespuestaMovimiento.getTablero(), comandoRespuestaMovimiento.isMovimientoValido());
                 

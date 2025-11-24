@@ -14,12 +14,12 @@ import interfaces.ICommand;
  * 
  * @author pedro
  */
-public class ComandoRestablecerRespuesta implements ICommand {
+public class ComandoReestablecerRespuesta implements ICommand {
     private TableroDTO tablero;
     private final String type = "ComandoRestablecerRespuesta";
     private String nombreJugador;
 
-    public ComandoRestablecerRespuesta(TableroDTO tablero, String nombreJugador) {
+    public ComandoReestablecerRespuesta(TableroDTO tablero, String nombreJugador) {
         this.tablero = tablero;
         this.nombreJugador = nombreJugador;
     }

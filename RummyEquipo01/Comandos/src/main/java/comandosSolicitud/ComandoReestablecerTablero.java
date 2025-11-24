@@ -9,11 +9,11 @@ import interfaces.ICommand;
  * 
  * @author pedro
  */
-public class ComandoRestablecerTablero implements ICommand{
+public class ComandoReestablecerTablero implements ICommand{
     private final String type = "ComandoRestablecerTablero";
     private String nombreJugador;
     
-    public ComandoRestablecerTablero(String nombreJugador) {
+    public ComandoReestablecerTablero(String nombreJugador) {
         this.nombreJugador = nombreJugador;
     }
 

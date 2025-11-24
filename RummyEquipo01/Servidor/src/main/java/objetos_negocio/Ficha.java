@@ -15,11 +15,6 @@ public abstract class Ficha {
      */
     private Integer id;
     
-    /**
-     * Determina si esta ficha pertenece a un grupo o no.
-     */
-    private boolean tieneGrupo;
-    
     private ColorFicha color;
     
     private boolean esComodin;
@@ -31,22 +26,11 @@ public abstract class Ficha {
      * Constructor de la clase ficha, donde se inicia su grupo como nulo ya que no pertenece a ninguno.
      * @param id 
      */
-    public Ficha(Integer id, ColorFicha color, boolean tieneGrupo, boolean esComodin) {
+    public Ficha(Integer id, ColorFicha color, boolean esComodin) {
         this.id = id;
         this.color = color;
-        this.tieneGrupo = tieneGrupo;
         this.esComodin = esComodin;
     }
-
-    public Ficha(Integer id, boolean tieneGrupo, ColorFicha color, boolean esComodin, Grupo grupo) {
-        this.id = id;
-        this.tieneGrupo = tieneGrupo;
-        this.color = color;
-        this.esComodin = esComodin;
-        this.grupo = grupo;
-    }
-    
-    
 
     /**
      * Getter del id de la ficha.
@@ -69,15 +53,7 @@ public abstract class Ficha {
      * @return Valor booleano que determina si la ficha tiene grupo.
      */
     public boolean isTieneGrupo() {
-        return tieneGrupo;
-    }
-
-    /**
-     * Setter del valor que determina si la ficha tiene grupo-
-     * @param tieneGrupo Valor booleano que determina si la ficha tiene grupo.
-     */
-    public void setTieneGrupo(boolean tieneGrupo) {
-        this.tieneGrupo = tieneGrupo;
+        return grupo != null;
     }
 
     public ColorFicha getColor() {

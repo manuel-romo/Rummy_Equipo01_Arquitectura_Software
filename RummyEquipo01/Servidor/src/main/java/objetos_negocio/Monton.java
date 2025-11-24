@@ -10,7 +10,11 @@ import java.util.List;
 public class Monton {
     
     private List<Ficha> fichasMonton;
-    
+
+    public Monton(List<Ficha> fichasMonton) {
+        this.fichasMonton = fichasMonton;
+    }
+
     public int getCantidadFichas(){
         
         return fichasMonton.size();

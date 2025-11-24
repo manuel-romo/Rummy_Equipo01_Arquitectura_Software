@@ -39,7 +39,7 @@ public class Serializador implements IFiltro {
      */
     @Override
     public void ejecutar(ICommand comando) {
-        String accion = this.serializarAccion(comando);
+        String accion = serializarAccion(comando);
         ICommand comandoEnvolvente = new ComandoEnvolvente(accion,comando.getNombreJugador());
        
 

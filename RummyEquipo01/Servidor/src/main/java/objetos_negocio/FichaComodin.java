@@ -10,8 +10,8 @@ public class FichaComodin extends Ficha{
     
     private String valor;
 
-    public FichaComodin(Integer id, ColorFicha color, boolean tieneGrupo, boolean esComodin, String valor) {
-        super(id, color, tieneGrupo, esComodin);
+    public FichaComodin(Integer id, ColorFicha color, boolean esComodin, String valor) {
+        super(id, color, esComodin);
         this.valor = valor;
     }
 

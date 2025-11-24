@@ -20,6 +20,7 @@ public class ComandoCambioTurno implements ICommand {
 
     public ComandoCambioTurno(TableroDTO tablero, String nombreJugador) {
         this.nombreJugador = nombreJugador;
+        this.tablero = tablero;
     }
 
     public String getNombreJugador() {

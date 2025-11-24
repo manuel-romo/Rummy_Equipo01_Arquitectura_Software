@@ -9,10 +9,6 @@ public class Controlador {
     public Controlador(Modelo modelo){
         this.modelo = modelo;
     }
-
-    public void iniciarTurno(){
-        
-    }
     
     public void seleccionarFichasTablero(Integer[] idsFichas) {
         modelo.seleccionarFichasTablero(idsFichas);

@@ -3,19 +3,17 @@ package com.ensamblador;
 
 import cliente.ColaMensajesEnviar;
 import cliente.GestorConexiones;
-import comunicacion.Comunicacion;
-import comunicacion.IComunicacion;
 import deserializador.Deserializador;
 import directorioServidor.DirectorioServidor;
 import ejercerTurno.Controlador;
 import ejercerTurno.IReceptorEventos;
 import ejercerTurno.Modelo;
 import ejercerTurno.VistaMesaJuego;
-import interfaces.IReceptor;
 import interfaces.ISuscriptor;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import objetosPresentacion.GestorEventos;
 import objetosPresentacion.IComponente;
 import objetosPresentacion.IGestorEventos;
@@ -43,6 +41,14 @@ public class EnsambladorCliente {
     
     public static void main(String[] args) {
         
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nombre del jugador: ");
+        String nombreJugador = sc.nextLine();
+        System.out.print("Dirección de imagen de avatar: ");
+        String direccionImagenAvatar = sc.nextLine();
+        System.out.print("Puerto de cliente: ");
+        String puertoCliente = sc.nextLine();
+        
         // Creación de clases de componentes
         IComponente panelMonton = new PanelMonton();
         
@@ -62,17 +68,17 @@ public class EnsambladorCliente {
         }
         
         IComponente panelJugadorPrincipal = new PanelJugadorPrincipal(panelesCasillaJugador);
-        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA, "Sandy43", "avatar2.png", "14");
-        IComponente panelJugadorExterno2 = new PanelJugadorExterno(PosicionPanel.DERECHA_CENTRO, "Lucas12", "avatar1.png", "14");
-        IComponente panelJugadorExterno3 = new PanelJugadorExterno(PosicionPanel.IZQUIERDA_CENTRO, "Juan27", "avatar3.png", "14");
+        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA, nombreJugador, direccionImagenAvatar);
+//        IComponente panelJugadorExterno2 = new PanelJugadorExterno(PosicionPanel.DERECHA_CENTRO);
+//        IComponente panelJugadorExterno3 = new PanelJugadorExterno(PosicionPanel.IZQUIERDA_CENTRO);
         
         IComponente panelMesaJuego = new PanelMesaJuego();
         
         panelMesaJuego.agregarComponente(panelMonton);
         panelMesaJuego.agregarComponente(panelTablero);
         panelMesaJuego.agregarComponente(panelJugadorExterno1);
-        panelMesaJuego.agregarComponente(panelJugadorExterno2);
-        panelMesaJuego.agregarComponente(panelJugadorExterno3);
+//        panelMesaJuego.agregarComponente(panelJugadorExterno2);
+//        panelMesaJuego.agregarComponente(panelJugadorExterno3);
         panelMesaJuego.agregarComponente(panelJugadorPrincipal);
 
         Map<Integer, Color> mapaColoresSeleccionados = Map.of(
@@ -82,33 +88,47 @@ public class EnsambladorCliente {
             4, Color.DARK_GRAY
         );      
         
-        Map<Integer,Integer> mapaIdsCasillasPanelesJugador = new HashMap<>();
+         Map<Integer,Integer> mapaIdsCasillasPanelesJugador = new HashMap<>();
         
-        mapaIdsCasillasPanelesJugador.put(1, 1);
-        mapaIdsCasillasPanelesJugador.put(2, 2);
-        mapaIdsCasillasPanelesJugador.put(3, 3);
-        mapaIdsCasillasPanelesJugador.put(4, 4);
-        mapaIdsCasillasPanelesJugador.put(5, 5);
-        mapaIdsCasillasPanelesJugador.put(6, 6);
-        mapaIdsCasillasPanelesJugador.put(7, 7);
-        mapaIdsCasillasPanelesJugador.put(8, 8);
-        mapaIdsCasillasPanelesJugador.put(9, 9);
-        mapaIdsCasillasPanelesJugador.put(10, 10);
-        mapaIdsCasillasPanelesJugador.put(11, 11);
+        if(nombreJugador.equals("Sandy_43")){
+            mapaIdsCasillasPanelesJugador.put(1, 6);
+            mapaIdsCasillasPanelesJugador.put(2, 11);
+            mapaIdsCasillasPanelesJugador.put(3, 3);
+            mapaIdsCasillasPanelesJugador.put(4, 9);
+            mapaIdsCasillasPanelesJugador.put(5, 12);
+            mapaIdsCasillasPanelesJugador.put(6, 1);
+            mapaIdsCasillasPanelesJugador.put(7, 7);
+            mapaIdsCasillasPanelesJugador.put(8, 4);
+            mapaIdsCasillasPanelesJugador.put(9, 10);
+            mapaIdsCasillasPanelesJugador.put(10, 5);
+            mapaIdsCasillasPanelesJugador.put(11, 2);
+            mapaIdsCasillasPanelesJugador.put(12, 8);
+            mapaIdsCasillasPanelesJugador.put(13, 13);
+            mapaIdsCasillasPanelesJugador.put(14, 6);
+        }
+        
+        if(nombreJugador.equals("Juan_27")){
+            mapaIdsCasillasPanelesJugador.put(1, 7);
+            mapaIdsCasillasPanelesJugador.put(2, 3);
+            mapaIdsCasillasPanelesJugador.put(3, 12);
+            mapaIdsCasillasPanelesJugador.put(4, 4);
+            mapaIdsCasillasPanelesJugador.put(5, 9);
+            mapaIdsCasillasPanelesJugador.put(6, 5);
+            mapaIdsCasillasPanelesJugador.put(7, 10);
+            mapaIdsCasillasPanelesJugador.put(8, 1);
+            mapaIdsCasillasPanelesJugador.put(9, 11);
+            mapaIdsCasillasPanelesJugador.put(10, 2);
+            mapaIdsCasillasPanelesJugador.put(11, 8);
+            mapaIdsCasillasPanelesJugador.put(12, 13);
+            mapaIdsCasillasPanelesJugador.put(13, 6);
+            mapaIdsCasillasPanelesJugador.put(14, 7);
+        }
+        
+        
         
         Map<Integer,Integer> mapaIdsCasillasPanelesTablero = new HashMap<>();
         
-        mapaIdsCasillasPanelesTablero.put(1, 22);
-        mapaIdsCasillasPanelesTablero.put(2, 23);        
-        mapaIdsCasillasPanelesTablero.put(3, 24);
-        
-        mapaIdsCasillasPanelesTablero.put(5, 25);
-        mapaIdsCasillasPanelesTablero.put(6, 26);
-        mapaIdsCasillasPanelesTablero.put(7, 27);        
-        mapaIdsCasillasPanelesTablero.put(8, 28);
-        mapaIdsCasillasPanelesTablero.put(9, 29);
-        
-        Modelo modelo = new Modelo("nombre_ejemplo");
+        Modelo modelo = new Modelo(nombreJugador);
         Controlador controlador = new Controlador(modelo);
         
         IComponente panelMovimiento = new PanelMovimiento();
@@ -144,7 +164,9 @@ public class EnsambladorCliente {
         
         ColaMensajesRecibidos colaMensajesRecibidos = new ColaMensajesRecibidos();
         
-        Servidor servidor = new Servidor(50000);
+        Servidor servidor = new Servidor(Integer.valueOf(puertoCliente));
+        
+        servidor.setReceptor(colaMensajesRecibidos);
         
         new Thread(servidor).start();
         new Thread(colaMensajesRecibidos).start();
@@ -163,9 +185,6 @@ public class EnsambladorCliente {
         colaMensajesRecibidos.setReceptor(deserializadorCliente);
         
         deserializadorCliente.setFiltroSiguiente(modelo);
-        
-        controlador.iniciarTurno();
-        
         
     }
 }

@@ -18,12 +18,14 @@ public enum CommandType {
     QUITAR_FICHAS_JUGADOR("ComandoQuitarFichasJugador"),
     RESTABLECER_TABLERO("ComandoRestablecerTablero"),
     TERMINAR_TURNO("ComandoTerminarTurno"),
-    CAMBIO_TURNO("ComandoTerminarTurno"),
+    CAMBIO_TURNO("ComandoCambioTurno"),
     INICIAR_TURNO("ComandoIniciarTurno"),
     RESPUESTA_MOVIMIENTO("ComandoRespuestaMovimiento"),
     COMANDO_RESTABLECER_RESPUESTA("ComandoRestablecerRespuesta"),
     COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido"),
-    COMANDO_ENVOLVENTE("ComandoEnvolvente");
+    COMANDO_ENVOLVENTE("ComandoEnvolvente"),
+    
+    COMANDO_AGREGAR_DIRECCION_JUGADOR("ComandoAgregarDireccionJugador");
 
     private final String nombre;
 
