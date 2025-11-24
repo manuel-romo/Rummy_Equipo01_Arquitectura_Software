@@ -108,8 +108,6 @@ public class EnsambladorCliente {
         mapaIdsCasillasPanelesTablero.put(8, 28);
         mapaIdsCasillasPanelesTablero.put(9, 29);
         
-        IComunicacion comunicacion = new Comunicacion();
-        
         Modelo modelo = new Modelo("nombre_ejemplo");
         Controlador controlador = new Controlador(modelo);
         

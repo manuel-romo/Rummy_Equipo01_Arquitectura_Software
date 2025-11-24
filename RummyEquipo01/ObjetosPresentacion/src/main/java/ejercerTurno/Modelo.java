@@ -8,28 +8,26 @@ import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoTerminarTurno;
 import comandosSolicitud.CommandType;
-import dto.ColorFichaNegocioDTO;
 import dto.ColorFichaPresentacionDTO;
-import dto.FichaNegocioDTO;
 import dto.FichaPresentacionDTO;
-import dto.GrupoNegocioDTO;
 import dto.JugadorExternoPresentacionDTO;
-import dto.JugadorNegocioDTO;
 import dto.JugadorPrincipalPresentacionDTO;
-import dto.MontonNegocioDTO;
 import dto.MontonPresentacionDTO;
-import dto.TableroNegocioDTO;
 import dto.TableroPresentacionDTO;
-import fachada.Fachada;
-import interfaces.ITablero;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import dto.ComodinNegocioDTO;
 import dto.ComodinPresentacionDTO;
-import dto.FichaNormalNegocioDTO;
+import dto.FichaComodinDTO;
+import dto.FichaDTO;
+import dto.FichaNormalDTO;
 import dto.FichaNormalPresentacionDTO;
+import dto.GrupoDTO;
+import dto.JugadorDTO;
+import dto.MontonDTO;
 import dto.TableroDTO;
+import enumeradores.ColorFichaDTO;
+
 import interfaces.ICommand;
 import interfaces.IFiltro;
 
@@ -46,12 +44,6 @@ import interfaces.IFiltro;
  * depender todavía de las entidades finales.
  */
 public class Modelo implements IPublicador, IModelo, IFiltro {
-
-    /**
-     * Referencia a la fachada que actúa como simulador del tableroQuitar.
-     */
-    
-    private ITablero tableroQuitar = new Fachada();
     
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
@@ -106,24 +98,6 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
 
     public void setFiltroEnvioMensaje(IFiltro filtroEnvioMensaje) {
         this.filtroEnvioMensaje = filtroEnvioMensaje;
-    }
-
-    /**
-     * Obtiene la fachada que representa el tableroQuitar actual.
-     *
-     * @return objeto que implementa {@link ITablero}.
-     */
-    public ITablero getTableroQuitar() {
-        return tableroQuitar;
-    }
-
-    /**
-     * Asigna una nueva fachada al tableroQuitar.
-     *
-     * @param tableroQuitar implementación de {@link ITablero}.
-     */
-    public void setTableroQuitar(ITablero tableroQuitar) {
-        this.tableroQuitar = tableroQuitar;
     }
 
     /**
@@ -308,32 +282,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
         ICommand comandoFinalizarTurno = new ComandoTerminarTurno(nombreJugador);
         filtroEnvioMensaje.ejecutar(comandoFinalizarTurno);
-            
-        // Quitar
-        if (tableroQuitar.validarGrupos()) {
-            this.setTableroInvalido(false);
-            this.setVistaHabilitado(false);
-            
-            JugadorNegocioDTO jugadorPrincipal = tableroQuitar.obtenerJugadorPrincipal();
-            JugadorNegocioDTO[] jugadoresExternos = tableroQuitar.obtenerJugadoresExternos();
-            MontonNegocioDTO montonNegocio = tableroQuitar.obtenerMonton();
-            GrupoNegocioDTO[] gruposNegocio = tableroQuitar.obtenerGruposNegocio();
-            
-            TableroNegocioDTO tableroNegocio =
-                    new TableroNegocioDTO(jugadorPrincipal, 
-                            jugadoresExternos, 
-                            gruposNegocio, 
-                            montonNegocio);
-            
-            
-            
-            
-        } else {
-            this.setTableroInvalido(true);
-        }
-        this.notificar();
-        
-        
+
     }
 
     /**
@@ -370,13 +319,13 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public JugadorPrincipalPresentacionDTO obtenerJugadorPrincipal() {
         
-        List<FichaNegocioDTO> fichasNegocio = tableroQuitar.obtenerJugadorPrincipal().getFichas();
+        List<FichaDTO> fichasDTO = tablero.getJugadorTurno().getFichas();
         
         List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
         
-        for (FichaNegocioDTO fichaNegocioDTO : fichasNegocio) {
+        for (FichaDTO fichaDTO : fichasDTO) {
             
-            FichaPresentacionDTO fichaPresentacion = obtenerFichaPresentacionDTO(fichaNegocioDTO);
+            FichaPresentacionDTO fichaPresentacion = obtenerFichaPresentacionDTO(fichaDTO);
             fichasPresentacion.add(fichaPresentacion);
             
         }
@@ -389,13 +338,13 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public MontonPresentacionDTO obtenerMontonPresentacion() {
         
-        return obtenerMontonPresentacionDTO(tableroQuitar.obtenerMonton());
+        return obtenerMontonPresentacionDTO(tablero.getMonton());
         
     }
     
-    private MontonPresentacionDTO obtenerMontonPresentacionDTO(MontonNegocioDTO montonNegocioDTO){
+    private MontonPresentacionDTO obtenerMontonPresentacionDTO(MontonDTO montonDTO){
         
-        return new MontonPresentacionDTO(montonNegocioDTO.getFichas().size());
+        return new MontonPresentacionDTO(montonDTO.getCantidadFichas());
         
     }
 
@@ -427,19 +376,19 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public JugadorExternoPresentacionDTO[] obtenerJugadoresExternos() {
         
-        JugadorNegocioDTO[] jugadoresExternosNegocio = tableroQuitar.obtenerJugadoresExternos();
+        JugadorDTO[] jugadores = tablero.getJugadores();
         
         List<JugadorExternoPresentacionDTO> jugadoresExternosPresentacionDTO = new LinkedList<>();
         
-        for(JugadorNegocioDTO jugadorExternoNegocio: jugadoresExternosNegocio){
+        for(JugadorDTO jugador: jugadores){
 
-            List<FichaNegocioDTO> fichasNegocio = jugadorExternoNegocio.getFichas();
+            List<FichaDTO> fichasDTO = jugador.getFichas();
            
-            int cantidadFichasRestante = fichasNegocio.size();
+            int cantidadFichasRestante = fichasDTO.size();
             
             jugadoresExternosPresentacionDTO.add(new JugadorExternoPresentacionDTO(
-                    jugadorExternoNegocio.getAvatar(), 
-                    jugadorExternoNegocio.getNombre(),
+                    jugador.getAvatar(), 
+                    jugador.getNombre(),
                     cantidadFichasRestante));
             
         }
@@ -455,20 +404,20 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     @Override
     public TableroPresentacionDTO obtenerTablero() {
         
-        GrupoNegocioDTO[] gruposNegocio = tableroQuitar.obtenerGruposNegocio();
+        GrupoDTO[] grupos = tablero.getGrupos();
         
         System.out.println("Cantidad de grupos obtenidos");
-        System.out.println(gruposNegocio.length);
+        System.out.println(grupos.length);
         
         List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
         
-        for(GrupoNegocioDTO grupoNegocio: gruposNegocio){
+        for(GrupoDTO grupo: grupos){
             
-            List<FichaNegocioDTO> fichasNegocio = grupoNegocio.getFichasNegocioDTO();
+            List<FichaDTO> fichasDTO = grupo.getFichas();
             
-            for(FichaNegocioDTO fichaNegocioDTO: fichasNegocio){
+            for(FichaDTO fichaDTO: fichasDTO){
                 
-                fichasPresentacion.add(obtenerFichaPresentacionDTO(fichaNegocioDTO));
+                fichasPresentacion.add(obtenerFichaPresentacionDTO(fichaDTO));
                 
             }
             
@@ -481,29 +430,29 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
     }
     
-    private FichaPresentacionDTO obtenerFichaPresentacionDTO(FichaNegocioDTO fichaNegocioDTO){
+    private FichaPresentacionDTO obtenerFichaPresentacionDTO(FichaDTO fichaDTO){
         
         FichaPresentacionDTO fichaPresentacionDTO;
         
-        if(fichaNegocioDTO instanceof FichaNormalNegocioDTO){
+        if(fichaDTO instanceof FichaNormalDTO){
             
-            FichaNormalNegocioDTO fichaNormalNegocio = (FichaNormalNegocioDTO) fichaNegocioDTO;
+            FichaNormalDTO fichaNormalDTO = (FichaNormalDTO) fichaDTO;
             
-            ColorFichaNegocioDTO colorFichaNegocio = fichaNormalNegocio.getColor();
+            ColorFichaDTO colorFicha = fichaNormalDTO.getColor();
             ColorFichaPresentacionDTO colorFichaPresentacion;
 
-            switch (colorFichaNegocio) {
+            switch (colorFicha) {
 
-                case ColorFichaNegocioDTO.COLOR_A:
+                case ColorFichaDTO.COLOR_A:
                     colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_A;
                     break;
-                case ColorFichaNegocioDTO.COLOR_B:
+                case ColorFichaDTO.COLOR_B:
                     colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_B;
                     break;   
-                case ColorFichaNegocioDTO.COLOR_C:
+                case ColorFichaDTO.COLOR_C:
                     colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_C;
                     break;  
-                case ColorFichaNegocioDTO.COLOR_D:
+                case ColorFichaDTO.COLOR_D:
                     colorFichaPresentacion = ColorFichaPresentacionDTO.COLOR_D;
                     break;
 
@@ -512,18 +461,18 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
             }
         
         fichaPresentacionDTO = new FichaNormalPresentacionDTO(
-                fichaNormalNegocio.getNumero(), 
-                fichaNormalNegocio.getId(),
+                fichaNormalDTO.getNumero(), 
+                fichaNormalDTO.getId(),
                 colorFichaPresentacion);
         
             
         } else{
             
-            ComodinNegocioDTO comodinNegocioDTO = (ComodinNegocioDTO) fichaNegocioDTO;
+            FichaComodinDTO fichaComodinDTO = (FichaComodinDTO) fichaDTO;
              
             fichaPresentacionDTO = new ComodinPresentacionDTO(
-                comodinNegocioDTO.getValor(), 
-                comodinNegocioDTO.getId());
+                fichaComodinDTO.getValor(), 
+                fichaComodinDTO.getId());
             
         }
         

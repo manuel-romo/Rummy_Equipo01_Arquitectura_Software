@@ -15,6 +15,7 @@ import dto.FichaComodinDTO;
 import dto.FichaDTO;
 import dto.FichaNormalDTO;
 import dto.GrupoDTO;
+import dto.JugadorDTO;
 import dto.MontonDTO;
 import dto.TableroDTO;
 import enumeradores.ColorFicha;
@@ -326,18 +327,47 @@ public class Tablero {
             listaFichasJugadorDto.add(obtenerFichaDto(ficha));
 
         }
+        
+        JugadorDTO jugadorDto = new JugadorDTO(listaFichasJugadorDto, jugadorTurno.getAvatar(), jugadorTurno.getNombre());
+        
+        List<JugadorDTO> jugadoresNoTurnoDtp = new LinkedList<>();
+        
+        for(Jugador jugador: jugadores){
+            
+            if(!jugador.getNombre().equals(jugadorTurno.getNombre())){
+                
+                List<FichaDTO> listaFichasJugadorNoTurnoDto = new LinkedList<>();
 
-        List<GrupoDTO> listaGruposDto = new LinkedList<>();
+                for (Ficha ficha : jugador.getFichas()) {
+
+                    listaFichasJugadorNoTurnoDto.add(obtenerFichaDto(ficha));
+
+                }
+                
+                JugadorDTO jugadorNoTurnoDTO = new JugadorDTO(listaFichasJugadorNoTurnoDto, jugador.getAvatar(), jugador.getNombre());
+                
+                jugadoresNoTurnoDtp.add(jugadorNoTurnoDTO);
+                
+            }
+            
+        }
+        
+
+        List<GrupoDTO> gruposDTO = new LinkedList<>();
 
         for (Grupo grupo : grupos) {
 
-            listaGruposDto.add(obtenerGrupoDto(grupo));
+            gruposDTO.add(obtenerGrupoDto(grupo));
 
         }
 
         MontonDTO montonDto = obtenerMontoDTO(monton);
 
-        return new TableroDTO(listaGruposDto, listaFichasJugadorDto, montonDto);
+        return new TableroDTO(
+                gruposDTO.toArray(new GrupoDTO[0]), 
+                montonDto, 
+                jugadorDto, 
+                jugadoresNoTurnoDtp.toArray(new JugadorDTO[0]));
 
     }
 

@@ -1,34 +1,39 @@
 
 package dto;
 
-import java.util.List;
 
-/**
- *
- * @author ramon
- */
 public class TableroDTO {
-    private List<GrupoDTO> grupos;
-    private List<FichaDTO> fichas;
+    private GrupoDTO[] grupos;
     private MontonDTO monton;
+    private JugadorDTO jugadorTurno;
+    private JugadorDTO[] jugadores;
 
-    public TableroDTO(List<GrupoDTO> grupos, List<FichaDTO> fichas, MontonDTO monton) {
+    public TableroDTO(GrupoDTO[] grupos, MontonDTO monton, JugadorDTO jugadorTurno, JugadorDTO[] jugadores) {
         this.grupos = grupos;
-        this.fichas = fichas;
         this.monton = monton;
+        this.jugadorTurno = jugadorTurno;
+        this.jugadores = jugadores;
     }
-    
-    public List<GrupoDTO> getGrupos() {
+
+    public GrupoDTO[] getGrupos() {
         return grupos;
     }
-
-    public List<FichaDTO> getFichas() {
-        return fichas;
-    }
-
+    
     public MontonDTO getMonton() {
         return monton;
     }
+
+    public JugadorDTO getJugadorTurno() {
+        return jugadorTurno;
+    }
+
+    public JugadorDTO[] getJugadores() {
+        return jugadores;
+    }
+
+    
+
+    
     
     
     
