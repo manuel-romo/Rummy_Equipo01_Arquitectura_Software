@@ -114,4 +114,17 @@ public class ReglasGrupos {
     public static boolean esGrupoColores(List<Ficha> listaFichas){
         return false;
     }
+    
+    
+    public static boolean validarPrimerTurno(List<Ficha> fichas) {
+        int suma = 0;
+
+        for (Ficha ficha : fichas) {
+            if (ficha instanceof FichaNormal) {
+                suma += ((FichaNormal) ficha).getNumero();
+            }
+        }
+        return suma >= 30;
+    }
+
 }

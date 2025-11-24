@@ -6,11 +6,11 @@ import dto.MontonNegocioDTO;
 import dto.TableroNegocioDTO;
 
 public interface ITablero {
-    public abstract boolean agregarFichasTablero(int [] idFichas);
-    public abstract boolean agregarFichasTablero(int [] idFichas, int[] numerosGrupo);
-    public abstract boolean quitarFichasJugador(int []  idFichas);
-    public abstract boolean quitarFichasTablero(int [] idFichas);
-    public abstract boolean seleccionarFichasTablero(int [] idFichas);
+    public abstract boolean agregarFichasTablero(Integer [] idFichas);
+    public abstract boolean agregarFichasTablero(Integer [] idFichas, int[] numerosGrupo);
+    public abstract boolean quitarFichasJugador(Integer []  idFichas);
+    public abstract boolean quitarFichasTablero(Integer [] idFichas);
+    public abstract boolean seleccionarFichasTablero(Integer [] idFichas);
     public abstract void iniciarTurno(TableroNegocioDTO tableroNegocio);
     public abstract boolean validarGrupos();
     public abstract JugadorNegocioDTO obtenerJugadorPrincipal();

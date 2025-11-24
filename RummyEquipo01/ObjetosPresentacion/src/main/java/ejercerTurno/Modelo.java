@@ -207,16 +207,12 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      *
      * @param posicionesFichas arreglo con las posiciones seleccionadas.
      */
-    public void seleccionarFichasTablero(int[] posicionesFichas) {
+    public void seleccionarFichasTablero(Integer[] posicionesFichas) {
         
         ICommand comandoSeleccionarFichasTablero = new ComandoSeleccionarFichasTablero(posicionesFichas, nombreJugador);
         
         filtroEnvioMensaje.ejecutar(comandoSeleccionarFichasTablero);
         
-        // Quitar
-        boolean movimientoValido = tableroQuitar.seleccionarFichasTablero(posicionesFichas);
-        this.setMovimientoInvalido(!movimientoValido);
-        this.notificar();
     }
 
     /**
@@ -224,16 +220,12 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      *
      * @param posicionesFichas arreglo de posiciones de fichas a eliminar.
      */
-    public void quitarFichasJugador(int[] posicionesFichas) {
+    public void quitarFichasJugador(Integer[] posicionesFichas) {
         
         ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(posicionesFichas, nombreJugador);
         
         filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
         
-        // Quitar
-        boolean movimientoValido = tableroQuitar.quitarFichasJugador(posicionesFichas);
-        this.setMovimientoInvalido(!movimientoValido);
-        this.notificar();
     }
 
     /**
@@ -241,15 +233,12 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      *
      * @param idFichas colección de IDs de fichas a eliminar.
      */
-    public void quitarFichasTablero(int[] idsFichas) {
+    public void quitarFichasTablero(Integer[] idsFichas) {
         
         ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(idsFichas, nombreJugador);
         
         filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
-        
-        boolean movimientoValido = tableroQuitar.quitarFichasTablero(idsFichas);
-        this.setMovimientoInvalido(!movimientoValido);
-        this.notificar();
+
     }
 
     /**
@@ -258,16 +247,12 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @param idsFichas colección de IDs de fichas a agregar.
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
      */
-    public void agregarFichasTablero(int[] idsFichas, int[] idsFichasGrupo) {
+    public void agregarFichasTablero(Integer[] idsFichas, Integer[] idsFichasGrupo) {
         
         ICommand comandoAgregarFichasTableroGrupo = new ComandoAgregarFichasTableroGrupo(idsFichas, idsFichasGrupo, nombreJugador);
         
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTableroGrupo);
         
-        // Quitar
-        boolean movimientoValido = tableroQuitar.agregarFichasTablero(idsFichas, idsFichasGrupo);
-        this.setMovimientoInvalido(!movimientoValido);
-        this.notificar();
     }
 
     /**
@@ -275,16 +260,12 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      *
      * @param idsFichas colección de IDs de fichas a agregar.
      */
-    public void agregarFichasTablero(int[] idsFichas) {
+    public void agregarFichasTablero(Integer[] idsFichas) {
         
         ICommand comandoAgregarFichasTablero = new ComandoAgregarFichasTableroGrupo(idsFichas, idsFichas, nombreJugador);
         
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTablero);
         
-        // Quitar
-        boolean movimientoValido = tableroQuitar.agregarFichasTablero(idsFichas);
-        this.setMovimientoInvalido(!movimientoValido);
-        this.notificar();
     }
 
     public void iniciarTurno(TableroDTO tablero){

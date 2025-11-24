@@ -4,6 +4,7 @@ package objetos_negocio;
 import enumeradores.ColorFicha;
 import excepciones.GrupoExcedeLimiteException;
 import excepciones.RummyException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,129 +24,38 @@ public class GrupoColores extends Grupo {
     public GrupoColores(Integer numero, List<Ficha> fichas) {
         super(numero, fichas);
     }
-
-    public GrupoColores(List<Ficha> fichas) {
-        super(fichas);
-    }
     
 
     @Override
     public boolean comprobarValidez() {
-        // Máximo 4 fichas
-        if (this.fichas.size() < 3 || this.fichas.size() > 4) {
+        
+        // 3 fichas mínimo
+        if (this.fichas.size() < 3) {
             return false;
         }
 
-        // Número base
-        Integer numeroGrupo = this.fichas.stream()
-                .filter(f -> f instanceof FichaNormal)
-                .map(f -> ((FichaNormal) f).getNumero())
-                .findFirst()
-                .orElse(null);
+        try {
 
-        // Si no hay ficha normal → solo comodines → inválido
-        if (numeroGrupo == null) {
+            determinarValidezFichas(this.fichas);
+
+        } catch (RummyException ex) {
+            
             return false;
         }
-
-        // Validar que todos los números coincidan (normal) excepto comodines
-        boolean numerosValidos = this.fichas.stream()
-                .filter(f -> f instanceof FichaNormal)
-                .allMatch(f -> ((FichaNormal) f).getNumero() == numeroGrupo);
-
-        if (!numerosValidos) {
-            return false;
-        }
-
-        Set<ColorFicha> colores = this.fichas.stream()
-                .filter(f -> f instanceof FichaNormal)
-                .map(f -> ((FichaNormal) f).getColor())
-                .collect(Collectors.toSet());
-
-        return colores.size() == this.fichas.stream()
-                .filter(f -> f instanceof FichaNormal)
-                .count();
+        
+        return true;
     }
+    
 
-    /**
-     * Se comprueba la validez al momento de que se agregaron ficha(s).
-     *
-     * @param fichas
-     * @return verdadero si el grupo si es valido, falso si no.
-     */
     @Override
-    public void agregarFichas(List<Ficha> fichas) throws RummyException {
-
-        Integer numeroGrupo;
-        if (this.fichas.isEmpty()) { //Validamos si el grupo tiene o no fichas
-            agregarEnGrupoVacio(fichas);
-        }  //Aqui es si el grupo ya cuenta con fichas y procedemos a hacer la lógica 
+    protected void determinarValidezFichas(List<Ficha> fichas) throws RummyException{
         
-        numeroGrupo = obtenerNumeroGrupo();
-
-        Set<ColorFicha> coloresUsados = obtenerColoresUsados();
-
-        for (Ficha ficha : fichas) {
-
-            if (ficha instanceof FichaNormal fn) {
-                if (numeroGrupo != null && fn.getNumero() != numeroGrupo) {
-                    throw new RummyException("El numero a agregar debe de coincidir con el numero de grupo");
-                }
-                if (numeroGrupo == null) {
-                    numeroGrupo = fn.getNumero(); //Si el grupo no tenia numero, la ficha a agregar lo define 
-                }
-
-                // Regla 2: color no repetido
-                if (coloresUsados.contains(fn.getColor())) {
-                    throw new RummyException(
-                            "El color " + fn.getColor() + " ya existe en el grupo");
-                }
-
-                coloresUsados.add(fn.getColor());
-            } else if (ficha instanceof FichaComodin) {
-                //UN comodin no necesita validación
-            }
-
+        if (fichas.size() > 4) {
+            throw new RummyException("El grupo que quieres formar no puede ser de más de 4 fichas.");
         }
-
-        validarMaximoFichas(this.fichas.size() + fichas.size());
-
-        for (Ficha ficha : fichas) {
-            ficha.setTieneGrupo(true);
-            ficha.setGrupo(this);
-        }
-
-        this.fichas.addAll(fichas);
-
-    }
-
-    private void agregarEnGrupoVacio(List<Ficha> nuevas) throws RummyException {
-        validarMaximoFichas(nuevas.size());
-        nuevas.forEach(f -> f.setTieneGrupo(true));
-        nuevas.forEach(f -> f.setGrupo(this));
-        this.fichas.addAll(nuevas);
         
-    }
-    
-    private Integer obtenerNumeroGrupo(){
-        return this.fichas.stream()
-            .filter(f -> f instanceof FichaNormal)
-            .map(f -> ((FichaNormal) f).getNumero())
-            .findFirst()
-            .orElse(null);
-    }
-
-    private void validarMaximoFichas(int totalFichas) throws RummyException {
-        if (totalFichas > 4) {
-            throw new RummyException("El grupo que quieres formar no puede ser de más de 4 fichas");
-        }
-    }
-    
-    private Set<ColorFicha> obtenerColoresUsados(){
-        return this.fichas.stream()
-                .filter(f -> f instanceof FichaNormal)
-                .map(f -> ((FichaNormal) f).getColor())
-                .collect(Collectors.toSet());
+        Grupo.validarGrupoColores(fichas);
+        
     }
 
 }

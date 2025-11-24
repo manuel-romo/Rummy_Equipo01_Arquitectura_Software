@@ -389,17 +389,11 @@ public class GestorEventos implements IGestorEventos{
 
         }
         
-        int[] idsFichasGrupo = listaFichasIdsGrupo.stream().
-                            mapToInt(Integer::intValue).
-                            toArray();
+        Integer[] idsFichasGrupo = listaFichasIdsGrupo.toArray(new Integer[0]);
 
-        int[] idsFichasAgregar = listaIdsFichasAgregar.stream().
-                            mapToInt(Integer::intValue).
-                            toArray();
+        Integer[] idsFichasAgregar = listaIdsFichasAgregar.toArray(new Integer[0]);
 
-        int[] casillasAgregar = panelesCasillaAgregarFicha.stream()
-                           .mapToInt(PanelCasilla::getId)
-                           .toArray();
+        Integer[] casillasAgregar = panelesCasillaAgregarFicha.toArray(new Integer[0]);
 
         panelMovimiento.setVisible(false);
         
@@ -444,13 +438,9 @@ public class GestorEventos implements IGestorEventos{
             }
         }
         
-        int[] fichasQuitar = idsFichasQuitar.stream()
-                                    .mapToInt(Integer::intValue)
-                                    .toArray();
+        Integer[] fichasQuitar = idsFichasQuitar.toArray(new Integer[0]);
 
-        int[] casillasQuitar = paneleslCasillaEliminarFicha.stream()
-                                   .mapToInt(PanelCasilla::getId)
-                                   .toArray();
+        Integer[] casillasQuitar = paneleslCasillaEliminarFicha.toArray(new Integer[0]);
 
         if(fichasJugador){
             

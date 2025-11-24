@@ -6,12 +6,12 @@ import javax.swing.JPanel;
 
 public interface IReceptorEventos {
     
-    public abstract void quitarFichasTablero(int[] idsCasillas, int[] idsFichas);
+    public abstract void quitarFichasTablero(Integer[] idsCasillas, Integer[] idsFichas);
     
-    public abstract void quitarFichasJugador(int[] idsCasillas, int[] posicionesFichas);
+    public abstract void quitarFichasJugador(Integer[] idsCasillas, Integer[] posicionesFichas);
     
-    public abstract void agregarFichasTablero(int[] idsCasillas, int[] idsFichas);
+    public abstract void agregarFichasTablero(Integer[] idsCasillas, Integer[] idsFichas);
     
-    public abstract void agregarFichasTablero(int[] idsCasillas, int[] idsFichas, int[] idsFichasGrupo);
+    public abstract void agregarFichasTablero(Integer[] idsCasillas, Integer[] idsFichas, Integer[] idsFichasGrupo);
     
 }

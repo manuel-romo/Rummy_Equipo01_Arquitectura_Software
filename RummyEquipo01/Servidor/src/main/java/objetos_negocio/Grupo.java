@@ -1,7 +1,9 @@
 
 package objetos_negocio;
 
+import enumeradores.ColorFicha;
 import excepciones.RummyException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,13 +15,134 @@ public abstract class Grupo {
     /**
      * Número identificador del grupo.
      */
-    private Integer numero = 1;
+    private Integer numero;
     
     /**
      * Lista de fichas pertenecientes al grupo.
      */
     protected List<Ficha> fichas;
 
+    public static void validarGrupoColores(List<Ficha> fichas) throws RummyException{
+        
+        Integer numeroFichaGrupo = null;
+        
+        List<ColorFicha> coloresUsados = new LinkedList<>();
+        
+        for(Ficha ficha: fichas){
+            
+            if(!ficha.isEsComodin()){
+                
+                FichaNormal fichaNormal = (FichaNormal)ficha;
+                
+                if(numeroFichaGrupo == null){
+                    numeroFichaGrupo = ((FichaNormal)ficha).getNumero();
+                    
+                } else{
+                    
+                    if(fichaNormal.getNumero() != numeroFichaGrupo){
+                        throw new RummyException("Todas las fichas del grupo deben tener el mismo número.");
+                    }
+                    
+                    if(coloresUsados.contains(  fichaNormal.getColor())){
+                        throw new RummyException("Todas las fichas deben ser de colores diferentes.");
+                    }
+                    
+                }
+                
+                coloresUsados.add(fichaNormal.getColor());
+                
+            }
+        }
+        
+    }
+    
+    public static void validarGrupoSecuencia(List<Ficha> fichas) throws RummyException{
+        
+        // Se ordenan las fichas de menor a mayor por número.
+        fichas.sort((ficha1, ficha2) -> {
+
+            if (ficha1.isEsComodin() && ficha2.isEsComodin()){
+                return 0;
+            }
+            if (ficha1.isEsComodin()){
+                return 1;
+            }
+            if (ficha2.isEsComodin()){
+                return -1;
+            }
+
+            FichaNormal fichaNormal1 = (FichaNormal) ficha1;
+            FichaNormal fichaNormal2 = (FichaNormal) ficha2;
+
+            return Integer.compare(fichaNormal1.getNumero(), fichaNormal2.getNumero());
+        
+        });
+        
+        List<Ficha> listaComodines = new LinkedList<>();
+        
+        for(Ficha ficha: fichas){
+            
+            if(ficha.isEsComodin()){
+                listaComodines.add(ficha);
+            }
+            
+        }
+        
+        List<Ficha> listaFinalFichas = new LinkedList<>();
+        
+        int numeroSecuenciaSiguiente = ((FichaNormal)fichas.get(0)).getNumero();
+        ColorFicha color = fichas.get(0).getColor();
+        
+        for(Ficha ficha: fichas){
+            
+            if(!ficha.isEsComodin()){
+                
+                if(((FichaNormal)ficha).getNumero() == numeroSecuenciaSiguiente && ficha.getColor() == color){
+                
+                    listaFinalFichas.add(ficha);
+
+                    numeroSecuenciaSiguiente++;
+
+                } else if(ficha.getColor() == color){
+
+                    if(listaComodines.isEmpty()){
+                       throw new RummyException("Los números de las fichas deben seguir una secuencia.");
+                    }
+                    
+                    int cantidadComodinesNecesarios = ((FichaNormal)ficha).getNumero() - numeroSecuenciaSiguiente;
+
+                    if(cantidadComodinesNecesarios <= 0 || cantidadComodinesNecesarios > listaComodines.size()){
+                        throw new RummyException("Los números de las fichas deben seguir una secuencia.");
+                    }
+                    
+                    for(int i = 0; i < cantidadComodinesNecesarios; i++){
+                        
+                        listaFinalFichas.add(listaComodines.get(i));    
+                    
+                    }
+                    
+                    for(int i = 0; i < cantidadComodinesNecesarios; i++){
+                        
+                        listaComodines.remove(0); 
+                    
+                    }
+                    
+                    listaFinalFichas.add(ficha);
+                                       
+                    numeroSecuenciaSiguiente+= cantidadComodinesNecesarios + 1;
+
+                } else{
+                    
+                    throw new RummyException("Las fichas deben ser del mismo color.");
+                    
+                }
+                
+            } 
+                  
+        }
+        
+    }
+    
     /**
      * Crea un nuevo grupo con un número identificador y 
      * una lista inicial de fichas.
@@ -64,9 +187,59 @@ public abstract class Grupo {
      * @return true si el grupo cumple con las reglas; false en caso contrario.
      */
     public abstract boolean comprobarValidez();
+
     
     
-    public abstract void agregarFichas(List<Ficha> fichas) throws RummyException;
+    public void agregarFichasInicio(List<Ficha> fichas) throws RummyException {
+        
+        List<Ficha> fichasComprobar = new LinkedList<>();
+        
+        for(Ficha ficha: fichas){
+            fichasComprobar.add(ficha);
+        }
+        
+        for(Ficha ficha: this.fichas){
+            fichasComprobar.add(ficha);
+        }
+        
+        determinarValidezFichas(fichasComprobar);
+
+        this.fichas = fichasComprobar;
+
+    }
+    
+    public void agregarFichasFinal(List<Ficha> fichas) throws RummyException {
+        
+        List<Ficha> fichasComprobar = new LinkedList<>();
+        
+        for(Ficha ficha: this.fichas){
+            fichasComprobar.add(ficha);
+        }
+        
+        for(Ficha ficha: fichas){
+            fichasComprobar.add(ficha);
+        }
+        
+        determinarValidezFichas(fichasComprobar);
+
+        this.fichas = fichasComprobar;
+
+    }
+    
+    protected abstract void determinarValidezFichas(List<Ficha> fichas) throws RummyException;
+    
+    
+    public void quitarFichas(List<Ficha> fichasQuitar){
+        
+        fichas.removeAll(fichas);
+        
+    }
+    
+    public void quitarFicha(Ficha fichaQuitar){
+        
+        fichas.remove(fichaQuitar);
+        
+    }
     
 
     /**

@@ -14,23 +14,23 @@ public class Controlador {
         
     }
     
-    public void seleccionarFichasTablero(int[] idsFichas) {
+    public void seleccionarFichasTablero(Integer[] idsFichas) {
         modelo.seleccionarFichasTablero(idsFichas);
     }
 
-    public void quitarFichasJugador(int[] posicionesFichas) {
+    public void quitarFichasJugador(Integer[] posicionesFichas) {
         modelo.quitarFichasJugador(posicionesFichas);
     }
 
-    public void quitarFichasTablero(int[] idsFichas) {
+    public void quitarFichasTablero(Integer[] idsFichas) {
         modelo.quitarFichasTablero(idsFichas);
     }
 
-    public void agregarFichasTablero(int[] idsFichas, int idsFichasGrupo[]) {
+    public void agregarFichasTablero(Integer[] idsFichas, Integer idsFichasGrupo[]) {
         modelo.agregarFichasTablero(idsFichas, idsFichasGrupo);
     }
     
-    public void agregarFichasTablero(int[] idsFichas) {
+    public void agregarFichasTablero(Integer[] idsFichas) {
         modelo.agregarFichasTablero(idsFichas);
     }
     

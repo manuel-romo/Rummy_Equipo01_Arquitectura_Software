@@ -1,5 +1,7 @@
 package objetos_negocio;
 
+import comandosRespuesta.ComandoCambioTurno;
+import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoTableroInvalido;
 import comandosSolicitud.ComandoAgregarFichasTablero;
@@ -18,6 +20,7 @@ import dto.TableroDTO;
 import enumeradores.ColorFicha;
 import enumeradores.ColorFichaDTO;
 import excepciones.RummyException;
+import fabricaGrupos.FabricaGrupos;
 import interfaces.ICommand;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +39,8 @@ public class Tablero {
     private List<Grupo> grupos;
     private Monton monton;
     private FachadaTablero fachadaTablero;
+    
+    private static int numeroGrupoActual = 0;
 
     public void ejecutar(ICommand comando) throws RummyException {
 
@@ -69,7 +74,7 @@ public class Tablero {
 
                 ComandoAgregarFichasTableroGrupo comandoAgregarFichasTableroGrupo = (ComandoAgregarFichasTableroGrupo) comando;
 
-                agregarFichasTableroGrupo(
+                agregarFichasTableroGrupos(
                         comandoAgregarFichasTableroGrupo.getIdsFichas(),
                         comandoAgregarFichasTableroGrupo.getIdsFichasGrupo(),
                         comandoAgregarFichasTableroGrupo.getNombreJugador());
@@ -110,7 +115,7 @@ public class Tablero {
 
     }
 
-    private void seleccionarFichasTablero(int[] idsFichas, String nombreJugador) {
+    private void seleccionarFichasTablero(Integer[] idsFichas, String nombreJugador) {
 
         boolean esPrimerTurnoJugador = esPrimerTurnoJugador(nombreJugador);
 
@@ -141,36 +146,96 @@ public class Tablero {
     }
 
     private void agregarFichasTablero(int[] idsFichas, String nombreJugador) {
-        try {
-            List<Ficha> fichasObtenidas = new LinkedList<>();
-            for (int id : idsFichas) {
-                Ficha ficha = encontrarFichaPorId(id);
-                fichasObtenidas.add(ficha);
-            }
 
-            if (!esPrimerTurnoJugador(nombreJugador)) {
-                Grupo grupo = verificarTipoGrupo(fichasObtenidas,nombreJugador );
-                grupo.agregarFichas(fichasObtenidas);
-                grupos.add(grupo);
-            } else {
-                if (validarPrimerTurno(fichasObtenidas)) {
-                    Grupo grupo = verificarTipoGrupo(fichasObtenidas, nombreJugador);
-                    grupo.agregarFichas(fichasObtenidas);
-                    grupos.add(grupo);
-                }
-            }
-        } catch (RummyException ex){
-            ICommand comandoTableroInvalido = new ComandoTableroInvalido(nombreJugador);
-            fachadaTablero.enviarComando(comandoTableroInvalido);
+        List<Ficha> fichasAgregar = new LinkedList<>();
+        for (int id : idsFichas) {
+            Ficha ficha = encontrarFichaPorId(id);
+            fichasAgregar.add(ficha);
+        }
+
+        if (!esPrimerTurnoJugador(nombreJugador)) {
+
+            Grupo grupo = FabricaGrupos.crearGrupo(++numeroGrupoActual, fichasAgregar);
+            grupos.add(grupo);
+
+        } else {
+
+            // Revisar si no se hace nada
         }
 
     }
 
-    private void agregarFichasTableroGrupo(int[] idsFichas, int[] idsFichasGrupo, String nombreJugador) {
+    private void agregarFichasTableroGrupos(Integer[] idsFichas, Integer[] idsFichasGrupo, String nombreJugador) {
        
+        List<Ficha> fichasAgregar = new LinkedList<>();
+        for (int id : idsFichas) {
+            Ficha ficha = encontrarFichaPorId(id);
+            fichasAgregar.add(ficha);
+        }
+        
+        if(idsFichasGrupo.length > 0 && idsFichasGrupo.length <= 2){
+            
+            Grupo primerGrupoAgregar = null;
+            if(idsFichasGrupo[0] != null){
+                primerGrupoAgregar = encontrarFichaPorId(idsFichasGrupo[0]).getGrupo();
+            }
+            
+            Grupo segundoGrupoAgregar = null;
+            if(idsFichasGrupo[1] != null){
+                segundoGrupoAgregar = encontrarFichaPorId(idsFichasGrupo[1]).getGrupo();
+            }
+            
+            try {
+
+                if (primerGrupoAgregar != null && segundoGrupoAgregar != null) {
+
+                    // Se crea una lista con la combinación de todas las fichas.
+                    List<Ficha> fusion = new LinkedList<>();
+                    fusion.addAll(primerGrupoAgregar.getFichas());
+                    fusion.addAll(fichasAgregar);
+                    fusion.addAll(segundoGrupoAgregar.getFichas());
+
+                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(++numeroGrupoActual, fusion);
+
+                    // Si el nuevo grupo es válido, se eliminan los grupos anteriores.
+                    this.grupos.remove(primerGrupoAgregar);
+                    this.grupos.remove(segundoGrupoAgregar);
+
+                    // Se agrega el nuevo grupo.
+                    this.grupos.add(nuevoGrupoUnificado);
+
+                } 
+                // Agregar fichas sólo al primer grupo
+                else if (primerGrupoAgregar != null) {
+                    primerGrupoAgregar.agregarFichasFinal(fichasAgregar);
+                } 
+                // Agregar fichas sólo al segundo grupo
+                else if (segundoGrupoAgregar != null) {
+                    segundoGrupoAgregar.agregarFichasInicio(fichasAgregar);
+                } 
+
+                ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                        obtenerTableroDto(), 
+                        true, 
+                        nombreJugador);
+                
+                fachadaTablero.ejecutar(comandoRespuestaMovimiento);
+                
+
+            } catch (RummyException ex) {
+                
+                ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                        obtenerTableroDto(), 
+                        false, 
+                        nombreJugador, 
+                        ex.getMessage());
+                
+                fachadaTablero.ejecutar(comandoRespuestaMovimiento);
+            }
+        }
     }
 
-    private void quitarFichasJugador(int[] idsFichas, String nombreJugador) {
+    private void quitarFichasJugador(Integer[] idsFichas, String nombreJugador) {
 
         List<Ficha> fichasQuitar = new LinkedList<>();
 
@@ -185,34 +250,58 @@ public class Tablero {
     }
 
     private void quitarFichasTablero(int[] idsFichas, String nombreJugador) {
-        List<Ficha> fichasQuitar = new LinkedList<>();
+        
+        List<Grupo> gruposFichasQuitar = new LinkedList<>();
+        
         for (int idFicha : idsFichas) {
 
-            fichasQuitar.add(encontrarFichaPorId(idFicha));
+            Ficha fichaQuitar = encontrarFichaPorId(idFicha);
+            
+            gruposFichasQuitar.add(fichaQuitar.getGrupo());
+            
+            Grupo grupoFichaQuitar = fichaQuitar.getGrupo();
+            
+            grupoFichaQuitar.quitarFicha(fichaQuitar);
+            
         }
-        for(Grupo grupo : grupos){
-            for(Ficha ficha : grupo.getFichas()){
-                for(Ficha fichaQuitar : fichasQuitar){
-                    if(fichaQuitar.getId().equals(grupo.getFichas().getFirst().getId()) || fichaQuitar.getId().equals(grupo.getFichas().getLast().getId())){
-                        if(fichaQuitar.getId().equals(ficha.getId())){
-                            grupo.getFichas().remove(ficha);
-                        }
-                    }else{
-                        ICommand comando = new ComandoTableroInvalido(nombreJugador);
-                        fachadaTablero.ejecutar(comando);
-                    }
-                }
-            }
-        }
+
     }
 
     private void terminarTurno(String nombreJugador) {
+        
         if (validarTablero()) {
-            ICommand comandoTerminarTurno = new ComandoTerminarTurno(nombreJugador);
+            
+            for(Jugador jugador: jugadores){
+                
+                if(jugador.getNombre().equals(jugadorTurno.getNombre())){
+                    
+                    jugadorTurno = jugador;
+                    
+                }
+                
+            }
+            
+            for(Jugador jugador: jugadores){
+                
+                if(jugador.getNombre() != jugadorTurno.getNombre()){
+                    
+                    ComandoCambioTurno comandoCambioTurno = new ComandoCambioTurno(obtenerTableroDto(), jugador.getNombre());
+                    
+                    fachadaTablero.ejecutar(comandoCambioTurno);
+                    
+                } else{
+                    
+                    ComandoIniciarTurno comandoIniciarTurno = new ComandoIniciarTurno(obtenerTableroDto(), nombreJugador);
 
-            fachadaTablero.enviarComando(comandoTerminarTurno);
+                    fachadaTablero.enviarComando(comandoIniciarTurno);
+                    
+                }
+                
+                
+            }
 
         } else {
+            
             ICommand comandoTableroInvalido = new ComandoTableroInvalido(nombreJugador);
 
             fachadaTablero.enviarComando(comandoTableroInvalido);
@@ -309,6 +398,7 @@ public class Tablero {
 
             int numeroFicha = ((FichaNormal) ficha).getNumero();
             return new FichaNormalDTO(colorFichaDto, ficha.getId(), numeroFicha);
+            
         }
 
         return null;
@@ -335,32 +425,6 @@ public class Tablero {
 
     }
 
-    public Grupo verificarTipoGrupo(List<Ficha> fichas, String nombreJugador) {
-        if(esPrimerTurnoJugador(nombreJugador)){
-            if(!validarPrimerTurno(fichas)){
-                ICommand comando = new ComandoTableroInvalido(nombreJugador);
-            }
-        }
-        ColorFicha colorFicha = fichas.getFirst().getColor();
-        for (Ficha ficha : fichas) {
-            if (ficha.getColor() != colorFicha) {
-                return new GrupoColores(fichas);
-            }
-        }
-        return new GrupoSecuencia(fichas);
-    }
-
-    public boolean validarPrimerTurno(List<Ficha> fichas) {
-        int suma = 0;
-
-        for (Ficha ficha : fichas) {
-            if (ficha instanceof FichaNormal) {
-                suma += ((FichaNormal) ficha).getNumero();
-            }
-        }
-        return suma >= 30;
-    }
-
     public boolean validarTablero() {
         for (Grupo grupo : grupos) {
             if (!grupo.comprobarValidez()) {
@@ -368,53 +432,6 @@ public class Tablero {
             }
         }
         return true;
-    }
-
-    public void setGrupos(List<Grupo> grupos) {
-        this.grupos = grupos;
-    }
-    public void setJugadorTurno(Jugador jugadorTurno) {
-        this.jugadorTurno = jugadorTurno;
-    }
-
-    public List<Jugador> getJugadores() {
-        return jugadores;
-    }
-
-    public void setJugadores(List<Jugador> jugadores) {
-        this.jugadores = jugadores;
-    }
-
-    public List<Ficha> getFichas() {
-        return fichas;
-    }
-
-    public void setFichas(List<Ficha> fichas) {
-        this.fichas = fichas;
-    }
-
-    public Monton getMonton() {
-        return monton;
-    }
-
-    public void setMonton(Monton monton) {
-        this.monton = monton;
-    }
-
-    public FachadaTablero getFachadaTablero() {
-        return fachadaTablero;
-    }
-
-    public void setFachadaTablero(FachadaTablero fachadaTablero) {
-        this.fachadaTablero = fachadaTablero;
-    }
-
-    public Jugador getJugadorTurno() {
-        return jugadorTurno;
-    }
-
-    public List<Grupo> getGrupos() {
-        return grupos;
     }
     
 }

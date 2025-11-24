@@ -52,12 +52,12 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
      */
     private Map<Integer, Integer> mapaIdsCasillasFichasJugador;
     
-    private int[] idsCasillasAgregarTablero;
-    private int[] idsCasillasQuitarTablero;
+    private Integer[] idsCasillasAgregarTablero;
+    private Integer[] idsCasillasQuitarTablero;
     
-    private int[] idsCasillasQuitarJugador;
+    private Integer[] idsCasillasQuitarJugador;
     
-    private int[] idsFichasAgregar;
+    private Integer[] idsFichasAgregar;
     
     private boolean tableroInvalido;
     private boolean movimientoInvalido;
@@ -103,7 +103,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
     
     @Override
-    public void quitarFichasJugador(int[] idsCasillas, int[] posicionesFichas){
+    public void quitarFichasJugador(Integer[] idsCasillas, Integer[] posicionesFichas){
         
         idsCasillasQuitarJugador = idsCasillas;
         
@@ -111,7 +111,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     }
     
     @Override
-    public void quitarFichasTablero(int[] idsCasillas, int[] idsFichas){
+    public void quitarFichasTablero(Integer[] idsCasillas, Integer[] idsFichas){
         
         idsCasillasQuitarTablero = idsCasillas;
         
@@ -119,7 +119,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     }
     
     @Override
-    public void agregarFichasTablero(int[] idsCasillas, int[] idsFichas, int idsFichasGrupo[]){
+    public void agregarFichasTablero(Integer[] idsCasillas, Integer[] idsFichas, Integer[] idsFichasGrupo){
         idsCasillasAgregarTablero = idsCasillas;
         idsFichasAgregar = idsFichas;
         
@@ -127,7 +127,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     }
     
     @Override
-    public void agregarFichasTablero(int[] idsCasillas, int[] idsFichas){
+    public void agregarFichasTablero(Integer[] idsCasillas, Integer[] idsFichas){
         idsCasillasAgregarTablero = idsCasillas;
         idsFichasAgregar = idsFichas;
         

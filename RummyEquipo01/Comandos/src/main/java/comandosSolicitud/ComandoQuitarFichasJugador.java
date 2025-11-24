@@ -13,9 +13,9 @@ public class ComandoQuitarFichasJugador implements ICommand{
     private String type = "ComandoQuitarFichasJugador";
     private String nombreJugador;
     
-    private int[] idsFichas;
+    private Integer[] idsFichas;
 
-    public ComandoQuitarFichasJugador(int[] idsFichas, String nombreJugador) {
+    public ComandoQuitarFichasJugador(Integer[] idsFichas, String nombreJugador) {
         this.idsFichas = idsFichas;
         this.nombreJugador = nombreJugador;
     }
@@ -30,7 +30,7 @@ public class ComandoQuitarFichasJugador implements ICommand{
         return nombreJugador;
     }
 
-    public int[] getIdsFichas() {
+    public Integer[] getIdsFichas() {
         return idsFichas;
     }
     

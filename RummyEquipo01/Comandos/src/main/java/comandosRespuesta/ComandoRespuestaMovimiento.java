@@ -16,6 +16,14 @@ public class ComandoRespuestaMovimiento implements ICommand{
     private boolean movimientoValido;
     private final String type = "ComandoRespuestaMovimiento";
     private String nombreJugador;
+    private String mensajeError;
+
+    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido, String nombreJugador, String mensajeError) {
+        this.tablero = tablero;
+        this.movimientoValido = movimientoValido;
+        this.nombreJugador = nombreJugador;
+        this.mensajeError = mensajeError;
+    }
 
     public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido, String nombreJugador) {
         this.tablero = tablero;

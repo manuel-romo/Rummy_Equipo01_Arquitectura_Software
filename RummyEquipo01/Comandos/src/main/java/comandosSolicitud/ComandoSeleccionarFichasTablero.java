@@ -13,9 +13,9 @@ public class ComandoSeleccionarFichasTablero implements ICommand{
     private String type = "ComandoSeleccionarFichasTablero";
     
     private String nombreJugador;
-    private int[] idsFichas;
+    private Integer[] idsFichas;
 
-    public ComandoSeleccionarFichasTablero(int[] idFichas, String nombreJugador) {
+    public ComandoSeleccionarFichasTablero(Integer[] idFichas, String nombreJugador) {
         this.idsFichas = idFichas;
         this.nombreJugador = nombreJugador;
     }
@@ -30,7 +30,7 @@ public class ComandoSeleccionarFichasTablero implements ICommand{
         return nombreJugador;
     }
 
-    public int[] getIdsFichas() {
+    public Integer[] getIdsFichas() {
         return idsFichas;
     }
     

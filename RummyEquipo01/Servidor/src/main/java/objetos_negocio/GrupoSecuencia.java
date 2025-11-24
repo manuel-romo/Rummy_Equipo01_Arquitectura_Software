@@ -1,7 +1,9 @@
 
 package objetos_negocio;
 
+import enumeradores.ColorFicha;
 import excepciones.RummyException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,23 +22,31 @@ public class GrupoSecuencia extends Grupo{
 
     
     
-    /**
-     * Método que regresa true si el grupo es valido, es decir que cumpla con la secuencia de que sean del mismo color 
-     * @return true si es válido, falso de lo contario.
-     */
     @Override
     public boolean comprobarValidez() {
+        
+        // 3 fichas mínimo
+        if (this.fichas.size() < 3) {
+            return false;
+        }
+
+        try {
+
+            determinarValidezFichas(this.fichas);
+
+        } catch (RummyException ex) {
+            
+            return false;
+        }
+        
         return true;
     }
-
+    
     @Override
-    public void agregarFichas(List<Ficha> fichas) throws RummyException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String toString() {
-        return "GrupoSecuencia{" + '}';
+    protected void determinarValidezFichas(List<Ficha> fichas) throws RummyException{
+        
+        Grupo.validarGrupoSecuencia(fichas);
+        
     }
     
 }
