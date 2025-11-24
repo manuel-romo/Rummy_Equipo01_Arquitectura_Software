@@ -373,5 +373,48 @@ public class Tablero {
     public void setGrupos(List<Grupo> grupos) {
         this.grupos = grupos;
     }
+    public void setJugadorTurno(Jugador jugadorTurno) {
+        this.jugadorTurno = jugadorTurno;
+    }
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    public List<Ficha> getFichas() {
+        return fichas;
+    }
+
+    public void setFichas(List<Ficha> fichas) {
+        this.fichas = fichas;
+    }
+
+    public Monton getMonton() {
+        return monton;
+    }
+
+    public void setMonton(Monton monton) {
+        this.monton = monton;
+    }
+
+    public FachadaTablero getFachadaTablero() {
+        return fachadaTablero;
+    }
+
+    public void setFachadaTablero(FachadaTablero fachadaTablero) {
+        this.fachadaTablero = fachadaTablero;
+    }
+
+    public Jugador getJugadorTurno() {
+        return jugadorTurno;
+    }
+
+    public List<Grupo> getGrupos() {
+        return grupos;
+    }
     
 }
