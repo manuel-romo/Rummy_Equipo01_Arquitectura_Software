@@ -344,10 +344,10 @@ public class Tablero {
         ColorFicha colorFicha = fichas.getFirst().getColor();
         for (Ficha ficha : fichas) {
             if (ficha.getColor() != colorFicha) {
-                return new GrupoSecuencia(fichas);
+                return new GrupoColores(fichas);
             }
         }
-        return new GrupoColores(fichas);
+        return new GrupoSecuencia(fichas);
     }
 
     public boolean validarPrimerTurno(List<Ficha> fichas) {
@@ -368,6 +368,10 @@ public class Tablero {
             }
         }
         return true;
+    }
+
+    public void setGrupos(List<Grupo> grupos) {
+        this.grupos = grupos;
     }
     
 }
