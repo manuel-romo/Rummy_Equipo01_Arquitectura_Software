@@ -1,9 +1,7 @@
 
 package objetos_negocio;
 
-import enumeradores.ColorFicha;
 import excepciones.RummyException;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,8 +14,8 @@ public class GrupoSecuencia extends Grupo{
         super(fichas);
     }
     
-    public GrupoSecuencia(Integer numero, List<Ficha> fichas) {
-        super(numero, fichas);
+    public GrupoSecuencia(Integer numero, List<Ficha> fichas, boolean primerTurno) {
+        super(numero, fichas, primerTurno);
     }
 
     

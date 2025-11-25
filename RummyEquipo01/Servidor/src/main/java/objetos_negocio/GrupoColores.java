@@ -21,11 +21,14 @@ public class GrupoColores extends Grupo {
      * @param numero numero identificador del grupo.
      * @param fichas Fichas con las que se iniciara en el grupo.
      */
-    public GrupoColores(Integer numero, List<Ficha> fichas) {
-        super(numero, fichas);
+    public GrupoColores(Integer numero, List<Ficha> fichas, boolean primerTurno) {
+        super(numero, fichas, primerTurno);
     }
     
-
+    /**
+     * Comprueba la validez total del grupo.
+     * @return 
+     */
     @Override
     public boolean comprobarValidez() {
         
@@ -46,7 +49,11 @@ public class GrupoColores extends Grupo {
         return true;
     }
     
-
+    /**
+     * Comprueba la validez de fichas a añadir al grupo.
+     * @param fichas
+     * @throws RummyException 
+     */
     @Override
     protected void determinarValidezFichas(List<Ficha> fichas) throws RummyException{
         

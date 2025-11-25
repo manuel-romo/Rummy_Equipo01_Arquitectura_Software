@@ -1,6 +1,5 @@
 objetos_negocio\Ficha.class
 objetos_negocio\Grupo.class
-reglas\ReglasGrupos.class
 fabricaGrupos\FabricaGrupos.class
 objetos_negocio\FichaNormal.class
 objetos_negocio\GrupoSecuencia.class

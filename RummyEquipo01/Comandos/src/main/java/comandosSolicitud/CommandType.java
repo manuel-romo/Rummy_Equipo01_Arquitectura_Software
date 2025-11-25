@@ -16,6 +16,7 @@ public enum CommandType {
     CAMBIAR_TURNO_SERIALIZADO("ComandoCambiarTurnoSerializado"),
     QUITAR_FICHAS_TABLERO("ComandoQuitarFichaTablero"),
     QUITAR_FICHAS_JUGADOR("ComandoQuitarFichasJugador"),
+    AGREGAR_FICHAS_JUGADOR("ComandoAgregarFichasJugador"),
     RESTABLECER_TABLERO("ComandoRestablecerTablero"),
     TERMINAR_TURNO("ComandoTerminarTurno"),
     CAMBIO_TURNO("ComandoCambioTurno"),

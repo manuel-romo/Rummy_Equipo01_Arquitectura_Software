@@ -17,9 +17,7 @@ public interface IModelo {
     
     public abstract TableroPresentacionDTO obtenerTablero();
     
-    public abstract String obtenerMensajeMovimientoInvalido();
-    
-    public abstract String obtenerMensajeTableroInvalido();
+    public abstract String obtenerMensaje();
     
     public abstract boolean isVistaHabilitada();
     

@@ -21,7 +21,37 @@ public abstract class Grupo {
      * Lista de fichas pertenecientes al grupo.
      */
     protected List<Ficha> fichas;
+    
+    protected boolean primerTurno;
 
+    
+    public static void validarCreacionGrupo(List<Ficha> fichas, boolean primerTurno, int maximoNumeroFicha) throws RummyException{
+        
+        if(primerTurno){
+            
+            int sumaNumerosFichas = 0;
+            
+            for(Ficha ficha: fichas){
+                
+                if(ficha.isEsComodin()){
+                    
+                    sumaNumerosFichas += maximoNumeroFicha;
+                    
+                } else{   
+                    sumaNumerosFichas += ((FichaNormal)ficha).getNumero(); 
+                }
+                
+            }
+            
+            if(sumaNumerosFichas < 30){
+                throw new RummyException("Los números deben sumar al menos 30 puntos.");
+            }
+            
+        }
+        
+    }
+    
+    
     public static void validarGrupoColores(List<Ficha> fichas) throws RummyException{
         
         Integer numeroFichaGrupo = null;
@@ -57,7 +87,7 @@ public abstract class Grupo {
     }
     
     public static void validarGrupoSecuencia(List<Ficha> fichas) throws RummyException{
-        
+
         // Se ordenan las fichas de menor a mayor por número.
         fichas.sort((ficha1, ficha2) -> {
 
@@ -150,18 +180,16 @@ public abstract class Grupo {
      * @param numero identificador del grupo.
      * @param fichas lista de fichas que forman parte del grupo.
      */
-    public Grupo(Integer numero, List<Ficha> fichas) {
+    public Grupo(Integer numero, List<Ficha> fichas, boolean primerTurno) {
         this.numero = numero;
         this.fichas = fichas;
-        
+        this.primerTurno = primerTurno;
     }
 
     public Grupo(List<Ficha> fichas) {
         this.fichas = fichas;
         numero++;
     }
-    
-    
 
     /**
      * Getter de la lista de fichas del grupo.
@@ -184,6 +212,7 @@ public abstract class Grupo {
      * Comprueba si el grupo es válido de acuerdo a las reglas del juego.
      * La validación específica será implementada por las subclases.
      * 
+     * @param esPrimerTurno
      * @return true si el grupo cumple con las reglas; false en caso contrario.
      */
     public abstract boolean comprobarValidez();
@@ -203,6 +232,12 @@ public abstract class Grupo {
         }
         
         determinarValidezFichas(fichasComprobar);
+        
+        if(!primerTurno){
+            for(Ficha ficha: fichasComprobar){
+                ficha.setGrupo(this);
+            }
+        }
 
         this.fichas = fichasComprobar;
 
@@ -221,6 +256,12 @@ public abstract class Grupo {
         }
         
         determinarValidezFichas(fichasComprobar);
+        
+        if(!primerTurno){
+            for(Ficha ficha: fichasComprobar){
+                ficha.setGrupo(this);
+            }
+        }
 
         this.fichas = fichasComprobar;
 
@@ -231,14 +272,20 @@ public abstract class Grupo {
     
     public void quitarFichas(List<Ficha> fichasQuitar){
         
+        for(Ficha ficha: fichas){
+            ficha.setGrupo(null);
+        }
+        
         fichas.removeAll(fichas);
         
     }
     
     public void quitarFicha(Ficha fichaQuitar){
         
-        fichas.remove(fichaQuitar);
+        fichaQuitar.setGrupo(null);
         
+        fichas.remove(fichaQuitar);
+
     }
     
 

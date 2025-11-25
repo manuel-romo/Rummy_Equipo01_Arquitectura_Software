@@ -21,6 +21,10 @@ public class Controlador {
     public void quitarFichasTablero(Integer[] idsFichas) {
         modelo.quitarFichasTablero(idsFichas);
     }
+    
+    public void agregarFichasJugador(Integer[] idsFichas) {
+        modelo.agregarFichasJugador(idsFichas);
+    }
 
     public void agregarFichasTablero(Integer[] idsFichas, Integer idsFichasGrupo[]) {
         modelo.agregarFichasTablero(idsFichas, idsFichasGrupo);

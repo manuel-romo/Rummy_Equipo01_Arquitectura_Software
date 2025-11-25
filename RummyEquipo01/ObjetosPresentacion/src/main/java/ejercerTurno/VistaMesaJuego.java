@@ -10,6 +10,7 @@ import dto.JugadorPrincipalPresentacionDTO;
 import dto.MontonPresentacionDTO;
 import dto.TableroPresentacionDTO;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +53,9 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
      */
     private Map<Integer, Integer> mapaIdsCasillasFichasJugador;
     
+    
+    private Integer[] idsCasillasAgregarJugador;
+    
     private Integer[] idsCasillasAgregarTablero;
     private Integer[] idsCasillasQuitarTablero;
     
@@ -59,7 +63,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     
     private Integer[] idsFichasAgregar;
     
-    private boolean tableroInvalido;
     private boolean movimientoInvalido;
     
     public VistaMesaJuego(
@@ -119,6 +122,16 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     }
     
     @Override
+    public void agregarFichasJugador(Integer[] idsCasillas, Integer[] idsFichas) {
+        
+        idsCasillasAgregarJugador = idsCasillas;
+        idsFichasAgregar = idsFichas;
+        
+        controlador.agregarFichasJugador(idsFichas);
+        
+    }
+    
+    @Override
     public void agregarFichasTablero(Integer[] idsCasillas, Integer[] idsFichas, Integer[] idsFichasGrupo){
         idsCasillasAgregarTablero = idsCasillas;
         idsFichasAgregar = idsFichas;
@@ -134,12 +147,13 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         controlador.agregarFichasTablero(idsFichas);
     }
     
+    @Override
     public void terminarTurno(){
         controlador.terminarTurno();
     }
     
     private void habilitarVista(boolean vistaHabilitada){
-        this.setVisible(vistaHabilitada);
+        this.setEnabled(vistaHabilitada);
     }
     
     private Color determinarColor(ColorFichaPresentacionDTO colorFicha){
@@ -272,8 +286,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         JugadorExternoPresentacionDTO[] jugadoresExternoPresentacionDTOs = modelo.obtenerJugadoresExternos();
         TableroPresentacionDTO tableroPresentacionDTO = modelo.obtenerTablero();
         MontonPresentacionDTO montonPresentacionDTO = modelo.obtenerMontonPresentacion();
-        String mensajeMovimientoInvalido = modelo.obtenerMensajeMovimientoInvalido();
-        String mensajeTableroInvalido = modelo.obtenerMensajeTableroInvalido();
+        String mensaje = modelo.obtenerMensaje();
         
         
         JugadorExternoInformacionPanel[] jugadoresExternosInformacionPanel 
@@ -286,8 +299,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         
         TableroInformacionPanel tableroInformacionPanel = obtenerTableroInformacionPanel(tableroPresentacionDTO);
         
-        movimientoInvalido = mensajeMovimientoInvalido != null? true : false;
-        tableroInvalido = mensajeTableroInvalido != null? true : false;
+        movimientoInvalido = mensaje != null? true : false;
   
         actualizarMapaCasillasFichas(!movimientoInvalido);
         
@@ -296,8 +308,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
                 jugadorPrincipalInformacionPanel,
                 montonInformacionPanel,
                 tableroInformacionPanel,
-                mensajeMovimientoInvalido,
-                mensajeTableroInvalido,
+                mensaje,
                 !movimientoInvalido);
         
         
@@ -308,17 +319,29 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         }
         repaint();
         revalidate();
+        
+        if(((Container)getGlassPane()).getComponentCount() != 0){
+            getGlassPane().setVisible(true);
+            
+        } else{
+            getGlassPane().setVisible(false);
+        }
+        
+        boolean vistaHabilitada = modelo.isVistaHabilitada();
+        
+        habilitarVista(vistaHabilitada);
+        
       
     }
     
     private void actualizarMapaCasillasFichas(boolean movimientoValido){
         
         if(movimientoValido){
-
+            
             if(idsFichasAgregar != null && idsCasillasAgregarTablero != null){
                 
                 for(int i = 0; i < idsFichasAgregar.length; i++){
-
+                    
                     mapaIdsCasillasFichasTablero.put(idsCasillasAgregarTablero[i], idsFichasAgregar[i]);
 
                 }
@@ -327,7 +350,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
                 idsFichasAgregar = null;
 
-                
             }
             
             else if(idsCasillasQuitarTablero != null){
@@ -340,9 +362,23 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
                 idsCasillasQuitarTablero = null;
                 
-            } else if(idsCasillasQuitarJugador != null){
+            }
+            
+            else if(idsFichasAgregar != null && idsCasillasAgregarJugador != null){
+                
+                for(int i = 0; i < idsFichasAgregar.length; i++){
+                    
+                    mapaIdsCasillasFichasJugador.put(idsCasillasAgregarJugador[i], idsFichasAgregar[i]);
 
-                System.out.println("QUINTANDO CASILLAS");
+                }
+                
+                idsCasillasAgregarJugador = null;
+
+                idsFichasAgregar = null;
+ 
+            }
+            else if(idsCasillasQuitarJugador != null){
+
                 for(int i = 0; i < idsCasillasQuitarJugador.length; i++){
 
                     System.out.println(idsCasillasQuitarJugador[i]);

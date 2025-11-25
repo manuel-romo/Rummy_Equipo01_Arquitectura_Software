@@ -15,6 +15,7 @@ import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoReestablecerRespuesta;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoTableroInvalido;
+import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
@@ -56,6 +57,7 @@ public class Deserializador implements IReceptorExterno{
         registroComandos.put("ComandoTableroInvalido", ComandoTableroInvalido.class);
         registroComandos.put("ComandoAgregarFichasTablero", ComandoAgregarFichasTablero.class);
         registroComandos.put("ComandoAgregarFichasTableroGrupo", ComandoAgregarFichasTableroGrupo.class);
+        registroComandos.put("ComandoAgregarFichasJugador", ComandoAgregarFichasJugador.class);
         registroComandos.put("ComandoQuitarFichasJugador", ComandoQuitarFichasJugador.class);
         registroComandos.put("ComandoQuitarFichasTablero", ComandoQuitarFichasTablero.class);
         registroComandos.put("ComandoReestablecerTablero", ComandoReestablecerTablero.class);

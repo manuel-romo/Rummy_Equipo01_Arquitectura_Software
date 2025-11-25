@@ -10,7 +10,6 @@ package objetosPresentacion;
 
 public interface IEstadoMesaJuego {
     
-    public String getMensajeMovimientoInvalido();
-    public String getMensajeTableroInvalido();
+    public String getMensaje();
     
 }

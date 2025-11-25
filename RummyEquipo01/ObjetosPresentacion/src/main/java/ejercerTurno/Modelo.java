@@ -3,6 +3,7 @@ package ejercerTurno;
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
@@ -67,17 +68,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     
     private boolean movimientoInvalido;
     
-    /**
-     * Mensaje mostrado cuando el tableroQuitar resulta inválido al finalizar un
- turno.
-     */
-    
-    private String MENSAJE_TABLERO_INVALIDO;
-    
-    /**
-     * Mensaje mostrado cuando el jugador realiza un movimiento no permitido.
-     */
-    private String MENSAJE_MOVIMIENTO_INVALIDO;
+    private String mensaje;
     
     private TableroDTO tablero;
     
@@ -217,7 +208,21 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
 
     /**
-     * Agrega fichas a un grupo ya existente del tableroQuitar.
+     * Agrega fichas a un grupo ya existente del jugador.
+     *
+     * @param idsFichas colección de IDs de fichas a agregar.
+     * @param numeroGrupo número del grupo al que se agregarán las fichas.
+     */
+    public void agregarFichasJugador(Integer[] idsFichas) {
+        
+        ICommand comandoAgregarFichasJugador = new ComandoAgregarFichasJugador(idsFichas, nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoAgregarFichasJugador);
+        
+    }
+    
+    /**
+     * Agrega fichas a un grupo ya existente del tablero.
      *
      * @param idsFichas colección de IDs de fichas a agregar.
      * @param numeroGrupo número del grupo al que se agregarán las fichas.
@@ -261,10 +266,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
     }
     
-    private void responderMovimiento(TableroDTO tablero, boolean movimientoValido){
+    private void responderMovimiento(TableroDTO tablero, boolean movimientoValido, String mensaje){
         
         this.tablero = tablero;
         this.movimientoInvalido = !movimientoValido;
+        this.mensaje = mensaje;
         notificar();
     }
     
@@ -351,23 +357,10 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
 
     @Override
-    public String obtenerMensajeMovimientoInvalido() {
+    public String obtenerMensaje() {
         
-        if(movimientoInvalido){
-            return MENSAJE_MOVIMIENTO_INVALIDO;
-        }
-        
-        return null;
-    }
+        return mensaje;
 
-    @Override
-    public String obtenerMensajeTableroInvalido() {
-        
-        if(tableroInvalido){
-            return MENSAJE_TABLERO_INVALIDO;
-        }
-        
-        return null;
     }
 
     @Override
@@ -508,11 +501,10 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                 
                 ComandoRespuestaMovimiento comandoRespuestaMovimiento = (ComandoRespuestaMovimiento) comando;
                 
-                
-                System.out.println("RESPUESTA MOVIMIENTO:");
-                System.out.println(comandoRespuestaMovimiento.getTablero().getJugadorTurno().getFichas().size());
-                
-                responderMovimiento(comandoRespuestaMovimiento.getTablero(), comandoRespuestaMovimiento.isMovimientoValido());
+                responderMovimiento(
+                        comandoRespuestaMovimiento.getTablero(), 
+                        comandoRespuestaMovimiento.isMovimientoValido(),
+                        comandoRespuestaMovimiento.getMensaje());
                 
                 break;
                 

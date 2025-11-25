@@ -16,15 +16,15 @@ public class ComandoRespuestaMovimiento implements ICommand{
     private boolean movimientoValido;
     private final String type = "ComandoRespuestaMovimiento";
     private String nombreJugador;
-    private String mensajeError;
+    private String mensaje;
 
-    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido, String nombreJugador, String mensajeError) {
+    public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido, String nombreJugador, String mensaje) {
         this.tablero = tablero;
         this.movimientoValido = movimientoValido;
         this.nombreJugador = nombreJugador;
-        this.mensajeError = mensajeError;
+        this.mensaje = mensaje;
     }
-
+    
     public ComandoRespuestaMovimiento(TableroDTO tablero, boolean movimientoValido, String nombreJugador) {
         this.tablero = tablero;
         this.movimientoValido = movimientoValido;
@@ -37,6 +37,10 @@ public class ComandoRespuestaMovimiento implements ICommand{
 
     public boolean isMovimientoValido() {
         return movimientoValido;
+    }
+
+    public String getMensaje() {
+        return mensaje;
     }
 
     @Override

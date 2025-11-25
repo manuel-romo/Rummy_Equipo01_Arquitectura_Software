@@ -29,7 +29,6 @@ public class ColaMensajesRecibidos implements Runnable, IReceptor{
 
                 String mensaje = colaMensajesRecibidos.take();
                 
-                System.out.println("MENSAJE RECIBIDO: ");
                 receptor.notificar(mensaje);
             }
         } catch (InterruptedException e) {

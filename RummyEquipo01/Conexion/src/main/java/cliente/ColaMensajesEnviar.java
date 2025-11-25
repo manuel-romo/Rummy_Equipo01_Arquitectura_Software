@@ -64,6 +64,9 @@ public class ColaMensajesEnviar implements IDispatcher, Runnable{
             while (true) {
                 
                 Mensaje mensaje = colaMensajes.take();
+               
+                System.out.println("MENSAJE ENVIADO DESDE SERVIDOR.. ... ..... ....... ...........");
+                System.out.println(mensaje);
                 
                 suscriptor.notificar(mensaje);
             }

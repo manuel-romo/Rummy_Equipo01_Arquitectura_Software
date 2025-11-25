@@ -284,13 +284,31 @@ public class GestorEventos implements IGestorEventos{
     @Override
     public void fichaSoltada(MouseEvent e) {
         
-        List<Integer> listaFichasIdsGrupo = new LinkedList<>();
-        
         List<Integer> listaIdsFichasAgregar = new LinkedList<>();
+        
+        Integer[] idsFichasGrupoAgregar = new Integer[2];
         
         panelesCasillaAgregarFicha = new LinkedList<>();
         
-        for(PanelFicha ficha: fichasMovimiento){
+        boolean fichasSoltadasPanelJugador = false;
+        
+        int indiceInicioFichasMovimiento = 0;
+        int indiceFinFichasMovimiento = fichasMovimiento.size();
+        
+        if(panelMovimiento.getNumeroFichaArrastrada() != null){
+            
+            indiceInicioFichasMovimiento = panelMovimiento.getNumeroFichaArrastrada();
+            indiceFinFichasMovimiento = panelMovimiento.getNumeroFichaArrastrada() + 1;
+            
+        }
+        
+        
+        for(int i = indiceInicioFichasMovimiento; i < indiceFinFichasMovimiento; i++){
+            
+            System.out.println("INDICE FICHA MOVER: " + i);
+            System.out.println("NUMERO FICHAS MOV: " + fichasMovimiento.size());
+            
+            PanelFicha ficha = fichasMovimiento.get(i);
             
             int indiceFichaMovimiento = fichasMovimiento.indexOf(ficha);
             
@@ -324,58 +342,67 @@ public class GestorEventos implements IGestorEventos{
 
                     Container contenedorCasillas = casillaDestino.getParent();
 
-                    // Búsqueda de Ficha derecha
-                    int puntoX_Derecha = casillaDestino.getX() + casillaDestino.getWidth() + 25;
-                    int puntoY_Centro = casillaDestino.getY() + casillaDestino.getHeight() / 2; // Centro vertical
+                    if(contenedorCasillas.getParent().getParent() instanceof PanelJugadorPrincipal){
+                        
+                        fichasSoltadasPanelJugador = true;
+                        
+                    } else{
+                    
+                        // Búsqueda de Ficha derecha
+                        int puntoX_Derecha = casillaDestino.getX() + casillaDestino.getWidth() + 25;
+                        int puntoY_Centro = casillaDestino.getY() + casillaDestino.getHeight() / 2; // Centro vertical
 
-                    Point puntoPruebaDerecha = SwingUtilities.convertPoint(
-                        contenedorCasillas, 
-                        new Point(puntoX_Derecha, puntoY_Centro), 
-                        framePrincipal.getContentPane()
-                    );
+                        Point puntoPruebaDerecha = SwingUtilities.convertPoint(
+                            contenedorCasillas, 
+                            new Point(puntoX_Derecha, puntoY_Centro), 
+                            framePrincipal.getContentPane()
+                        );
 
-                    Component componenteDerecho = framePrincipal.getContentPane().findComponentAt(puntoPruebaDerecha);
+                        Component componenteDerecho = framePrincipal.getContentPane().findComponentAt(puntoPruebaDerecha);
 
-                    if (componenteDerecho instanceof PanelCasilla || componenteDerecho instanceof PanelFicha) {
+                        if (componenteDerecho instanceof PanelCasilla || componenteDerecho instanceof PanelFicha) {
 
-                        if(componenteDerecho instanceof PanelFicha){
-                            componenteDerecho = componenteDerecho.getParent();
+                            if(componenteDerecho instanceof PanelFicha){
+                                componenteDerecho = componenteDerecho.getParent();
+                            }
+
+                            PanelCasilla casillaDerecha = (PanelCasilla) componenteDerecho;
+
+                            if (casillaDerecha.getComponentCount() > 0) {
+
+                                PanelFicha fichaEncontrada = (PanelFicha) casillaDerecha.getComponent(0);
+
+                                idsFichasGrupoAgregar[1] = fichaEncontrada.getIdFicha();
+                            }
                         }
 
-                        PanelCasilla casillaDerecha = (PanelCasilla) componenteDerecho;
+                        // Búsqueda Ficha izquierda
+                        int puntoX_Izquierda = casillaDestino.getX() - 25;
 
-                        if (casillaDerecha.getComponentCount() > 0) {
+                        Point puntoPruebaIzquierda = SwingUtilities.convertPoint(
+                            contenedorCasillas, 
+                            new Point(puntoX_Izquierda, puntoY_Centro), 
+                            framePrincipal.getContentPane()
+                        );
 
-                            PanelFicha fichaEncontrada = (PanelFicha) casillaDerecha.getComponent(0);
+                        Component componenteIzquierdo = framePrincipal.getContentPane().findComponentAt(puntoPruebaIzquierda);
 
-                            listaFichasIdsGrupo.add(fichaEncontrada.getIdFicha()); 
+                        if (componenteIzquierdo instanceof PanelCasilla || componenteIzquierdo instanceof PanelFicha) {
+
+                            if(componenteIzquierdo instanceof PanelFicha){
+                                componenteIzquierdo = componenteIzquierdo.getParent();
+                            }
+
+                            PanelCasilla casillaIzquierda = (PanelCasilla) componenteIzquierdo;
+                            if (casillaIzquierda.getComponentCount() > 0) {
+                                PanelFicha fichaEncontrada = (PanelFicha) casillaIzquierda.getComponent(0);
+
+                                idsFichasGrupoAgregar[0] = fichaEncontrada.getIdFicha();
+                            }
                         }
+                        
                     }
-
-                    // Búsqueda Ficha izquierda
-                    int puntoX_Izquierda = casillaDestino.getX() - 25;
-
-                    Point puntoPruebaIzquierda = SwingUtilities.convertPoint(
-                        contenedorCasillas, 
-                        new Point(puntoX_Izquierda, puntoY_Centro), 
-                        framePrincipal.getContentPane()
-                    );
-
-                    Component componenteIzquierdo = framePrincipal.getContentPane().findComponentAt(puntoPruebaIzquierda);
-
-                    if (componenteIzquierdo instanceof PanelCasilla || componenteIzquierdo instanceof PanelFicha) {
-
-                        if(componenteIzquierdo instanceof PanelFicha){
-                            componenteIzquierdo = componenteIzquierdo.getParent();
-                        }
-
-                        PanelCasilla casillaIzquierda = (PanelCasilla) componenteIzquierdo;
-                        if (casillaIzquierda.getComponentCount() > 0) {
-                            PanelFicha fichaEncontrada = (PanelFicha) casillaIzquierda.getComponent(0);
-                            listaFichasIdsGrupo.add(fichaEncontrada.getIdFicha());
-                        }
-                    }
-
+                    
                     listaIdsFichasAgregar.add(ficha.getIdFicha());
                 }
                 
@@ -389,8 +416,6 @@ public class GestorEventos implements IGestorEventos{
 
         }
         
-        Integer[] idsFichasGrupo = listaFichasIdsGrupo.toArray(new Integer[0]);
-
         Integer[] idsFichasAgregar = listaIdsFichasAgregar.toArray(new Integer[0]);
 
         Integer[] casillasAgregar = panelesCasillaAgregarFicha.stream()
@@ -398,16 +423,23 @@ public class GestorEventos implements IGestorEventos{
                 .toArray(Integer[]::new);
 
         panelMovimiento.setVisible(false);
-        
-        fichasMovimiento = new LinkedList<>();
-        
-        if(idsFichasGrupo.length != 0){
 
-            receptorEventos.agregarFichasTablero(casillasAgregar, idsFichasAgregar, idsFichasGrupo);
-
+        if(fichasSoltadasPanelJugador){
+            
+            panelMovimiento.removeAll();
+            receptorEventos.agregarFichasJugador(casillasAgregar, idsFichasAgregar);
+            
         } else{
+            
+            if(idsFichasGrupoAgregar[0] != null || idsFichasGrupoAgregar[1] != null){
 
-            receptorEventos.agregarFichasTablero(casillasAgregar, idsFichasAgregar);
+                receptorEventos.agregarFichasTablero(casillasAgregar, idsFichasAgregar, idsFichasGrupoAgregar);
+
+            } else{
+
+                receptorEventos.agregarFichasTablero(casillasAgregar, idsFichasAgregar);
+            }
+            
         }
         
     }
@@ -477,6 +509,13 @@ public class GestorEventos implements IGestorEventos{
     public void soltarFichasMovimiento(MouseEvent e){
         
         panelMovimiento.dejarArrastrarFichas(e);
+        
+    }
+
+    @Override
+    public void terminarTurno() {
+        
+        receptorEventos.terminarTurno();
         
     }
     

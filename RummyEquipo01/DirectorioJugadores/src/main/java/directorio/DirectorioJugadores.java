@@ -22,8 +22,8 @@ public class DirectorioJugadores implements IFiltro {
 
     private Map<String, String[]> jugadoresDirecciones =
     Map.of(
-        "Sandy_43", new String[]{"127.0.0.1", "51000"},
-        "Juan_27", new String[]{"127.0.0.1", "52000"}
+        "qwe", new String[]{"127.0.0.1", "51000"},
+        "asd", new String[]{"127.0.0.1", "52000"}
     );
     private IDispatcher dispatcher;
 

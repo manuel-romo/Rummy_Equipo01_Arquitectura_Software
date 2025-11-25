@@ -22,15 +22,6 @@ public class Serializador implements IFiltro {
     public void setFiltroSiguiente(IFiltro filtroSiguiente) {
         this.filtroSiguiente = filtroSiguiente;
     }  
-    
-
-    /***
-     * Método que envia el comando al componente de directorio, con el comando serializado
-     * @param accionSerializada 
-     */
-    private void enviarAccionSerializada(String accionSerializada) {
-        
-    }
 
     /**
      * Método de IFiltro que cuando se le llama, envia la acción al componente de directorio para que se ajuste su direcion. 

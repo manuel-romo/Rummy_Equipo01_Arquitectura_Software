@@ -22,4 +22,5 @@ public interface IGestorEventos {
     public abstract void borrarFichasMovimiento();
     public abstract void arrastreFichaMovimiento(MouseEvent e);
     public abstract void soltarFichasMovimiento(MouseEvent e);
+    public abstract void terminarTurno();
 }

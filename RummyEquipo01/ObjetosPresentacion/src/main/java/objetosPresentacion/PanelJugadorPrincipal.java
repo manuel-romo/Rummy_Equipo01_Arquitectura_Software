@@ -281,6 +281,8 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         botonTerminarTurno.setBorder(BORDE_BOTONES);
         
+        botonTerminarTurno.addActionListener(e -> gestorEventos.terminarTurno());
+        
         GridBagConstraints gbcBtnTerminarTurno = new GridBagConstraints();
         
         gbcBtnTerminarTurno.gridx = 0;

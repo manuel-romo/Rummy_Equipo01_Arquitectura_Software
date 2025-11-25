@@ -37,17 +37,31 @@ import servidor.Servidor;
 public class EnsambladorCliente {
 
     private static int TOTAL_CASILLAS_TABLERO =500;
-    private static int TOTAL_CASILLAS_MANO = 14;
+    private static int TOTAL_CASILLAS_MANO = 15;
     
     public static void main(String[] args) {
         
         Scanner sc = new Scanner(System.in);
         System.out.print("Nombre del jugador: ");
         String nombreJugador = sc.nextLine();
-        System.out.print("Dirección de imagen de avatar: ");
-        String direccionImagenAvatar = sc.nextLine();
-        System.out.print("Puerto de cliente: ");
-        String puertoCliente = sc.nextLine();
+        
+        System.out.println(nombreJugador);
+        
+        String direccionImagenAvatar = null;
+        String puertoCliente = null;
+        
+        if(nombreJugador.equals("qwe")){
+            
+            direccionImagenAvatar = "avatar1.png";
+            puertoCliente = "51000";
+        }
+        
+        if(nombreJugador.equals("asd")){
+            
+            direccionImagenAvatar = "avatar2.png";
+            puertoCliente = "52000";
+            
+        }
         
         // Creación de clases de componentes
         IComponente panelMonton = new PanelMonton();
@@ -90,7 +104,7 @@ public class EnsambladorCliente {
         
          Map<Integer,Integer> mapaIdsCasillasPanelesJugador = new HashMap<>();
         
-        if(nombreJugador.equals("Sandy_43")){
+        if(nombreJugador.equals("qwe")){
             mapaIdsCasillasPanelesJugador.put(1, 6);
             mapaIdsCasillasPanelesJugador.put(2, 11);
             mapaIdsCasillasPanelesJugador.put(3, 3);
@@ -99,15 +113,16 @@ public class EnsambladorCliente {
             mapaIdsCasillasPanelesJugador.put(6, 1);
             mapaIdsCasillasPanelesJugador.put(7, 7);
             mapaIdsCasillasPanelesJugador.put(8, 4);
-            mapaIdsCasillasPanelesJugador.put(9, 10);
-            mapaIdsCasillasPanelesJugador.put(10, 5);
-            mapaIdsCasillasPanelesJugador.put(11, 2);
-            mapaIdsCasillasPanelesJugador.put(12, 8);
-            mapaIdsCasillasPanelesJugador.put(13, 13);
-            mapaIdsCasillasPanelesJugador.put(14, 6);
+            mapaIdsCasillasPanelesJugador.put(9, null);
+            mapaIdsCasillasPanelesJugador.put(10, 10);
+            mapaIdsCasillasPanelesJugador.put(11, 5);
+            mapaIdsCasillasPanelesJugador.put(12, 2);
+            mapaIdsCasillasPanelesJugador.put(13, 8);
+            mapaIdsCasillasPanelesJugador.put(14, 13);
+            mapaIdsCasillasPanelesJugador.put(15, 6);
         }
         
-        if(nombreJugador.equals("Juan_27")){
+        if(nombreJugador.equals("asd")){
             mapaIdsCasillasPanelesJugador.put(1, 7);
             mapaIdsCasillasPanelesJugador.put(2, 3);
             mapaIdsCasillasPanelesJugador.put(3, 12);
@@ -116,17 +131,21 @@ public class EnsambladorCliente {
             mapaIdsCasillasPanelesJugador.put(6, 5);
             mapaIdsCasillasPanelesJugador.put(7, 10);
             mapaIdsCasillasPanelesJugador.put(8, 1);
-            mapaIdsCasillasPanelesJugador.put(9, 11);
-            mapaIdsCasillasPanelesJugador.put(10, 2);
-            mapaIdsCasillasPanelesJugador.put(11, 8);
-            mapaIdsCasillasPanelesJugador.put(12, 13);
-            mapaIdsCasillasPanelesJugador.put(13, 6);
-            mapaIdsCasillasPanelesJugador.put(14, 7);
+            mapaIdsCasillasPanelesJugador.put(9, null);
+            mapaIdsCasillasPanelesJugador.put(10, 11);
+            mapaIdsCasillasPanelesJugador.put(11, 2);
+            mapaIdsCasillasPanelesJugador.put(12, 8);
+            mapaIdsCasillasPanelesJugador.put(13, 13);
+            mapaIdsCasillasPanelesJugador.put(14, 6);
+            mapaIdsCasillasPanelesJugador.put(15, 7);
         }
         
         
-        
         Map<Integer,Integer> mapaIdsCasillasPanelesTablero = new HashMap<>();
+        
+        for (int i = 0; i < TOTAL_CASILLAS_TABLERO; i++) {
+            mapaIdsCasillasPanelesTablero.put(i + 1, null);
+        }
         
         Modelo modelo = new Modelo(nombreJugador);
         Controlador controlador = new Controlador(modelo);

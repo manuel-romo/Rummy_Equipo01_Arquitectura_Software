@@ -25,8 +25,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     
     private Color COLOR_FONDO = new Color(207, 196, 136);
     
-    private String TITULO_MENSAJE_MOVIMIENTO_INVALIDO = "Movimiento inválido";
-    private String TITULO_MENSAJE_TABLERO_INVALIDO = "Tablero inválido";
+    private String TITULO_MENSAJE_ACCION_INVALIDA = "Acción inválida";
     
     public PanelMesaJuego(){
         
@@ -116,26 +115,13 @@ public class PanelMesaJuego extends JPanel implements IComponente{
         }
     }
     
-    private void mostrarMensajeMovimientoInvalido(String mensajeMovimientoInvalido){
+    private void mostrarMensajeMovimientoInvalido(String mensaje){
         
-        if(mensajeMovimientoInvalido != null){
+        if(mensaje != null){
             JOptionPane.showMessageDialog(
                 this, 
-                mensajeMovimientoInvalido, 
-                TITULO_MENSAJE_MOVIMIENTO_INVALIDO, 
-                JOptionPane.ERROR_MESSAGE);
-        }
-        
-        
-    }
-    
-    private void mostrarMensajeTableroInvalido(String mensajeTableroInvalido){
-        
-        if(mensajeTableroInvalido != null){
-            JOptionPane.showMessageDialog(
-                this, 
-                mensajeTableroInvalido, 
-                TITULO_MENSAJE_TABLERO_INVALIDO, 
+                mensaje, 
+                TITULO_MENSAJE_ACCION_INVALIDA, 
                 JOptionPane.ERROR_MESSAGE);
         }
         
@@ -166,11 +152,9 @@ public class PanelMesaJuego extends JPanel implements IComponente{
 
     public void pintar(IEstadoMesaJuego estadoMesaJuego) {
         
-        String mensajeMovimientoInvalido = estadoMesaJuego.getMensajeMovimientoInvalido();
-        String mensajeTableroInvalido = estadoMesaJuego.getMensajeTableroInvalido();
+        String mensaje = estadoMesaJuego.getMensaje();
         
-        mostrarMensajeMovimientoInvalido(mensajeMovimientoInvalido);
-        mostrarMensajeTableroInvalido(mensajeTableroInvalido);
+        mostrarMensajeMovimientoInvalido(mensaje);
         repaint();
     }
 

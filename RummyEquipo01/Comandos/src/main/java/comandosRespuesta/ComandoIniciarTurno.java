@@ -15,10 +15,12 @@ public class ComandoIniciarTurno implements ICommand{
     private final String type = "ComandoIniciarTurno";
     private String nombreJugador;
     private TableroDTO tablero;
+    private String mensaje;
     
-    public ComandoIniciarTurno(TableroDTO tablero, String nombreJugador) {
+    public ComandoIniciarTurno(TableroDTO tablero, String nombreJugador, String mensaje) {
         this.tablero = tablero;
         this.nombreJugador = nombreJugador;
+        this.mensaje = mensaje;
     }
 
     @Override
@@ -26,6 +28,10 @@ public class ComandoIniciarTurno implements ICommand{
         return type;
     }
 
+    public String getMensaje() {
+        return mensaje;
+    }
+    
     @Override
     public String getNombreJugador() {
         return nombreJugador;

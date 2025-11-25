@@ -17,6 +17,8 @@ public class PanelMovimiento extends JPanel implements IComponente {
 
     private IGestorEventos gestorEventos;
     
+    private Integer numeroFichaArrastrada;
+    
     private MouseAdapter ma;
 
     public PanelMovimiento() {
@@ -27,27 +29,43 @@ public class PanelMovimiento extends JPanel implements IComponente {
             @Override
             public void mouseDragged(MouseEvent e) {
                 
-                if(fichasArrastradas == null){
+                if (fichasArrastradas == null) {
                     return;
                 }
-                
-                Point puntoInicioEvento = e.getPoint();
-                
-                if(e.getComponent() instanceof PanelFicha){
-                    
-                    PanelFicha panelFicha = (PanelFicha) e.getComponent();
-                
-                    puntoInicioEvento = SwingUtilities.convertPoint(panelFicha, puntoInicioEvento, PanelMovimiento.this);
-                    
-                }
-                
-                for(int i = 0; i < fichasArrastradas.length; i++){
 
+                int indiceInicio = 0;
+                int indiceMaximo = fichasArrastradas.length;
+                boolean moverEnGrupo = true;
+
+                Point puntoInicioEvento = e.getPoint();
+
+                if (e.getComponent() instanceof PanelFicha) {
+                    PanelFicha panelFicha = (PanelFicha) e.getComponent();
+                    puntoInicioEvento = SwingUtilities.convertPoint(panelFicha, puntoInicioEvento, PanelMovimiento.this);
+
+                    moverEnGrupo = false;
+                    for (int i = 0; i < fichasArrastradas.length; i++) {
+                        if (fichasArrastradas[i].getIdFicha().equals(panelFicha.getIdFicha())) {
+                            indiceInicio = i;
+                            indiceMaximo = i + 1;
+                            numeroFichaArrastrada = i;
+                            break;
+                        }
+                    }
+
+                } else{
+                    numeroFichaArrastrada = null;
+                }
+
+                for (int i = indiceInicio; i < indiceMaximo; i++) {
                     int nuevoX = puntoInicioEvento.x - 30;
                     int nuevoY = puntoInicioEvento.y - 30;
 
-                    fichasArrastradas[i].setLocation(nuevoX + (fichasArrastradas[i].getWidth() + 15) * i, nuevoY);
-
+                    if (moverEnGrupo) {
+                        fichasArrastradas[i].setLocation(nuevoX + (fichasArrastradas[i].getWidth() + 15) * i, nuevoY);
+                    } else {
+                        fichasArrastradas[i].setLocation(nuevoX, nuevoY);
+                    }
                 }
 
                 revalidate();
@@ -57,10 +75,11 @@ public class PanelMovimiento extends JPanel implements IComponente {
             
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                
                 gestorEventos.fichaSoltada(e);
                    
             }
+
             
         };
         addMouseListener(ma);
@@ -132,6 +151,10 @@ public class PanelMovimiento extends JPanel implements IComponente {
                     
     }
 
+    public Integer getNumeroFichaArrastrada() {
+        return numeroFichaArrastrada;
+    }
+    
     @Override
     public void agregarComponente(IComponente componente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
