@@ -105,39 +105,39 @@ public class EnsambladorCliente {
          Map<Integer,Integer> mapaIdsCasillasPanelesJugador = new HashMap<>();
         
         if(nombreJugador.equals("qwe")){
-            mapaIdsCasillasPanelesJugador.put(1, 6);
-            mapaIdsCasillasPanelesJugador.put(2, 11);
+            mapaIdsCasillasPanelesJugador.put(1, 1);
+            mapaIdsCasillasPanelesJugador.put(2, 2);
             mapaIdsCasillasPanelesJugador.put(3, 3);
-            mapaIdsCasillasPanelesJugador.put(4, 9);
-            mapaIdsCasillasPanelesJugador.put(5, 12);
-            mapaIdsCasillasPanelesJugador.put(6, 1);
+            mapaIdsCasillasPanelesJugador.put(4, 4);
+            mapaIdsCasillasPanelesJugador.put(5, 5);
+            mapaIdsCasillasPanelesJugador.put(6, 6);
             mapaIdsCasillasPanelesJugador.put(7, 7);
-            mapaIdsCasillasPanelesJugador.put(8, 4);
+            mapaIdsCasillasPanelesJugador.put(8, 8);
             mapaIdsCasillasPanelesJugador.put(9, null);
-            mapaIdsCasillasPanelesJugador.put(10, 10);
-            mapaIdsCasillasPanelesJugador.put(11, 5);
-            mapaIdsCasillasPanelesJugador.put(12, 2);
-            mapaIdsCasillasPanelesJugador.put(13, 8);
+            mapaIdsCasillasPanelesJugador.put(10, 9);
+            mapaIdsCasillasPanelesJugador.put(11, 10);
+            mapaIdsCasillasPanelesJugador.put(12, 11);
+            mapaIdsCasillasPanelesJugador.put(13, 12);
             mapaIdsCasillasPanelesJugador.put(14, 13);
-            mapaIdsCasillasPanelesJugador.put(15, 6);
+            mapaIdsCasillasPanelesJugador.put(15, 14);
         }
         
         if(nombreJugador.equals("asd")){
-            mapaIdsCasillasPanelesJugador.put(1, 7);
-            mapaIdsCasillasPanelesJugador.put(2, 3);
-            mapaIdsCasillasPanelesJugador.put(3, 12);
-            mapaIdsCasillasPanelesJugador.put(4, 4);
-            mapaIdsCasillasPanelesJugador.put(5, 9);
-            mapaIdsCasillasPanelesJugador.put(6, 5);
-            mapaIdsCasillasPanelesJugador.put(7, 10);
-            mapaIdsCasillasPanelesJugador.put(8, 1);
+            mapaIdsCasillasPanelesJugador.put(1, 15);
+            mapaIdsCasillasPanelesJugador.put(2, 16);
+            mapaIdsCasillasPanelesJugador.put(3, 17);
+            mapaIdsCasillasPanelesJugador.put(4, 18);
+            mapaIdsCasillasPanelesJugador.put(5, 19);
+            mapaIdsCasillasPanelesJugador.put(6, 20);
+            mapaIdsCasillasPanelesJugador.put(7, 21);
+            mapaIdsCasillasPanelesJugador.put(8, 22);
             mapaIdsCasillasPanelesJugador.put(9, null);
-            mapaIdsCasillasPanelesJugador.put(10, 11);
-            mapaIdsCasillasPanelesJugador.put(11, 2);
-            mapaIdsCasillasPanelesJugador.put(12, 8);
-            mapaIdsCasillasPanelesJugador.put(13, 13);
-            mapaIdsCasillasPanelesJugador.put(14, 6);
-            mapaIdsCasillasPanelesJugador.put(15, 7);
+            mapaIdsCasillasPanelesJugador.put(10, 23);
+            mapaIdsCasillasPanelesJugador.put(11, 24);
+            mapaIdsCasillasPanelesJugador.put(12, 25);
+            mapaIdsCasillasPanelesJugador.put(13, 26);
+            mapaIdsCasillasPanelesJugador.put(14, 27);
+            mapaIdsCasillasPanelesJugador.put(15, 28);
         }
         
         

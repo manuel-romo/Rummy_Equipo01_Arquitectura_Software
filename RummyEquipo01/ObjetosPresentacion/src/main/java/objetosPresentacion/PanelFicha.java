@@ -141,7 +141,11 @@ public class PanelFicha extends JPanel {
                         gestorEventos.seleccionarFicha(e, true);
 
                     } else{
-                        gestorEventos.seleccionarFicha(e, !isSeleccionada());
+                        
+                        if(!enMovimiento){
+                            gestorEventos.seleccionarFicha(e, !isSeleccionada());
+                        }
+                        
 
                     }
                 } else{

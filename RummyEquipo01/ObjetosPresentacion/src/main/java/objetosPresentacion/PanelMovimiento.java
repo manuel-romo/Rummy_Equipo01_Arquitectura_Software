@@ -19,6 +19,8 @@ public class PanelMovimiento extends JPanel implements IComponente {
     
     private Integer numeroFichaArrastrada;
     
+    private boolean faseSoltado = false;
+    
     private MouseAdapter ma;
 
     public PanelMovimiento() {
@@ -75,7 +77,7 @@ public class PanelMovimiento extends JPanel implements IComponente {
             
             @Override
             public void mouseReleased(MouseEvent e) {
-                
+                faseSoltado = true;
                 gestorEventos.fichaSoltada(e);
                    
             }
@@ -88,7 +90,11 @@ public class PanelMovimiento extends JPanel implements IComponente {
 
     public void iniciarArrastre(PanelFicha[] fichas) {
         
+        this.faseSoltado = false;
+        
         this.fichasArrastradas = new PanelFicha[fichas.length];
+        
+        System.out.println("ARRASTRE INCIADO CON: " + fichas.length);
         
         this.arrastrandoFichas = true;
         
@@ -135,25 +141,40 @@ public class PanelMovimiento extends JPanel implements IComponente {
     }
     
     public void pintar(IEstadoPanelMovimiento estadoPanelMovimiento){
+        
         boolean movimientoValido = estadoPanelMovimiento.getMovimientoValido();
         
-        if(!arrastrandoFichas && movimientoValido){
-            this.removeAll();
+        if(arrastrandoFichas){
+            
+            if (faseSoltado) {
+
+                if (movimientoValido) {
+                    this.borrarContenido();
+                }
+                
+            } else {
+
+                if (!movimientoValido) {
+                    this.borrarContenido();
+                }
+            }
         }
-        
     }
     
     public void borrarContenido(){
 
         arrastrandoFichas = false;
-
+        fichasArrastradas = null;
         removeAll();
+        revalidate();
+        repaint();
                     
     }
 
     public Integer getNumeroFichaArrastrada() {
         return numeroFichaArrastrada;
     }
+
     
     @Override
     public void agregarComponente(IComponente componente) {

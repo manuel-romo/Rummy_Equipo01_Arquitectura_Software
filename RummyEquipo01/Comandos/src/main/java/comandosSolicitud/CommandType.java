@@ -14,7 +14,7 @@ public enum CommandType {
     AGREGAR_FICHAS_TABLERO("ComandoAgregarFichasTablero"),
     AGREGAR_FICHAS_TABLERO_GRUPO("ComandoAgregarFichasTableroGrupo"),
     CAMBIAR_TURNO_SERIALIZADO("ComandoCambiarTurnoSerializado"),
-    QUITAR_FICHAS_TABLERO("ComandoQuitarFichaTablero"),
+    QUITAR_FICHAS_TABLERO("ComandoQuitarFichasTablero"),
     QUITAR_FICHAS_JUGADOR("ComandoQuitarFichasJugador"),
     AGREGAR_FICHAS_JUGADOR("ComandoAgregarFichasJugador"),
     RESTABLECER_TABLERO("ComandoRestablecerTablero"),

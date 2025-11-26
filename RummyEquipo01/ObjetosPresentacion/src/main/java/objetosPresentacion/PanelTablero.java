@@ -25,7 +25,7 @@ public class PanelTablero extends JPanel implements IComponente{
     private int ESPACION_VERTICAL_CASILLAS = 0;
     private int ESPACION_HORIZONTAL_CASILLAS = 0;
     
-    private int numeroCasillas = 0;
+    private int numeroFichas = 0;
     
     private PosicionPanel POSICION_PANEL = PosicionPanel.CENTRO;
     private Dimension tamanio = new Dimension(1650,1600);
@@ -66,12 +66,14 @@ public class PanelTablero extends JPanel implements IComponente{
     
     private void agregarFichasTablero(FichaInformacionPanel[] fichas){
         
-        int nuevoNumeroCasillas = 0;
+        int nuevoNumeroFichas = 0;
         for(Map.Entry<Integer, Integer> entrada: mapaCasillasFichas.entrySet()){
 
             PanelCasilla panelCasilla = obtenerCasillaPorId(entrada.getKey());
 
             FichaInformacionPanel ficha = obtenerInformacionFichaPorId(entrada.getValue(), fichas);
+            
+            
             
             if(ficha != null){
                 
@@ -83,27 +85,24 @@ public class PanelTablero extends JPanel implements IComponente{
                     false);
 
                 panelCasilla.agregarFicha(panelFicha);
+                               
+                nuevoNumeroFichas++;
                 
-                nuevoNumeroCasillas++;
                 
+            } else{
+                
+                panelCasilla.removeAll();
                 
             }
             
         }
         
-        for(PanelCasilla panelCasilla: panelesCasillas){
-            if(!mapaCasillasFichas.keySet().contains(panelCasilla.getId())){
-                
-                panelCasilla.removeAll();
-                
-            }  
-        }
-        
-        if(nuevoNumeroCasillas > numeroCasillas){
+        if(nuevoNumeroFichas > numeroFichas){
+            
             gestorEventos.borrarFichasMovimiento();
         }
         
-        numeroCasillas = nuevoNumeroCasillas;
+        numeroFichas = nuevoNumeroFichas;
             
     }
     

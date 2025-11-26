@@ -41,6 +41,10 @@ public class GestorEventos implements IGestorEventos{
         
         if(!ficha.isSeleccionada() && seleccionada){
             
+            if (!fichasMovimiento.isEmpty() && fichasMovimiento.get(0).getParent() == null) {
+                fichasMovimiento.clear();
+           }
+            
             boolean seleccionValida = true;
             
             if(!fichasMovimiento.isEmpty()){
@@ -160,9 +164,19 @@ public class GestorEventos implements IGestorEventos{
 
                 } else{
 
-                    if(contenedorAbueloFichaReferencia instanceof PanelTablero){
-  
-                        seleccionValida = false;      
+                    if (contenedorAbueloFichaReferencia instanceof PanelTablero) {
+
+                        System.out.println("CONTENEDOR ABUELO DE REFERENCIA ES DE TABLERO....");
+                        // Se deseleccionan visualmente las fichas viejas del tablero.
+                        for (PanelFicha panelFicha: fichasMovimiento) {
+                            panelFicha.setSeleccionada(false);
+                        }
+
+                        // Se limpia la lista anterior.
+                        fichasMovimiento.clear();
+
+                        // Se valida la nueva selección.
+                        seleccionValida = true;
 
                     }
 
@@ -305,9 +319,6 @@ public class GestorEventos implements IGestorEventos{
         
         for(int i = indiceInicioFichasMovimiento; i < indiceFinFichasMovimiento; i++){
             
-            System.out.println("INDICE FICHA MOVER: " + i);
-            System.out.println("NUMERO FICHAS MOV: " + fichasMovimiento.size());
-            
             PanelFicha ficha = fichasMovimiento.get(i);
             
             int indiceFichaMovimiento = fichasMovimiento.indexOf(ficha);
@@ -408,7 +419,7 @@ public class GestorEventos implements IGestorEventos{
                 
             } else{
                 
-                System.out.println("Error");
+                System.out.println("Error soltada 2");
                 
                 return;
 
@@ -422,11 +433,8 @@ public class GestorEventos implements IGestorEventos{
                 .map(panel -> panel.getId())
                 .toArray(Integer[]::new);
 
-        panelMovimiento.setVisible(false);
-
         if(fichasSoltadasPanelJugador){
             
-            panelMovimiento.removeAll();
             receptorEventos.agregarFichasJugador(casillasAgregar, idsFichasAgregar);
             
         } else{

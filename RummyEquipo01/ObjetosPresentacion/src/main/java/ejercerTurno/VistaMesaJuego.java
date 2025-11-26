@@ -65,6 +65,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     
     private boolean movimientoInvalido;
     
+    private final int ANCHO_FILA = 30;
+    
     public VistaMesaJuego(
             Controlador controlador,
             IComponente componente,
@@ -188,7 +190,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
         for(FichaPresentacionDTO ficha: fichas){
             
-            if(ficha instanceof FichaNormalPresentacionDTO){
+            if(ficha != null){
+                if(ficha instanceof FichaNormalPresentacionDTO){
                 
                 FichaNormalPresentacionDTO fichaNormal = (FichaNormalPresentacionDTO) ficha;
                 
@@ -197,15 +200,17 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
                     String.valueOf(fichaNormal.getValor()),
                     determinarColor(fichaNormal.getColor())
                     ));   
-            } else{
-                
-                ComodinPresentacionDTO comodin = (ComodinPresentacionDTO) ficha;
-                
-                listaFichaInformacionPanel.add(new FichaInformacionPanel(
-                    comodin.getIdFicha(),
-                    comodin.getValor(),
-                    COLOR_COMODIN));  
+                } else{
+
+                    ComodinPresentacionDTO comodin = (ComodinPresentacionDTO) ficha;
+
+                    listaFichaInformacionPanel.add(new FichaInformacionPanel(
+                        comodin.getIdFicha(),
+                        comodin.getValor(),
+                        COLOR_COMODIN));  
+                }
             }
+            
             
         }
         
@@ -263,15 +268,62 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         
     }
     
-    private TableroInformacionPanel obtenerTableroInformacionPanel(TableroPresentacionDTO tableroPresentacionDTO){
+    private TableroInformacionPanel obtenerTableroInformacionPanel(TableroPresentacionDTO tableroPresentacionDTO, boolean nuevoTurno){
         
         FichaPresentacionDTO[] fichas = tableroPresentacionDTO.getFichas();
+        
+        System.out.println("FICHAS TABLERO");
+        for(FichaPresentacionDTO f: fichas){
+            if(f!=null){
+                System.out.println(f.getIdFicha());
+            }
+            
+
+        }
+        System.out.println("************************");
+        
+        actualizarFichasCasillas(fichas, nuevoTurno);
         
         TableroInformacionPanel tableroInformacionPanel 
                 = new TableroInformacionPanel(obtenerFichasInformacionPanel(fichas), mapaIdsCasillasFichasTablero);
         
         return tableroInformacionPanel;
         
+    }
+    
+    
+    private void actualizarFichasCasillas(FichaPresentacionDTO[] fichas, boolean nuevoTurno){
+        
+        if(nuevoTurno && fichas.length != 0){
+            
+            mapaIdsCasillasFichasTablero.replaceAll((idCasilla, idFicha) -> null);
+            
+            int j = 1;
+            int numeroFila = 0;
+            
+            for(int i = 0; i < fichas.length; i++){
+            
+                if(fichas[i] == null && j > numeroFila * ANCHO_FILA + 15){
+                    
+                    j += (numeroFila*ANCHO_FILA)-j;
+                    numeroFila++;
+                    
+                } else if(fichas[i] == null){
+                    
+                    j++;
+                    
+                } else{
+                    
+                    mapaIdsCasillasFichasTablero.put(j, fichas[i].getIdFicha());
+                    
+                    j++;
+                    
+                }
+                
+                
+                
+            }
+        }
     }
     
     private VisitorPintar crearVisitorPintar(EstadoActual estadoActual){
@@ -297,10 +349,12 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         
         MontonInformacionPanel montonInformacionPanel = obtenerMontonInformacionPanel(montonPresentacionDTO);
         
-        TableroInformacionPanel tableroInformacionPanel = obtenerTableroInformacionPanel(tableroPresentacionDTO);
+        boolean nuevoTurno = modelo.isNuevoTurno();
+        
+        TableroInformacionPanel tableroInformacionPanel = obtenerTableroInformacionPanel(tableroPresentacionDTO, nuevoTurno);
         
         movimientoInvalido = mensaje != null? true : false;
-  
+        
         actualizarMapaCasillasFichas(!movimientoInvalido);
         
         EstadoActual estadoActual = new EstadoActual(
@@ -319,17 +373,21 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         }
         repaint();
         revalidate();
-        
-        if(((Container)getGlassPane()).getComponentCount() != 0){
-            getGlassPane().setVisible(true);
-            
-        } else{
-            getGlassPane().setVisible(false);
-        }
-        
+
         boolean vistaHabilitada = modelo.isVistaHabilitada();
         
         habilitarVista(vistaHabilitada);
+
+        Container glassPane = (Container) getGlassPane();
+
+        System.out.println("CANTIDAD DE COMPONENTES GLASS: " + glassPane.getComponentCount());
+        
+        if (glassPane.getComponentCount() == 0) {
+            glassPane.setVisible(false);
+
+        } else {
+            glassPane.setVisible(true); 
+        }
         
       
     }
@@ -354,9 +412,12 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
             
             else if(idsCasillasQuitarTablero != null){
                 
+                System.out.println("QUITANDO FICHAS DE CASILLAS:");
+                
                 for(int i = 0; i < idsCasillasQuitarTablero.length; i++){
                         
-                    mapaIdsCasillasFichasTablero.remove(idsCasillasQuitarTablero[i]);
+                    System.out.println(i);
+                    mapaIdsCasillasFichasTablero.put(idsCasillasQuitarTablero[i], null);
 
                 }
 
@@ -381,8 +442,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
                 for(int i = 0; i < idsCasillasQuitarJugador.length; i++){
 
-                    System.out.println(idsCasillasQuitarJugador[i]);
-                    mapaIdsCasillasFichasJugador.remove(idsCasillasQuitarJugador[i]);
+                    mapaIdsCasillasFichasJugador.put(idsCasillasQuitarJugador[i], null);
 
                 }
 

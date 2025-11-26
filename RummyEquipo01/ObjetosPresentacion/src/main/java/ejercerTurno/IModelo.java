@@ -21,4 +21,6 @@ public interface IModelo {
     
     public abstract boolean isVistaHabilitada();
     
+    public abstract boolean isNuevoTurno();
+    
 }

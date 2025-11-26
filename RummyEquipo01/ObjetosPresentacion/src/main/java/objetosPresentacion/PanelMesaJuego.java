@@ -25,6 +25,8 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     
     private Color COLOR_FONDO = new Color(207, 196, 136);
     
+    private String TITULO_MENSAJE_INICIO_TURNO = "Inicio de turno";
+    private String TITULO_MENSAJE_CAMBIO_TURNO = "Cambio de turno";
     private String TITULO_MENSAJE_ACCION_INVALIDA = "Acción inválida";
     
     public PanelMesaJuego(){
@@ -117,12 +119,36 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     
     private void mostrarMensajeMovimientoInvalido(String mensaje){
         
+        
         if(mensaje != null){
-            JOptionPane.showMessageDialog(
+            
+            if(mensaje.startsWith("IT:")){
+                
+                JOptionPane.showMessageDialog(
+                        this, 
+                        mensaje.substring(3), 
+                        TITULO_MENSAJE_INICIO_TURNO, 
+                        JOptionPane.INFORMATION_MESSAGE);
+                
+            } 
+            
+            else if(mensaje.startsWith("CT:")){
+                JOptionPane.showMessageDialog(
+                        this, 
+                        mensaje.substring(3), 
+                        TITULO_MENSAJE_CAMBIO_TURNO, 
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            else if(mensaje.startsWith("RM:")){
+                
+                JOptionPane.showMessageDialog(
                 this, 
-                mensaje, 
+                mensaje.substring(3), 
                 TITULO_MENSAJE_ACCION_INVALIDA, 
                 JOptionPane.ERROR_MESSAGE);
+                
+            }
         }
         
         

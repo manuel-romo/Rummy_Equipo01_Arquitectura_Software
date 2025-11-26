@@ -22,7 +22,7 @@ public abstract class Grupo {
      */
     protected List<Ficha> fichas;
     
-    protected boolean primerTurno;
+    private boolean primerTurno;
 
     
     public static void validarCreacionGrupo(List<Ficha> fichas, boolean primerTurno, int maximoNumeroFicha) throws RummyException{
@@ -184,6 +184,11 @@ public abstract class Grupo {
         this.numero = numero;
         this.fichas = fichas;
         this.primerTurno = primerTurno;
+        
+        for(Ficha ficha: fichas){
+            ficha.setGrupo(this);
+        }
+        
     }
 
     public Grupo(List<Ficha> fichas) {
@@ -297,6 +302,16 @@ public abstract class Grupo {
     public Integer getNumero() {
         return numero;
     }
+
+    public boolean isPrimerTurno() {
+        return primerTurno;
+    }
+    
+    public void setPrimerTurno(boolean primerTurno) {
+        this.primerTurno = primerTurno;
+    }
+    
+    
    
     
     

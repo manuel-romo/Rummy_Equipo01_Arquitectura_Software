@@ -10,16 +10,16 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoQuitarFichasTablero implements ICommand{
-    private int[] idsFichas;
-    private final String type = "ComandoQuitarFichaTablero";
+    private Integer[] idsFichas;
+    private final String type = "ComandoQuitarFichasTablero";
     private String nombreJugador;
 
-    public ComandoQuitarFichasTablero(int[] idFichas, String nombreJugador) {
+    public ComandoQuitarFichasTablero(Integer[] idFichas, String nombreJugador) {
         this.idsFichas = idFichas;
         this.nombreJugador = nombreJugador;
     }
 
-    public int[] getIdsFichas() {
+    public Integer[] getIdsFichas() {
         return idsFichas;
     }
     

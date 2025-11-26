@@ -7,6 +7,7 @@ import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
+import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoTerminarTurno;
 import comandosSolicitud.CommandType;
@@ -67,6 +68,8 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      */
     
     private boolean movimientoInvalido;
+    
+    private boolean nuevoTurno;
     
     private String mensaje;
     
@@ -201,9 +204,9 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      */
     public void quitarFichasTablero(Integer[] idsFichas) {
         
-        ICommand comandoQuitarFichasJugador = new ComandoQuitarFichasJugador(idsFichas, nombreJugador);
+        ICommand comandoQuitarFichasTablero = new ComandoQuitarFichasTablero(idsFichas, nombreJugador);
         
-        filtroEnvioMensaje.ejecutar(comandoQuitarFichasJugador);
+        filtroEnvioMensaje.ejecutar(comandoQuitarFichasTablero);
 
     }
 
@@ -248,19 +251,23 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
     }
 
-    public void iniciarTurno(TableroDTO tablero){
+    public void iniciarTurno(TableroDTO tablero, String mensaje){
     
+        this.nuevoTurno = true;
         this.tablero = tablero;
         vistaHabilitada = true;
+        this.mensaje = "IT: " + mensaje;
         
         notificar();
         
     }
     
-    private void cambiarTurno(TableroDTO tablero){
+    private void cambiarTurno(TableroDTO tablero, String mensaje){
         
+        this.nuevoTurno = true;
         this.tablero = tablero;
         vistaHabilitada = false;
+        this.mensaje = "CT: " + mensaje;
         
         notificar();
         
@@ -268,9 +275,16 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     
     private void responderMovimiento(TableroDTO tablero, boolean movimientoValido, String mensaje){
         
+        this.nuevoTurno = false;
         this.tablero = tablero;
         this.movimientoInvalido = !movimientoValido;
-        this.mensaje = mensaje;
+        
+        if(mensaje != null){
+            this.mensaje = "RM: " + mensaje;
+        } else{
+            this.mensaje = null;
+        }
+        
         notificar();
     }
     
@@ -367,6 +381,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     public boolean isVistaHabilitada() {
         return vistaHabilitada;
     }
+    
+    @Override
+    public boolean isNuevoTurno() {
+        return nuevoTurno;
+    }
 
     @Override
     public JugadorExternoPresentacionDTO[] obtenerJugadoresExternos() {
@@ -410,6 +429,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
             
             List<FichaDTO> fichasDTO = grupo.getFichas();
             
+            fichasPresentacion.add(null);
             for(FichaDTO fichaDTO: fichasDTO){
                 
                 fichasPresentacion.add(obtenerFichaPresentacionDTO(fichaDTO));
@@ -426,7 +446,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
     
     private FichaPresentacionDTO obtenerFichaPresentacionDTO(FichaDTO fichaDTO){
-        
+
         FichaPresentacionDTO fichaPresentacionDTO;
         
         if(fichaDTO instanceof FichaNormalDTO){
@@ -486,14 +506,18 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
             case CommandType.INICIAR_TURNO:
                 
                 ComandoIniciarTurno comandoIniciarTurno = (ComandoIniciarTurno) comando;
-                iniciarTurno( comandoIniciarTurno.getTablero());
+                iniciarTurno( 
+                        comandoIniciarTurno.getTablero(), 
+                        comandoIniciarTurno.getMensaje());
                 
                 break;
                 
             case CommandType.CAMBIO_TURNO:
                 
                 ComandoCambioTurno comandoCambioTurno = (ComandoCambioTurno) comando;
-                cambiarTurno(comandoCambioTurno.getTablero());
+                cambiarTurno(
+                        comandoCambioTurno.getTablero(),
+                        comandoCambioTurno.getMensaje());
 
                 break;
                 
