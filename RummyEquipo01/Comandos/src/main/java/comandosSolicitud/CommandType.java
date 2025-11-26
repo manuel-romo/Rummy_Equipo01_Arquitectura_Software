@@ -21,8 +21,10 @@ public enum CommandType {
     TERMINAR_TURNO("ComandoTerminarTurno"),
     CAMBIO_TURNO("ComandoCambioTurno"),
     INICIAR_TURNO("ComandoIniciarTurno"),
+    TOMAR_FICHA("ComandoTomarFicha"),
+    RESPUESTA_TOMAR_FICHA("ComandoRespuestaTomarFicha"),
     RESPUESTA_MOVIMIENTO("ComandoRespuestaMovimiento"),
-    COMANDO_RESTABLECER_RESPUESTA("ComandoRestablecerRespuesta"),
+    RESPUESTA_REESTABLECER("ComandoRestablecerRespuesta"),
     COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido"),
     COMANDO_ENVOLVENTE("ComandoEnvolvente"),
     

@@ -6,8 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -22,22 +24,84 @@ public class PanelMonton extends JPanel implements IComponente{
     private String VALOR_LABEL_PANEL = "Fichas restantes: ";
     private JLabel labelNumeroFichasMonton = new JLabel();
     
-    Font fuenteDatosJugador = new Font("Arial", Font.BOLD, 18);
+    private Color COLOR_FONDO_TOMAR_FICHA = new Color(252, 163, 86);
+    private Color COLOR_FONDO_REESTABLECER_TABLERO = new Color(117, 26, 26);
+    
+    private LineBorder BORDE_BOTONES = new LineBorder(Color.BLACK, 3, true);
+    
+    private JButton botonTomarFicha = new JButton("Tomar ficha");
+    private JButton botonReestablecerTablero = new JButton("Reestablecer tablero");
+    
+    JPanel panelContenedor = new JPanel();
+    JPanel panelAuxiliar = new JPanel();
+    
+    Font fuenteDatosJugador = new Font("Arial", Font.BOLD, 16);
+    
+    private IGestorEventos gestorEventos;
     
     public PanelMonton(){
         
         setBackground(COLOR_FONDO);
         
         setLayout(new GridBagLayout());
+        
+        panelContenedor.setLayout(new BoxLayout(panelContenedor, BoxLayout.Y_AXIS));
+        panelContenedor.setOpaque(false);
+         
+        configurarBotonTomarFicha();
+        configurarBotonReestablecerTablero();
+        
+        add(panelContenedor);
+        
+        repaint();
                 
 
     }
     
+    private void configurarBotonTomarFicha(){
+        
+        JPanel panelBotonTomarFicha = new JPanel(new FlowLayout());
+        panelBotonTomarFicha.setOpaque(false);
+        
+        botonTomarFicha.setFont(fuenteDatosJugador);
+        
+        botonTomarFicha.setBackground(COLOR_FONDO_TOMAR_FICHA);
+        botonTomarFicha.setForeground(Color.WHITE);
+        
+        botonTomarFicha.setBorder(BORDE_BOTONES);
+        
+        botonTomarFicha.addActionListener(e -> gestorEventos.tomarFicha());
+        
+        panelBotonTomarFicha.add(botonTomarFicha);
+        
+        panelContenedor.add(panelBotonTomarFicha);
+        
+    }
+    
+    private void configurarBotonReestablecerTablero(){
+        
+        JPanel panelBotonReestablecerTablero = new JPanel(new FlowLayout());
+        
+        panelBotonReestablecerTablero.setOpaque(false);
+        
+        botonReestablecerTablero.setFont(fuenteDatosJugador);
+        
+        botonReestablecerTablero.setBackground(COLOR_FONDO_REESTABLECER_TABLERO);
+        botonReestablecerTablero.setForeground(Color.WHITE);
+        
+        botonReestablecerTablero.setBorder(BORDE_BOTONES);
+        
+        botonReestablecerTablero.addActionListener(e -> gestorEventos.reestablecerTablero());
+        
+        panelBotonReestablecerTablero.add(botonReestablecerTablero);
+        
+        panelContenedor.add(panelBotonReestablecerTablero);
+        
+    }
+    
     private void actualizarNumeroFichasRestantes(String numeroFichasRestantes){
         
-        removeAll();
-
-        JPanel panelAuxiliar = new JPanel();
+        panelContenedor.remove(panelAuxiliar);
         
         panelAuxiliar.setLayout(new BoxLayout(panelAuxiliar, BoxLayout.Y_AXIS));
         panelAuxiliar.setOpaque(false);
@@ -66,7 +130,7 @@ public class PanelMonton extends JPanel implements IComponente{
         
         panelAuxiliar.add(panelAuxiliarFichasMonton);
         
-        add(panelAuxiliar);
+        panelContenedor.add(panelAuxiliar);
         
     }
     
@@ -97,6 +161,8 @@ public class PanelMonton extends JPanel implements IComponente{
         return POSICION_PANEL;
     }
 
- 
+    public void setGestorEventos(IGestorEventos gestorEventos) {
+        this.gestorEventos = gestorEventos;
+    }
     
 }

@@ -5,6 +5,7 @@ import enumeradores.ColorFicha;
 import excepciones.RummyException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Clase que representa un conjunto de fichas
@@ -310,6 +311,35 @@ public abstract class Grupo {
     public void setPrimerTurno(boolean primerTurno) {
         this.primerTurno = primerTurno;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.numero);
+        hash = 97 * hash + Objects.hashCode(this.fichas);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Grupo other = (Grupo) obj;
+        if (!Objects.equals(this.numero, other.numero)) {
+            return false;
+        }
+        return Objects.equals(this.fichas, other.fichas);
+    }
+
+    
+    
     
     
    

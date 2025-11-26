@@ -3,13 +3,17 @@ package ejercerTurno;
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosRespuesta.ComandoRespuestaReestablecer;
+import comandosRespuesta.ComandoRespuestaTomarFicha;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
+import comandosSolicitud.ComandoReestablecerTablero;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoTerminarTurno;
+import comandosSolicitud.ComandoTomarFicha;
 import comandosSolicitud.CommandType;
 import dto.ColorFichaPresentacionDTO;
 import dto.FichaPresentacionDTO;
@@ -250,6 +254,21 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         filtroEnvioMensaje.ejecutar(comandoAgregarFichasTablero);
         
     }
+    
+    public void tomarFicha(){
+        
+        ICommand comandoTomarFicha = new ComandoTomarFicha(nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoTomarFicha);
+        
+    }
+    
+    public void reestablecerTablero(){
+        
+        ICommand comandoReestablecerTablero = new ComandoReestablecerTablero(nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoReestablecerTablero);
+    }
 
     public void iniciarTurno(TableroDTO tablero, String mensaje){
     
@@ -286,6 +305,30 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         }
         
         notificar();
+    }
+    
+    private void tomarFicha(TableroDTO tablero){
+        
+        this.nuevoTurno = false;
+        this.tablero = tablero;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = null;
+        
+        notificar();
+        
+    }
+    
+    private void reestablecerTablero(TableroDTO tablero){
+        
+        this.nuevoTurno = true;
+        this.tablero = tablero;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = null;
+        
+        notificar();
+        
     }
     
     private void avisarTableroInvalido(){
@@ -537,6 +580,23 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                 avisarTableroInvalido();
                 
                 break;
+                
+            case CommandType.RESPUESTA_TOMAR_FICHA:
+                
+                ComandoRespuestaTomarFicha comandoRespuestaTomarFicha = (ComandoRespuestaTomarFicha) comando;
+                tomarFicha(
+                        comandoRespuestaTomarFicha.getTablero());
+
+                break;
+                
+             case CommandType.RESTABLECER_TABLERO:
+                
+                ComandoRespuestaReestablecer comandoRespuestaReestablecer = (ComandoRespuestaReestablecer) comando;
+                reestablecerTablero(
+                        comandoRespuestaReestablecer.getTablero());
+
+                break;
+
                 
             default:
                 throw new AssertionError();

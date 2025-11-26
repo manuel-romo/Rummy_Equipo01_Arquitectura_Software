@@ -36,7 +36,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     
     private List<IComponente> componentes = new LinkedList<>();
     
-    private Dimension tamanioVentanaVista = new Dimension(1000, 700);
+    private Dimension tamanioVentanaVista = new Dimension(1000, 800);
     private Controlador controlador;
     
     private Color COLOR_COMODIN = Color.BLACK;
@@ -150,6 +150,16 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     }
     
     @Override
+    public void tomarFicha() {
+        controlador.tomarFicha();
+    }
+
+    @Override
+    public void reestablecerTablero() {
+        controlador.reestablecerTablero();
+    }
+    
+    @Override
     public void terminarTurno(){
         controlador.terminarTurno();
     }
@@ -250,6 +260,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         }
         System.out.println("************************");
         
+        actualizarMapaCasillasIdsFichasJugador(fichas);
         
         JugadorPrincipalInformacionPanel jugadorPrincipalInformacionPanel 
                 = new JugadorPrincipalInformacionPanel(obtenerFichasInformacionPanel(fichas), 
@@ -258,6 +269,25 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         return jugadorPrincipalInformacionPanel;
         
     }
+    
+    private void actualizarMapaCasillasIdsFichasJugador(FichaPresentacionDTO[] fichas) {
+
+        List<Integer> idsFichasEntrantes = new LinkedList<>();
+        for (FichaPresentacionDTO ficha: fichas) {
+            idsFichasEntrantes.add(ficha.getIdFicha());
+        }
+
+        for (Integer idFicha: idsFichasEntrantes) {
+
+            if (!mapaIdsCasillasFichasJugador.containsValue(idFicha)) {
+
+ 
+                mapaIdsCasillasFichasJugador.put(mapaIdsCasillasFichasJugador.size() + 1, idFicha);
+               
+            }
+        }
+    }
+
     
     private MontonInformacionPanel obtenerMontonInformacionPanel(MontonPresentacionDTO montonPresentacionDTO){
         

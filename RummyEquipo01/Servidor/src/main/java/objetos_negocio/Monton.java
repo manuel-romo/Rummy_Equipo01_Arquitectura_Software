@@ -19,4 +19,10 @@ public class Monton {
         
         return fichasMonton.size();
     }
+
+    public List<Ficha> getFichasMonton() {
+        return fichasMonton;
+    }
+    
+    
 }

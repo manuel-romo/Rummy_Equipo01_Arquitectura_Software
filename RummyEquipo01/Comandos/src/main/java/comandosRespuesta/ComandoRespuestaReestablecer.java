@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package comandosRespuesta;
 
 import comandosSolicitud.CommandType;
@@ -14,12 +11,12 @@ import interfaces.ICommand;
  * 
  * @author pedro
  */
-public class ComandoReestablecerRespuesta implements ICommand {
+public class ComandoRespuestaReestablecer implements ICommand {
     private TableroDTO tablero;
     private final String type = "ComandoRestablecerRespuesta";
     private String nombreJugador;
 
-    public ComandoReestablecerRespuesta(TableroDTO tablero, String nombreJugador) {
+    public ComandoRespuestaReestablecer(TableroDTO tablero, String nombreJugador) {
         this.tablero = tablero;
         this.nombreJugador = nombreJugador;
     }

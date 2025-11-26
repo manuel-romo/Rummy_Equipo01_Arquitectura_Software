@@ -34,6 +34,14 @@ public class Controlador {
         modelo.agregarFichasTablero(idsFichas);
     }
     
+    public void tomarFicha(){
+        modelo.tomarFicha();
+    }
+    
+    public void reestablecerTablero(){
+        modelo.reestablecerTablero();
+    }
+    
     public void terminarTurno(){
         modelo.terminarTurno(); 
     }

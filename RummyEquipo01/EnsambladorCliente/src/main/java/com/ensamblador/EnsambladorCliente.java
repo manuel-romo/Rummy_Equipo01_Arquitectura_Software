@@ -12,6 +12,8 @@ import ejercerTurno.VistaMesaJuego;
 import interfaces.ISuscriptor;
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import objetosPresentacion.GestorEventos;
@@ -37,7 +39,7 @@ import servidor.Servidor;
 public class EnsambladorCliente {
 
     private static int TOTAL_CASILLAS_TABLERO =500;
-    private static int TOTAL_CASILLAS_MANO = 15;
+    private static int TOTAL_CASILLAS_MANO = 14;
     
     public static void main(String[] args) {
         
@@ -64,7 +66,6 @@ public class EnsambladorCliente {
         }
         
         // Creación de clases de componentes
-        IComponente panelMonton = new PanelMonton();
         
         PanelCasilla[] panelesCasillaTablero = new PanelCasilla[TOTAL_CASILLAS_TABLERO];
 
@@ -75,10 +76,10 @@ public class EnsambladorCliente {
         
         IComponente panelTablero = new PanelTablero(panelesCasillaTablero);
         
-        PanelCasilla[] panelesCasillaJugador = new PanelCasilla[TOTAL_CASILLAS_MANO];
+        List<PanelCasilla> panelesCasillaJugador = new LinkedList<>();
          
         for (int i = 0; i < TOTAL_CASILLAS_MANO; i++) {
-            panelesCasillaJugador[i] = new PanelCasilla(i + 1);
+            panelesCasillaJugador.add(new PanelCasilla(i + 1));
         }
         
         IComponente panelJugadorPrincipal = new PanelJugadorPrincipal(panelesCasillaJugador);
@@ -87,6 +88,7 @@ public class EnsambladorCliente {
 //        IComponente panelJugadorExterno3 = new PanelJugadorExterno(PosicionPanel.IZQUIERDA_CENTRO);
         
         IComponente panelMesaJuego = new PanelMesaJuego();
+        IComponente panelMonton = new PanelMonton();
         
         panelMesaJuego.agregarComponente(panelMonton);
         panelMesaJuego.agregarComponente(panelTablero);
@@ -113,13 +115,12 @@ public class EnsambladorCliente {
             mapaIdsCasillasPanelesJugador.put(6, 6);
             mapaIdsCasillasPanelesJugador.put(7, 7);
             mapaIdsCasillasPanelesJugador.put(8, 8);
-            mapaIdsCasillasPanelesJugador.put(9, null);
-            mapaIdsCasillasPanelesJugador.put(10, 9);
-            mapaIdsCasillasPanelesJugador.put(11, 10);
-            mapaIdsCasillasPanelesJugador.put(12, 11);
-            mapaIdsCasillasPanelesJugador.put(13, 12);
-            mapaIdsCasillasPanelesJugador.put(14, 13);
-            mapaIdsCasillasPanelesJugador.put(15, 14);
+            mapaIdsCasillasPanelesJugador.put(9, 9);
+            mapaIdsCasillasPanelesJugador.put(10, 10);
+            mapaIdsCasillasPanelesJugador.put(11, 11);
+            mapaIdsCasillasPanelesJugador.put(12, 12);
+            mapaIdsCasillasPanelesJugador.put(13, 13);
+            mapaIdsCasillasPanelesJugador.put(14, 14);
         }
         
         if(nombreJugador.equals("asd")){
@@ -131,13 +132,12 @@ public class EnsambladorCliente {
             mapaIdsCasillasPanelesJugador.put(6, 20);
             mapaIdsCasillasPanelesJugador.put(7, 21);
             mapaIdsCasillasPanelesJugador.put(8, 22);
-            mapaIdsCasillasPanelesJugador.put(9, null);
-            mapaIdsCasillasPanelesJugador.put(10, 23);
-            mapaIdsCasillasPanelesJugador.put(11, 24);
-            mapaIdsCasillasPanelesJugador.put(12, 25);
-            mapaIdsCasillasPanelesJugador.put(13, 26);
-            mapaIdsCasillasPanelesJugador.put(14, 27);
-            mapaIdsCasillasPanelesJugador.put(15, 28);
+            mapaIdsCasillasPanelesJugador.put(9, 23);
+            mapaIdsCasillasPanelesJugador.put(10, 24);
+            mapaIdsCasillasPanelesJugador.put(11, 25);
+            mapaIdsCasillasPanelesJugador.put(12, 26);
+            mapaIdsCasillasPanelesJugador.put(13, 27);
+            mapaIdsCasillasPanelesJugador.put(14, 28);
         }
         
         
@@ -166,6 +166,7 @@ public class EnsambladorCliente {
         
         ((PanelTablero) panelTablero).setGestorEventos(gestorEventos);
         ((PanelJugadorPrincipal) panelJugadorPrincipal).setGestorEventos(gestorEventos);
+        ((PanelMonton)panelMonton).setGestorEventos(gestorEventos);
         ((PanelMovimiento) panelMovimiento).setGestorEventos(gestorEventos);
 
         

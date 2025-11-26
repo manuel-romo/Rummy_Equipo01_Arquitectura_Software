@@ -16,6 +16,10 @@ public interface IReceptorEventos {
     
     public abstract void agregarFichasJugador(Integer[] idsCasillas, Integer[] idsFichas);
     
+    public abstract void tomarFicha();
+    
+    public abstract void reestablecerTablero();
+    
     public abstract void terminarTurno();
     
 }

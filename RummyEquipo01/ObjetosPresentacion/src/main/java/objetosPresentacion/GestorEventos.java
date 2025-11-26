@@ -526,5 +526,15 @@ public class GestorEventos implements IGestorEventos{
         receptorEventos.terminarTurno();
         
     }
+
+    @Override
+    public void tomarFicha() {
+        receptorEventos.tomarFicha();
+    }
+
+    @Override
+    public void reestablecerTablero() {
+        receptorEventos.reestablecerTablero();
+    }
     
 }

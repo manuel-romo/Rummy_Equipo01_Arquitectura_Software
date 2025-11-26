@@ -1,16 +1,16 @@
 
 package objetosPresentacion;
 
-import dto.FichaPresentacionDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import objetosPresentacion.FichaInformacionPanel;
 
@@ -27,7 +27,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     
     private final PosicionPanel POSICION_PANEL = PosicionPanel.ABAJO_CENTRO;
     
-    private PanelCasilla[] panelesCasillas;
+    private List<PanelCasilla> panelesCasillas;
     
     private JPanel panelManoFichas = new JPanel();
     private JPanel panelOpciones = new JPanel();
@@ -52,7 +52,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     
     private boolean enTurno;
     
-    public PanelJugadorPrincipal(PanelCasilla[] panelesCasillas){
+    public PanelJugadorPrincipal(List<PanelCasilla> panelesCasillas){
         
         
         this.panelesCasillas = panelesCasillas;
@@ -78,15 +78,25 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gridBagConstraintsPanelMano.gridx = 1;
         gridBagConstraintsPanelMano.gridy = 0;
-        gridBagConstraintsPanelMano.weightx = 1;
+        gridBagConstraintsPanelMano.weightx = 20;
         gridBagConstraintsPanelMano.weighty = 1;
         gridBagConstraintsPanelMano.gridwidth = 1;
         gridBagConstraintsPanelMano.gridheight = 2;
         gridBagConstraintsPanelMano.fill = GridBagConstraints.BOTH;
-        add(panelManoFichas, gridBagConstraintsPanelMano);
         
         panelManoFichas.setLayout(new GridBagLayout());
         panelManoFichas.setOpaque(false);
+        
+        JScrollPane scrollPane = new JScrollPane(panelManoFichas);
+        
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(null);
+        
+        add(scrollPane, gridBagConstraintsPanelMano);
         
     }
     
@@ -95,7 +105,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         gbcPanelOpciones.gridx = 2;
         gbcPanelOpciones.gridy = 0;
-        gbcPanelOpciones.weightx = 7;
+        gbcPanelOpciones.weightx = 2;
         gbcPanelOpciones.weighty = 1;
         gbcPanelOpciones.gridwidth = 1;
         gbcPanelOpciones.gridheight = 1;
@@ -124,7 +134,6 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         panelSuperiorFichas.setBackground(COLOR_FONDO_MANO);
         
         
-        
         GridBagConstraints gbcPanelInferiorFichas = new GridBagConstraints();
         
         gbcPanelInferiorFichas.gridx = 0;
@@ -134,13 +143,13 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         gbcPanelInferiorFichas.gridwidth = 3;
         gbcPanelInferiorFichas.gridheight = 1;
         gbcPanelInferiorFichas.fill = GridBagConstraints.BOTH;
-        
+
         panelManoFichas.add(panelInferiorFichas, gbcPanelInferiorFichas);
         
         panelInferiorFichas.setLayout(new GridBagLayout());
         panelInferiorFichas.setBackground(COLOR_FONDO_MANO);
-
-       
+        
+        
         
         GridBagConstraints gbcPanelEsquinaSuperiorDerecha = new GridBagConstraints();
         
@@ -207,6 +216,21 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     
     private void agregarFichasMano(FichaInformacionPanel[] fichas){
 
+        if(mapaCasillasFichas.size() > panelesCasillas.size()){
+            
+            int diferencia = mapaCasillasFichas.size() - panelesCasillas.size();
+            
+            int ultimoIndicePanelCasilla = panelesCasillas.size();
+            
+            for(int i = ultimoIndicePanelCasilla + 1; i <= ultimoIndicePanelCasilla + diferencia; i++){
+                
+                panelesCasillas.add(new PanelCasilla(i));
+                
+            }
+            
+            configurarPanelesMano();
+        }
+        
         for(Map.Entry<Integer, Integer> entrada: mapaCasillasFichas.entrySet()){
             
             PanelCasilla panelCasilla = obtenerCasillaPorId(entrada.getKey());
