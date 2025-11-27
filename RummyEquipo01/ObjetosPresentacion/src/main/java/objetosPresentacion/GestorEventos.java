@@ -166,7 +166,6 @@ public class GestorEventos implements IGestorEventos{
 
                     if (contenedorAbueloFichaReferencia instanceof PanelTablero) {
 
-                        System.out.println("CONTENEDOR ABUELO DE REFERENCIA ES DE TABLERO....");
                         // Se deseleccionan visualmente las fichas viejas del tablero.
                         for (PanelFicha panelFicha: fichasMovimiento) {
                             panelFicha.setSeleccionada(false);
@@ -353,7 +352,7 @@ public class GestorEventos implements IGestorEventos{
 
                     Container contenedorCasillas = casillaDestino.getParent();
 
-                    if(contenedorCasillas.getParent().getParent() instanceof PanelJugadorPrincipal){
+                    if(contenedorCasillas.getParent().getParent().getParent().getParent() instanceof PanelJugadorPrincipal){
                         
                         fichasSoltadasPanelJugador = true;
                         
@@ -361,7 +360,7 @@ public class GestorEventos implements IGestorEventos{
                     
                         // Búsqueda de Ficha derecha
                         int puntoX_Derecha = casillaDestino.getX() + casillaDestino.getWidth() + 25;
-                        int puntoY_Centro = casillaDestino.getY() + casillaDestino.getHeight() / 2; // Centro vertical
+                        int puntoY_Centro = casillaDestino.getY() + casillaDestino.getHeight() / 2;
 
                         Point puntoPruebaDerecha = SwingUtilities.convertPoint(
                             contenedorCasillas, 
@@ -419,7 +418,7 @@ public class GestorEventos implements IGestorEventos{
                 
             } else{
                 
-                System.out.println("Error soltada 2");
+                System.out.println("Error.");
                 
                 return;
 
@@ -435,6 +434,7 @@ public class GestorEventos implements IGestorEventos{
 
         if(fichasSoltadasPanelJugador){
             
+            System.out.println("SOLTANDO FICHAS EN JUGADOR");
             receptorEventos.agregarFichasJugador(casillasAgregar, idsFichasAgregar);
             
         } else{
@@ -472,8 +472,10 @@ public class GestorEventos implements IGestorEventos{
                 paneleslCasillaEliminarFicha.add(panelCasillaQuitar);
                 
                 idsFichasQuitar.add(idFichaEliminar);
+
+                System.out.println(ficha.getParent().getParent().getParent().getParent().getParent().getParent().getClass());
                 
-                if(ficha.getParent().getParent() instanceof PanelTablero){
+                if(!(ficha.getParent().getParent().getParent().getParent().getParent().getParent() instanceof PanelJugadorPrincipal)){
                     fichasJugador = false;
                 }
 
@@ -488,10 +490,11 @@ public class GestorEventos implements IGestorEventos{
 
         if(fichasJugador){
             
+            System.out.println("QUITANDO FICHAS DE JUGADOR .... .. .. . . . . . . . ");
             receptorEventos.quitarFichasJugador(casillasQuitar, fichasQuitar);
 
         } else{
-
+             System.out.println("QUITANDO FICHAS DE TABLERO .... .. .. . . . . . . . ");
             receptorEventos.quitarFichasTablero(casillasQuitar, fichasQuitar);
             
         }

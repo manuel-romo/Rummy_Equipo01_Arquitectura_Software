@@ -7,17 +7,22 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
+import comandosRespuesta.ComandoPreguntarFin;
+import comandosRespuesta.ComandoRespuestaConfirmacionAbandonar;
 import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoRespuestaTomarFicha;
 import comandosRespuesta.ComandoTableroInvalido;
+import comandosSolicitud.ComandoAbandonar;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
+import comandosSolicitud.ComandoFinPartida;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoReestablecerTablero;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
+import comandosSolicitud.ComandoSolicitarFin;
 import comandosSolicitud.ComandoTerminarTurno;
 import comandosSolicitud.ComandoTomarFicha;
 import dto.FichaDTO;
@@ -62,6 +67,13 @@ public class Deserializador implements IReceptorExterno{
         registroComandos.put("ComandoReestablecerTablero", ComandoReestablecerTablero.class);
         registroComandos.put("ComandoSeleccionarFichasTablero", ComandoSeleccionarFichasTablero.class);
         registroComandos.put("ComandoTerminarTurno", ComandoTerminarTurno.class);
+        
+        registroComandos.put("ComandoSolicitarFin", ComandoSolicitarFin.class);
+        registroComandos.put("ComandoPreguntarFin", ComandoPreguntarFin.class);
+        registroComandos.put("ComandoAbandonar", ComandoAbandonar.class);
+        registroComandos.put("ComandoRespuestaConfirmacionAbandonar", ComandoRespuestaConfirmacionAbandonar.class);
+        registroComandos.put("ComandoFinPartida", ComandoFinPartida.class);
+        
     }
     
     /**

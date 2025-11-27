@@ -53,7 +53,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
      */
     private Map<Integer, Integer> mapaIdsCasillasFichasJugador;
     
-    
     private Integer[] idsCasillasAgregarJugador;
     
     private Integer[] idsCasillasAgregarTablero;
@@ -62,10 +61,11 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     private Integer[] idsCasillasQuitarJugador;
     
     private Integer[] idsFichasAgregar;
+    private Integer[] idsFichasQuitar;
     
     private boolean movimientoInvalido;
     
-    private final int ANCHO_FILA = 30;
+    private final int ANCHO_FILA = 25;
     
     private int minimoCasillasJugador;
     
@@ -111,11 +111,12 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
     
     @Override
-    public void quitarFichasJugador(Integer[] idsCasillas, Integer[] posicionesFichas){
+    public void quitarFichasJugador(Integer[] idsCasillas, Integer[] idsFichas){
         
         idsCasillasQuitarJugador = idsCasillas;
+        idsFichasQuitar = idsFichas;
         
-        controlador.quitarFichasJugador(posicionesFichas);
+        controlador.quitarFichasJugador(idsFichas);
     }
     
     @Override
@@ -282,7 +283,18 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
         for (Integer idFicha : idsFichasEntrantes) {
 
-            if (!mapaIdsCasillasFichasJugador.containsValue(idFicha)) {
+            boolean fichaFueRemovida = false;
+            
+            if(idsFichasQuitar != null){
+                for(Integer id: idsFichasQuitar){
+                    if(id.equals(idFicha)){
+                        fichaFueRemovida = true;
+                    }
+                }
+            }
+            
+            
+            if (!mapaIdsCasillasFichasJugador.containsValue(idFicha) && !fichaFueRemovida) {
 
                 int casillaDestino = 1;
 
@@ -326,7 +338,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         }
         System.out.println("************************");
         
-        actualizarFichasCasillas(fichas, nuevoTurno);
+        actualizarFichasCasillasTablero(fichas, nuevoTurno);
         
         TableroInformacionPanel tableroInformacionPanel 
                 = new TableroInformacionPanel(obtenerFichasInformacionPanel(fichas), mapaIdsCasillasFichasTablero);
@@ -336,7 +348,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     }
     
     
-    private void actualizarFichasCasillas(FichaPresentacionDTO[] fichas, boolean nuevoTurno){
+    private void actualizarFichasCasillasTablero(FichaPresentacionDTO[] fichas, boolean nuevoTurno){
         
         if(nuevoTurno && fichas.length != 0){
             
@@ -424,8 +436,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
 
         Container glassPane = (Container) getGlassPane();
 
-        System.out.println("CANTIDAD DE COMPONENTES GLASS: " + glassPane.getComponentCount());
-        
         if (glassPane.getComponentCount() == 0) {
             glassPane.setVisible(false);
 

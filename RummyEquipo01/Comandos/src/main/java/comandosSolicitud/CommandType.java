@@ -27,7 +27,12 @@ public enum CommandType {
     RESPUESTA_MOVIMIENTO("ComandoRespuestaMovimiento"),
     COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido"),
     COMANDO_ENVOLVENTE("ComandoEnvolvente"),
-    
+    COMANDO_SOLICITAR_FIN("ComandoSolicitarFin"),
+    COMANDO_PREGUNTAR_FIN("ComandoPregutarFin"),
+    COMANDO_ABANDONAR("ComandoAbandonar"),
+    COMANDO_RESPUESTA_CONFIRMACION_ABANDONAR("ComandoRespuestaConfirmacionAbandonar"),
+    COMANDO_FIN_PARTIDA("ComandoFinPartida"),
+    COMANDO_CONFIRMAR_FIN("ComandoConfirmarFin"),
     COMANDO_AGREGAR_DIRECCION_JUGADOR("ComandoAgregarDireccionJugador");
 
     private final String nombre;

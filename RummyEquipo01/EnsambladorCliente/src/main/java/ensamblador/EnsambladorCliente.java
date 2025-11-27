@@ -1,5 +1,5 @@
 
-package com.ensamblador;
+package ensamblador;
 
 import cliente.ColaMensajesEnviar;
 import cliente.GestorConexiones;

@@ -2,16 +2,21 @@ package objetos_negocio;
 
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
+import comandosRespuesta.ComandoRespuestaConfirmacionAbandonar;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoTableroInvalido;
+import comandosSolicitud.ComandoAbandonar;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
+import comandosSolicitud.ComandoConfirmarFin;
+import comandosSolicitud.ComandoFinPartida;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoReestablecerTablero;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
+import comandosSolicitud.ComandoSolicitarFin;
 import comandosSolicitud.ComandoTerminarTurno;
 import comandosSolicitud.ComandoTomarFicha;
 import comandosSolicitud.CommandType;
@@ -29,8 +34,10 @@ import fabricaGrupos.FabricaGrupos;
 import interfaces.ICommand;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 /**
  * Clase de Negocio para el servidor el cual valida todo el tablero cuando se
@@ -58,7 +65,7 @@ public class Tablero {
     private final int MAXIMO_NUMERO_FICHA = 13;
     private final int NUMERO_COMODINES = 2;
 
-    private final String MENSAJE_CAMBIO_TURNO = "Espere a que termine su turno.";
+    private final String MENSAJE_CAMBIO_TURNO = "Ha iniciado el turno del jugador ";
     private final String MENSAJE_INICIO_TURNO = "¡Ha iniciado su turno!";
     private final String MENSAJE_QUITAR_FICHA_GRUPO_PRIMER_TURNO = "No puede quitar fichas de otros grupos en su primer turno.";
     private final String MENSAJE_GRUPO_INVALIDO = "No se puede formar ese grupo.";
@@ -301,6 +308,30 @@ public class Tablero {
 
                 break;
 
+            case CommandType.COMANDO_ABANDONAR:
+
+                ComandoAbandonar comandoAbandonar = (ComandoAbandonar) comando;
+
+                solicitarAbandono(comandoAbandonar.getNombreJugador());
+
+                break;
+                
+            case CommandType.COMANDO_SOLICITAR_FIN:
+
+                ComandoSolicitarFin comandoSolicitarFin = (ComandoSolicitarFin) comando;
+
+                terminarTurno(comandoSolicitarFin.getNombreJugador());
+
+                break;
+                
+            case CommandType.COMANDO_CONFIRMAR_FIN:
+
+                ComandoConfirmarFin comandoConfirmarFin = (ComandoConfirmarFin) comando;
+
+                terminarTurno(comandoConfirmarFin.getNombreJugador());
+
+                break;
+                
             default:
                 throw new AssertionError();
         }
@@ -602,99 +633,98 @@ public class Tablero {
 
     }
 
+    // Revisar
     private void quitarFichasTablero(Integer[] idsFichas, String nombreJugador) {
+    
+        if (idsFichas == null || idsFichas.length == 0){
+            return;
+        }
 
-        // Validación de fichas (Turno)
+        // Validación de Turno
         if (esPrimerTurnoJugador(nombreJugador)) {
-            ComandoRespuestaMovimiento comandoError = new ComandoRespuestaMovimiento(
-                    obtenerTableroDto(jugadorTurno.getNombre()),
-                    false,
-                    jugadorTurno.getNombre(),
-                    MENSAJE_QUITAR_FICHA_GRUPO_PRIMER_TURNO
-            );
-            fachadaTablero.enviarComando(comandoError);
+            ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                        obtenerTableroDto(jugadorTurno.getNombre()),
+                        false,
+                        nombreJugador,
+                        MENSAJE_QUITAR_FICHA_GRUPO_PRIMER_TURNO);
+            
+            fachadaTablero.enviarComando(comandoRespuestaMovimiento);
+            
             return;
         }
 
-        // Se verifica si al quitar la ficha, los grupos restantes son válidos.
+        // Se valida el movimiento en el grupo
+        Grupo grupoObjetivo = null;
+        List<Ficha> fichasQuitar = new ArrayList<>();
+
+        for (int i = 0; i < idsFichas.length; i++) {
+            int id = idsFichas[i];
+            Ficha ficha = encontrarFichaPorId(id);
+
+            Grupo grupoActual = ficha.getGrupo();
+
+            if (i == 0) {
+                grupoObjetivo = grupoActual;
+            } 
+            else if (!grupoActual.equals(grupoObjetivo)) {
+                ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                        obtenerTableroDto(jugadorTurno.getNombre()),
+                        false,
+                        nombreJugador);
+            
+                fachadaTablero.enviarComando(comandoRespuestaMovimiento);
+                return;
+            
+            }
+
+            fichasQuitar.add(ficha);
+        }
+
+        List<List<Ficha>> fragmentosResultantes = simularSeparacion(grupoObjetivo.getFichas(), fichasQuitar);
+
         try {
-            for (int idFicha : idsFichas) {
-                Ficha fichaQuitar = encontrarFichaPorId(idFicha);
+            for (List<Ficha> fragmento : fragmentosResultantes) {
+                if (!fragmento.isEmpty()) {
 
-                Grupo grupoActual = fichaQuitar.getGrupo();
-                List<Ficha> fichasDelGrupo = grupoActual.getFichas();
-                int indiceFicha = fichasDelGrupo.indexOf(fichaQuitar);
-
-                // Se crean listas temporales simulando la separación.
-                List<Ficha> subGrupoIzquierda = new ArrayList<>(fichasDelGrupo.subList(0, indiceFicha));
-                List<Ficha> subGrupoDerecha = new ArrayList<>(fichasDelGrupo.subList(indiceFicha + 1, fichasDelGrupo.size()));
-
-                // Solo se valida si la sublista no está vacía.
-                if (!subGrupoIzquierda.isEmpty()) {
-                    Grupo.validarCreacionGrupo(subGrupoIzquierda, false, MAXIMO_NUMERO_FICHA);
-                }
-
-                if (!subGrupoDerecha.isEmpty()) {
-                    Grupo.validarCreacionGrupo(subGrupoDerecha, false, MAXIMO_NUMERO_FICHA);
+                    Grupo.validarCreacionGrupo(fragmento, false, MAXIMO_NUMERO_FICHA);
                 }
             }
         } catch (RummyException ex) {
-            ComandoRespuestaMovimiento comandoError = new ComandoRespuestaMovimiento(
-                    obtenerTableroDto(jugadorTurno.getNombre()),
+            ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                        obtenerTableroDto(jugadorTurno.getNombre()),
                     false,
-                    jugadorTurno.getNombre(),
-                    ex.getMessage()
-            );
-            fachadaTablero.enviarComando(comandoError);
+                    nombreJugador,
+                    ex.getMessage());
+
+            fachadaTablero.enviarComando(comandoRespuestaMovimiento);
             return;
         }
+        
+        
+        if (fragmentosResultantes.isEmpty()) {
 
-        // Se realiza la separación
-        try {
-            for (int idFicha : idsFichas) {
-                Ficha fichaQuitar = encontrarFichaPorId(idFicha);
-                Grupo grupoOriginal = fichaQuitar.getGrupo();
+            grupos.remove(grupoObjetivo);
+            
+        } else {
 
-                // Usamos una copia de la lista antes de quitar nada para saber dónde cortar
-                List<Ficha> fichasSnapshot = new ArrayList<>(grupoOriginal.getFichas());
-                int indiceFicha = fichasSnapshot.indexOf(fichaQuitar);
+            grupoObjetivo.setFichas(fragmentosResultantes.get(0));
 
-                grupoOriginal.quitarFicha(fichaQuitar);
+            // Se crean los subgrupos creados.
+            for (int i = 1; i < fragmentosResultantes.size(); i++) {
+                List<Ficha> nuevoFragmento = fragmentosResultantes.get(i);
+                try {
 
-                // Calculamos las sublistas basándonos en la copia (snapshot) que hicimos al principio
-                List<Ficha> listaIzquierda = new ArrayList<>(fichasSnapshot.subList(0, indiceFicha));
-                List<Ficha> listaDerecha = new ArrayList<>(fichasSnapshot.subList(indiceFicha + 1, fichasSnapshot.size()));
-
-                // El grupo original se queda con la parte izquierda.
-                if (!listaIzquierda.isEmpty()) {
-                    // Sobrescribimos las fichas del grupo original solo con la parte izquierda
-                    grupoOriginal.setFichas(listaIzquierda);
-                } else {
-                    // Si la izquierda quedó vacía, eliminamos el grupo original de la lista global
-                    grupos.remove(grupoOriginal);
-                }
-
-                // Se crea el grupo derecho, si hay fichas.
-                if (!listaDerecha.isEmpty()) {
-                    Grupo nuevoGrupo = FabricaGrupos.crearGrupo(++numeroGrupoActual, listaDerecha, false, MAXIMO_NUMERO_FICHA);
+                    Grupo nuevoGrupo = FabricaGrupos.crearGrupo(++numeroGrupoActual, nuevoFragmento, false, MAXIMO_NUMERO_FICHA);
                     this.grupos.add(nuevoGrupo);
+                    
+                } catch (RummyException ignored) {
+
                 }
             }
-        } catch (RummyException ex) {
-            ComandoRespuestaMovimiento comandoError = new ComandoRespuestaMovimiento(
-                    obtenerTableroDto(jugadorTurno.getNombre()),
-                    false,
-                    jugadorTurno.getNombre(),
-                    ex.getMessage()
-            );
-            fachadaTablero.enviarComando(comandoError);
-            return;
         }
 
         ComandoRespuestaMovimiento comandoExito = new ComandoRespuestaMovimiento(
-                obtenerTableroDto(jugadorTurno.getNombre()),
-                true,
-                nombreJugador
+                obtenerTableroDto(jugadorTurno.getNombre()), true, nombreJugador
         );
         fachadaTablero.enviarComando(comandoExito);
     }
@@ -750,6 +780,34 @@ public class Tablero {
         }
 
     }
+    
+    private List<List<Ficha>> simularSeparacion(List<Ficha> fichasOriginales, List<Ficha> fichasAQuitar) {
+        List<List<Ficha>> fragmentos = new ArrayList<>();
+        List<Ficha> bufferActual = new ArrayList<>();
+
+        for (Ficha f : fichasOriginales) {
+            // Verificamos si la ficha actual está en la lista de eliminación
+            boolean seElimina = fichasAQuitar.stream().anyMatch(fq -> fq.getId() == f.getId());
+
+            if (seElimina) {
+                // Se rompe la cadena. Si traíamos fichas en el buffer, guardamos ese fragmento.
+                if (!bufferActual.isEmpty()) {
+                    fragmentos.add(new ArrayList<>(bufferActual));
+                    bufferActual.clear();
+                }
+            } else {
+                // No se elimina, se agrega al buffer actual
+                bufferActual.add(f);
+            }
+        }
+
+        // Si al terminar el bucle quedó algo en el buffer, es el último fragmento
+        if (!bufferActual.isEmpty()) {
+            fragmentos.add(new ArrayList<>(bufferActual));
+        }
+
+        return fragmentos;
+    }
 
     private void pasarSiguienteJugador() {
 
@@ -770,7 +828,7 @@ public class Tablero {
                 ComandoCambioTurno comandoCambioTurno = new ComandoCambioTurno(
                         obtenerTableroDto(jugador.getNombre()),
                         jugador.getNombre(),
-                        MENSAJE_CAMBIO_TURNO);
+                        MENSAJE_CAMBIO_TURNO + jugadorTurno.getNombre());
 
                 fachadaTablero.enviarComando(comandoCambioTurno);
 
@@ -838,7 +896,42 @@ public class Tablero {
         fachadaTablero.enviarComando(comandoRespuestaReestablecer);
         
     }
+    
+    private void solicitarAbandono(String nombreJugador){
+        
+        if(nombreJugador.equals(jugadorTurno.getNombre())){
+            
+            ComandoRespuestaConfirmacionAbandonar comandoRespuestaConfirmacionAbandonar 
+                    = new ComandoRespuestaConfirmacionAbandonar(jugadorTurno.getNombre());
+            
+            fachadaTablero.ejecutar(comandoRespuestaConfirmacionAbandonar);
+            
+            
+        }
+        
+    }
 
+    private void confirmarAbandono(String nombreJugador){
+        
+        if(nombreJugador.equals(jugadorTurno.getNombre())){
+            
+            Jugador jugadorRemover = jugadorTurno;
+            
+            monton.getFichasMonton().addAll(jugadorTurno.getFichas());
+            
+            ComandoFinPartida comandoFinPartida = new ComandoFinPartida(jugadorTurno.getNombre());
+            
+            fachadaTablero.ejecutar(comandoFinPartida);
+            
+            terminarTurno(nombreJugador);
+            
+            jugadores.remove(jugadorRemover);
+            
+        }
+        
+        
+    }
+    
     private boolean esPrimerTurnoJugador(String nombreJugador) {
 
         String nombreJugadorTurno = jugadorTurno.getNombre();
