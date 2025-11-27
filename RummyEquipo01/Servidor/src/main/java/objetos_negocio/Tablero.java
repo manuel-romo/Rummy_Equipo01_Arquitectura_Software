@@ -3,12 +3,14 @@ package objetos_negocio;
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoTableroInvalido;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
+import comandosSolicitud.ComandoReestablecerTablero;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
 import comandosSolicitud.ComandoTerminarTurno;
 import comandosSolicitud.ComandoTomarFicha;
@@ -30,9 +32,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Clase de Negocio para el servidor el cual valida todo el tablero cuando se
  * termina el turno.
@@ -48,6 +47,7 @@ public class Tablero {
     private Monton monton;
     private FachadaTablero fachadaTablero;
 
+    private List<Ficha> fichasInicialesJugadorTurno = new LinkedList<>();
     private List<Grupo> gruposInicialesTurno = new LinkedList<>();
     private Grupo grupoPrimerTurno;
 
@@ -197,7 +197,10 @@ public class Tablero {
 
         jugadores = Arrays.asList(jugador1, jugador2);
 
-        gruposInicialesTurno = new LinkedList();
+        gruposInicialesTurno = new LinkedList<>();
+        
+        List<Ficha> copiafichasJugador = new LinkedList<>(jugadorTurno.getFichas());
+        fichasInicialesJugadorTurno = copiafichasJugador;
 
         // Enviando mensajes a jugadores.
         notificarTodosCambioTurno();
@@ -279,6 +282,14 @@ public class Tablero {
                 ComandoTomarFicha comandoTomarFicha = (ComandoTomarFicha) comando;
 
                 tomarFicha(comandoTomarFicha.getNombreJugador());
+                
+                break;
+                
+            case CommandType.RESTABLECER_TABLERO:
+                
+                ComandoReestablecerTablero comandoReestablecerTablero = (ComandoReestablecerTablero) comando;
+
+                reestablecerTablero(comandoReestablecerTablero.getNombreJugador());
                 
                 break;
                 
@@ -701,7 +712,8 @@ public class Tablero {
 
             pasarSiguienteJugador();
 
-            gruposInicialesTurno = new LinkedList();
+            gruposInicialesTurno = new LinkedList<>();
+            fichasInicialesJugadorTurno = new LinkedList<>();
 
             for (Grupo grupo : grupos) {
 
@@ -716,13 +728,18 @@ public class Tablero {
 
                     gruposInicialesTurno.add(grupoCopia);
 
-                    notificarTodosCambioTurno();
-
                 } catch (RummyException ex) {
 
                 }
 
             }
+            
+            fichaTomada = false;
+            
+            List<Ficha> copiafichasJugador = new LinkedList<>(jugadorTurno.getFichas());
+            fichasInicialesJugadorTurno = copiafichasJugador;
+            
+            notificarTodosCambioTurno();
 
         } else {
 
@@ -773,7 +790,7 @@ public class Tablero {
     private void tomarFicha(String nombreJugador) {
   
         Ficha fichaSeleccionada = null;
-        if (!monton.getFichasMonton().isEmpty()) {
+        if (!monton.getFichasMonton().isEmpty() && !fichaTomada) {
 
             Random rand = new Random();
 
@@ -782,6 +799,8 @@ public class Tablero {
             fichaSeleccionada = monton.getFichasMonton().get(indiceAleatorio);
 
             monton.getFichasMonton().remove(fichaSeleccionada);
+            
+            fichaTomada = true;
             
             jugadorTurno.getFichas().add(fichaSeleccionada);
 
@@ -796,6 +815,28 @@ public class Tablero {
             return;
         }
 
+    }
+    
+    private void reestablecerTablero(String nombreJugador){
+        
+        grupos = gruposInicialesTurno;
+        
+        jugadorTurno.setFichas(fichasInicialesJugadorTurno);
+        
+        if(esPrimerTurnoJugador(nombreJugador)){
+            
+            grupoPrimerTurno = null;
+            
+        }
+        
+        
+        ComandoRespuestaReestablecer comandoRespuestaReestablecer
+                = new ComandoRespuestaReestablecer(
+                        obtenerTableroDto(nombreJugador),
+                        nombreJugador);
+        
+        fachadaTablero.enviarComando(comandoRespuestaReestablecer);
+        
     }
 
     private boolean esPrimerTurnoJugador(String nombreJugador) {

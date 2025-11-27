@@ -589,7 +589,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
 
                 break;
                 
-             case CommandType.RESTABLECER_TABLERO:
+             case CommandType.RESPUESTA_REESTABLECER:
                 
                 ComandoRespuestaReestablecer comandoRespuestaReestablecer = (ComandoRespuestaReestablecer) comando;
                 reestablecerTablero(

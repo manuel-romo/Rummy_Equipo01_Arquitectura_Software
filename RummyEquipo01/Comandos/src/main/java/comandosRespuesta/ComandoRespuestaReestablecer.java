@@ -13,7 +13,7 @@ import interfaces.ICommand;
  */
 public class ComandoRespuestaReestablecer implements ICommand {
     private TableroDTO tablero;
-    private final String type = "ComandoRestablecerRespuesta";
+    private final String type = "ComandoReestablecerRespuesta";
     private String nombreJugador;
 
     public ComandoRespuestaReestablecer(TableroDTO tablero, String nombreJugador) {

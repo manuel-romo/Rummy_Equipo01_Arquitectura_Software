@@ -101,7 +101,7 @@ public class PanelMonton extends JPanel implements IComponente{
     
     private void actualizarNumeroFichasRestantes(String numeroFichasRestantes){
         
-        panelContenedor.remove(panelAuxiliar);
+        panelAuxiliar.removeAll();
         
         panelAuxiliar.setLayout(new BoxLayout(panelAuxiliar, BoxLayout.Y_AXIS));
         panelAuxiliar.setOpaque(false);

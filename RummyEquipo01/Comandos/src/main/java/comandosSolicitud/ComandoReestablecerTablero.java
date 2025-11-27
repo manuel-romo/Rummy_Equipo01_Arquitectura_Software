@@ -10,7 +10,7 @@ import interfaces.ICommand;
  * @author pedro
  */
 public class ComandoReestablecerTablero implements ICommand{
-    private final String type = "ComandoRestablecerTablero";
+    private final String type = "ComandoReestablecerTablero";
     private String nombreJugador;
     
     public ComandoReestablecerTablero(String nombreJugador) {

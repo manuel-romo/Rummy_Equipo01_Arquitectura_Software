@@ -266,6 +266,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
 
     }
     
+    
     private PanelCasilla obtenerCasillaPorId(Integer idCasilla){
         
         for(PanelCasilla panelCasilla: panelesCasillas){

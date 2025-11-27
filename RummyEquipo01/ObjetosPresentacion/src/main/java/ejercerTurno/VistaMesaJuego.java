@@ -67,6 +67,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     
     private final int ANCHO_FILA = 30;
     
+    private int minimoCasillasJugador;
+    
     public VistaMesaJuego(
             Controlador controlador,
             IComponente componente,
@@ -79,6 +81,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         this.mapaColoresJugador = mapaColoresJugador;
         this.mapaIdsCasillasFichasTablero = mapaIdsCasillasFichasTablero;
         this.mapaIdsCasillasFichasJugador = mapaIdsCasillasFichasMano;
+        this.minimoCasillasJugador = mapaIdsCasillasFichasMano.size();
         
         setSize(tamanioVentanaVista);
         setLocationRelativeTo(null);
@@ -273,18 +276,29 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     private void actualizarMapaCasillasIdsFichasJugador(FichaPresentacionDTO[] fichas) {
 
         List<Integer> idsFichasEntrantes = new LinkedList<>();
-        for (FichaPresentacionDTO ficha: fichas) {
+        for (FichaPresentacionDTO ficha : fichas) {
             idsFichasEntrantes.add(ficha.getIdFicha());
         }
 
-        for (Integer idFicha: idsFichasEntrantes) {
+        for (Integer idFicha : idsFichasEntrantes) {
 
             if (!mapaIdsCasillasFichasJugador.containsValue(idFicha)) {
 
- 
-                mapaIdsCasillasFichasJugador.put(mapaIdsCasillasFichasJugador.size() + 1, idFicha);
-               
+                int casillaDestino = 1;
+
+                // Se busca una clave que no exista o cuyo valor sea nulo.
+                while (mapaIdsCasillasFichasJugador.containsKey(casillaDestino) && 
+                       mapaIdsCasillasFichasJugador.get(casillaDestino) != null) {
+                    casillaDestino++;
+                }
+
+                mapaIdsCasillasFichasJugador.put(casillaDestino, idFicha);
             }
+        }
+
+        // Se crean casillas vacías si no se ha llegado al mínimo.
+        for (int i = 1; i <= minimoCasillasJugador; i++) {
+            mapaIdsCasillasFichasJugador.putIfAbsent(i, null);
         }
     }
 
