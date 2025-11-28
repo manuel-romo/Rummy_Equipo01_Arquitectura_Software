@@ -60,8 +60,7 @@ public class GestorEventos implements IGestorEventos{
                     List<PanelFicha> fichasAdyacentesDerecha = new LinkedList<>();
 
                     if(contenedorAbueloFichaReferencia instanceof PanelJugadorPrincipal){
-
-                        System.out.println("Error");
+                        
                         return;
 
                     }
@@ -189,10 +188,8 @@ public class GestorEventos implements IGestorEventos{
 
                 fichasMovimiento.add(ficha);
 
-            } else{
-                System.out.println("Error");
             }
-           
+            
         } else if(ficha.isSeleccionada() && !seleccionada){
             
             Container contenedorAbueloFichaSeleccionada = ficha.getParent().getParent();
@@ -344,8 +341,6 @@ public class GestorEventos implements IGestorEventos{
 
                 if(casillaDestino.getComponentCount() > 0){
 
-                    System.out.println("Error");
-
                     return;
 
                 } else{
@@ -418,8 +413,6 @@ public class GestorEventos implements IGestorEventos{
                 
             } else{
                 
-                System.out.println("Error.");
-                
                 return;
 
             }
@@ -432,9 +425,12 @@ public class GestorEventos implements IGestorEventos{
                 .map(panel -> panel.getId())
                 .toArray(Integer[]::new);
 
+        
+        System.out.println("SE ESTÁ AGREGANDO AL PANEL JUGADOR O NO???????????????");
+        System.out.println(fichasSoltadasPanelJugador);
+        
         if(fichasSoltadasPanelJugador){
             
-            System.out.println("SOLTANDO FICHAS EN JUGADOR");
             receptorEventos.agregarFichasJugador(casillasAgregar, idsFichasAgregar);
             
         } else{

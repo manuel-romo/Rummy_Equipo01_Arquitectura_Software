@@ -1,7 +1,6 @@
 
 package objetosPresentacion;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -43,6 +42,8 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
     
     private JPanel panelEsquina1 = new JPanel();
     private JPanel panelEsquina2 = new JPanel();
+    
+    JLabel labelFichasRestantes = new JLabel();
 
     private String nombreJugador;
     private String avatarJugador;
@@ -294,8 +295,8 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         JLabel labelFichas = new JLabel(iconoFichasEscalado);
         
         panelFichasRestantes.add(labelFichas);
-        
-        JLabel labelFichasRestantes = new JLabel(cantidadFichasRestantes);
+ 
+        labelFichasRestantes = new JLabel(cantidadFichasRestantes);
         
         labelFichasRestantes.setFont(fuenteDatosJugador);
         
@@ -535,7 +536,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         panelFichasRestantes.add(labelFichas);
         
-        JLabel labelFichasRestantes = new JLabel(cantidadFichasRestantes);
+        labelFichasRestantes = new JLabel(cantidadFichasRestantes);
         
         labelFichasRestantes.setFont(fuenteDatosJugador);
         
@@ -752,7 +753,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         panelFichasRestantes.add(labelFichas);
         
-        JLabel labelFichasRestantes = new JLabel(cantidadFichasRestantes);
+        labelFichasRestantes = new JLabel(cantidadFichasRestantes);
         
         labelFichasRestantes.setFont(fuenteDatosJugador);
         
@@ -861,14 +862,17 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
                 cantidadFichasRestantes = jugadorExternoInformacionPanel.getFichasRestantes();
             
             }
-            
-                    
+       
         }
         
         nombreJugador = jugadorExternoInformacionPanel.getNombre();
         avatarJugador = jugadorExternoInformacionPanel.getAvatar();
-        cantidadFichasRestantes = jugadorExternoInformacionPanel.getFichasRestantes();
 
+        cantidadFichasRestantes = jugadorExternoInformacionPanel.getFichasRestantes();
+        labelFichasRestantes.setText(cantidadFichasRestantes);
+        
+
+        revalidate();
         repaint();
     }
 

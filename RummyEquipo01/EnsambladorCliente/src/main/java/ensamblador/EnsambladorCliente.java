@@ -43,25 +43,34 @@ public class EnsambladorCliente {
     
     public static void main(String[] args) {
         
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Nombre del jugador: ");
-        String nombreJugador = sc.nextLine();
+        Scanner escaner = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del Jugador: ");
+        String nombreJugador = escaner.nextLine();
         
-        System.out.println(nombreJugador);
+//        System.out.print("Ingrese la dirección IP del servidor: ");
+//        String ipServidor = escaner.nextLine();
+
+        String ipServidor = "127.0.0.1";
         
-        String direccionImagenAvatar = null;
         String puertoCliente = null;
         
-        if(nombreJugador.equals("qwe")){
+        String nombreJugador2 = null;
+        String direccionImagenAvatarJugador2 = null;
+        
+        if(nombreJugador.equals("Francisco34")){
             
-            direccionImagenAvatar = "avatar1.png";
             puertoCliente = "51000";
+            
+            nombreJugador2 = "Sandy43";
+            direccionImagenAvatarJugador2 = "avatar2.png";
         }
         
-        if(nombreJugador.equals("asd")){
+        if(nombreJugador.equals("Sandy43")){
             
-            direccionImagenAvatar = "avatar2.png";
             puertoCliente = "52000";
+            
+            nombreJugador2 = "Francisco34";
+            direccionImagenAvatarJugador2 = "avatar1.png";
             
         }
         
@@ -83,7 +92,7 @@ public class EnsambladorCliente {
         }
         
         IComponente panelJugadorPrincipal = new PanelJugadorPrincipal(panelesCasillaJugador);
-        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA, nombreJugador, direccionImagenAvatar);
+        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA, nombreJugador2, direccionImagenAvatarJugador2);
 //        IComponente panelJugadorExterno2 = new PanelJugadorExterno(PosicionPanel.DERECHA_CENTRO);
 //        IComponente panelJugadorExterno3 = new PanelJugadorExterno(PosicionPanel.IZQUIERDA_CENTRO);
         
@@ -172,7 +181,7 @@ public class EnsambladorCliente {
         
         Serializador serializadorCliente = new Serializador();
 
-        DirectorioServidor directorioServidor = new DirectorioServidor(new String[]{"127.0.0.1", "50000"});
+        DirectorioServidor directorioServidor = new DirectorioServidor(new String[]{ipServidor, "50000"});
  
         ISuscriptor gestorConexiones = new GestorConexiones(); 
         

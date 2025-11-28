@@ -5,6 +5,7 @@ import cliente.ColaMensajesEnviar;
 import cliente.GestorConexiones;
 import deserializador.Deserializador;
 import directorio.DirectorioJugadores;
+import java.util.Scanner;
 import objetos_negocio.FachadaTablero;
 import objetos_negocio.Tablero;
 import serializador.Serializador;
@@ -21,6 +22,8 @@ public class EnsambladorServidor {
 
     public static void main(String[] args) {
         
+        
+        Scanner escaner = new Scanner(System.in);
         
         try {
             

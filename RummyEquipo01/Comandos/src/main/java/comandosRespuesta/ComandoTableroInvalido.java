@@ -13,8 +13,9 @@ public class ComandoTableroInvalido implements ICommand {
 
     private final String type = "ComandoTableroInvalido";
     private String nombreJugador;
+    private String mensaje;
 
-    public ComandoTableroInvalido(String nombreJugador) {
+    public ComandoTableroInvalido(String nombreJugador, String mensaje) {
         this.nombreJugador = nombreJugador;
     }
 
@@ -26,6 +27,10 @@ public class ComandoTableroInvalido implements ICommand {
     @Override
     public String getNombreJugador() {
         return nombreJugador;
+    }
+
+    public String getMensaje() {
+        return mensaje;
     }
 
 }

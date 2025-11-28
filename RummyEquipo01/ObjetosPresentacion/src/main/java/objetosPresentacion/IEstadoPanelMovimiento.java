@@ -10,5 +10,6 @@ package objetosPresentacion;
 public interface IEstadoPanelMovimiento {
     
     public abstract boolean getMovimientoValido();
+    public abstract boolean getTableroValido();
     
 }

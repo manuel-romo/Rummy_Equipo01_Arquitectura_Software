@@ -21,6 +21,10 @@ public interface IModelo {
     
     public abstract boolean isVistaHabilitada();
     
+    public abstract boolean isTableroInvalido();
+    
+    public abstract boolean isMovimientoInvalido();
+    
     public abstract boolean isNuevoTurno();
     
 }

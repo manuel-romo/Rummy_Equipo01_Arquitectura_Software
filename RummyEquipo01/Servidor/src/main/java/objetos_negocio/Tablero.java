@@ -72,6 +72,7 @@ public class Tablero {
     private final String MENSAJE_AGREGAR_FICHA_GRUPO_PRIMER_TURNO = "No puede agregar fichas a otros grupos en su primer turno.";
     private final String MENSAJE_AGREGAR_FICHAS_TABLERO_JUGADOR = "No puede agregar fichas del tablero a su mano.";
     private final String MENSAJE_AGREGAR_FICHA_MAS_UN_GRUPO_PRIMER_TURNO = "No puede agregar más de un grupo en su primer turno.";
+    private final String MENSAJE_TABLERO_INVALIDO = "Uno o más grupos del tablero son inválidos.";
 
     public void iniciarJuego() {
 
@@ -196,9 +197,9 @@ public class Tablero {
 
         monton = new Monton(fichasMonton);
 
-        Jugador jugador1 = new Jugador("avatar2.png", "qwe", true, fichasJugador1);
+        Jugador jugador1 = new Jugador("avatar1.png", "Francisco34", true, fichasJugador1);
 
-        Jugador jugador2 = new Jugador("avatar3.png", "asd", true, fichasJugador2);
+        Jugador jugador2 = new Jugador("avatar2.png", "Sandy43", true, fichasJugador2);
 
         jugadorTurno = jugador1;
 
@@ -541,10 +542,23 @@ public class Tablero {
                     fichasFusionadas.addAll(segundoGrupoAgregar.getFichas());
 
                     Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(
-                            ++numeroGrupoActual,
-                            fichasFusionadas,
-                            esPrimerTurnoJugador(nombreJugador),
-                            MAXIMO_NUMERO_FICHA);
+                        ++numeroGrupoActual,
+                        fichasFusionadas,
+                        esPrimerTurnoJugador(nombreJugador),
+                        MAXIMO_NUMERO_FICHA);
+                    
+                   
+                    if(nuevoGrupoUnificado == null){
+                        ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                                obtenerTableroDto(jugadorTurno.getNombre()),
+                                false,
+                                jugadorTurno.getNombre(),
+                                MENSAJE_GRUPO_INVALIDO);
+
+                        fachadaTablero.enviarComando(comandoRespuestaMovimiento);
+                        
+                        return;
+                    }
 
                     // Si el nuevo grupo es válido, se eliminan los grupos anteriores.
                     this.grupos.remove(primerGrupoAgregar);
@@ -571,6 +585,7 @@ public class Tablero {
                     }
 
                     primerGrupoAgregar.agregarFichasFinal(fichasAgregar);
+                    
                 } // Agregar fichas sólo al segundo grupo
                 else if (segundoGrupoAgregar != null) {
 
@@ -680,13 +695,13 @@ public class Tablero {
             fichasQuitar.add(ficha);
         }
 
-        List<List<Ficha>> fragmentosResultantes = simularSeparacion(grupoObjetivo.getFichas(), fichasQuitar);
+        List<List<Ficha>> subgruposResultantes = simularSeparacion(grupoObjetivo.getFichas(), fichasQuitar);
 
         try {
-            for (List<Ficha> fragmento : fragmentosResultantes) {
-                if (!fragmento.isEmpty()) {
+            for (List<Ficha> subgrupo : subgruposResultantes) {
+                if (!subgrupo.isEmpty()) {
 
-                    Grupo.validarCreacionGrupo(fragmento, false, MAXIMO_NUMERO_FICHA);
+                    Grupo.validarCreacionGrupo(subgrupo, false, MAXIMO_NUMERO_FICHA);
                 }
             }
         } catch (RummyException ex) {
@@ -701,23 +716,24 @@ public class Tablero {
         }
         
         
-        if (fragmentosResultantes.isEmpty()) {
+        this.grupos.remove(grupoObjetivo);
 
-            grupos.remove(grupoObjetivo);
-            
-        } else {
+        if (!subgruposResultantes.isEmpty()) {
 
-            grupoObjetivo.setFichas(fragmentosResultantes.get(0));
-
-            // Se crean los subgrupos creados.
-            for (int i = 1; i < fragmentosResultantes.size(); i++) {
-                List<Ficha> nuevoFragmento = fragmentosResultantes.get(i);
+            for (List<Ficha> subgrupo: subgruposResultantes) {
+                
                 try {
 
-                    Grupo nuevoGrupo = FabricaGrupos.crearGrupo(++numeroGrupoActual, nuevoFragmento, false, MAXIMO_NUMERO_FICHA);
-                    this.grupos.add(nuevoGrupo);
+                    Grupo nuevoGrupo = FabricaGrupos.crearGrupo(
+                        ++numeroGrupoActual, 
+                        subgrupo, 
+                        false, 
+                        MAXIMO_NUMERO_FICHA
+                    );
                     
-                } catch (RummyException ignored) {
+                    this.grupos.add(nuevoGrupo);
+
+                } catch (RummyException ex) {
 
                 }
             }
@@ -729,6 +745,34 @@ public class Tablero {
         fachadaTablero.enviarComando(comandoExito);
     }
 
+    private List<List<Ficha>> simularSeparacion(List<Ficha> fichasOriginales, List<Ficha> fichasAQuitar) {
+        List<List<Ficha>> subgrupos = new ArrayList<>();
+        List<Ficha> bufferActual = new ArrayList<>();
+
+        for (Ficha ficha: fichasOriginales) {
+            // Se verifica si la ficha actual está en la lista de eliminación.
+            boolean eliminar = fichasAQuitar.stream().anyMatch(fq -> fq.getId() == ficha.getId());
+
+            if (eliminar) {
+                // Se rompe la cadena. Si traíamos fichas en el buffer, guardamos ese fragmento.
+                if (!bufferActual.isEmpty()) {
+                    subgrupos.add(new LinkedList<>(bufferActual));
+                    bufferActual.clear();
+                }
+            } else {
+                // No se elimina, se agrega al buffer actual
+                bufferActual.add(ficha);
+            }
+        }
+
+        // Si al terminar el bucle quedó algo en el buffer, es el último fragmento.
+        if (!bufferActual.isEmpty()) {
+            subgrupos.add(new ArrayList<>(bufferActual));
+        }
+
+        return subgrupos;
+    }
+    
     private void terminarTurno(String nombreJugador) {
 
         if (validarTablero(nombreJugador)) {
@@ -737,8 +781,10 @@ public class Tablero {
                 jugadorTurno.setPrimerTurno(false);
             }
 
-            grupoPrimerTurno.setPrimerTurno(false);
-            grupoPrimerTurno = null;
+            if(grupoPrimerTurno != null){
+                grupoPrimerTurno.setPrimerTurno(false);
+                grupoPrimerTurno = null;
+            }
 
             pasarSiguienteJugador();
 
@@ -773,40 +819,12 @@ public class Tablero {
 
         } else {
 
-            ICommand comandoTableroInvalido = new ComandoTableroInvalido(nombreJugador);
+            ICommand comandoTableroInvalido = new ComandoTableroInvalido(nombreJugador, MENSAJE_TABLERO_INVALIDO);
 
             fachadaTablero.enviarComando(comandoTableroInvalido);
 
         }
 
-    }
-    
-    private List<List<Ficha>> simularSeparacion(List<Ficha> fichasOriginales, List<Ficha> fichasAQuitar) {
-        List<List<Ficha>> fragmentos = new ArrayList<>();
-        List<Ficha> bufferActual = new ArrayList<>();
-
-        for (Ficha f : fichasOriginales) {
-            // Verificamos si la ficha actual está en la lista de eliminación
-            boolean seElimina = fichasAQuitar.stream().anyMatch(fq -> fq.getId() == f.getId());
-
-            if (seElimina) {
-                // Se rompe la cadena. Si traíamos fichas en el buffer, guardamos ese fragmento.
-                if (!bufferActual.isEmpty()) {
-                    fragmentos.add(new ArrayList<>(bufferActual));
-                    bufferActual.clear();
-                }
-            } else {
-                // No se elimina, se agrega al buffer actual
-                bufferActual.add(f);
-            }
-        }
-
-        // Si al terminar el bucle quedó algo en el buffer, es el último fragmento
-        if (!bufferActual.isEmpty()) {
-            fragmentos.add(new ArrayList<>(bufferActual));
-        }
-
-        return fragmentos;
     }
 
     private void pasarSiguienteJugador() {

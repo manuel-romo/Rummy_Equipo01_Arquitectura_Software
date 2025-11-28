@@ -5,6 +5,7 @@ import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoRespuestaTomarFicha;
+import comandosRespuesta.ComandoTableroInvalido;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
@@ -58,7 +59,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     private List<ISuscriptor> suscriptores = new ArrayList<>();
     
     /**
-     * Indica si el tableroQuitar actual es inválido.
+     * Indica si el tablero actual es inválido.
      */
     
     private boolean tableroInvalido;
@@ -123,6 +124,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @return {@code true} si el tableroQuitar no cumple las reglas, {@code false} en
      * caso contrario.
      */
+    @Override
     public boolean isTableroInvalido() {
         return tableroInvalido;
     }
@@ -161,6 +163,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
      * @return {@code true} si el movimiento no fue válido, {@code false} en
      * caso contrario.
      */
+    @Override
     public boolean isMovimientoInvalido() {
         return movimientoInvalido;
     }
@@ -293,7 +296,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
     }
     
     private void responderMovimiento(TableroDTO tablero, boolean movimientoValido, String mensaje){
-        
+         
         this.nuevoTurno = false;
         this.tablero = tablero;
         this.movimientoInvalido = !movimientoValido;
@@ -331,9 +334,14 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
     }
     
-    private void avisarTableroInvalido(){
+    private void avisarTableroInvalido(String mensaje){
         
+        this.nuevoTurno = false;
         this.tableroInvalido = true;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = "TI: " + mensaje;
+        
         notificar();
         
     }
@@ -349,7 +357,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         filtroEnvioMensaje.ejecutar(comandoFinalizarTurno);
 
     }
-
+    
     /**
      * Suscribe una nueva vista (suscriptor) al modelo.
      *
@@ -577,7 +585,11 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                 
             case CommandType.COMANDO_TABLERO_INVALIDO:
                 
-                avisarTableroInvalido();
+                ComandoTableroInvalido comandoTableroInvalido = (ComandoTableroInvalido) comando;
+                
+                String mensaje = comandoTableroInvalido.getMensaje();
+                
+                avisarTableroInvalido(mensaje);
                 
                 break;
                 
@@ -589,7 +601,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
 
                 break;
                 
-             case CommandType.RESPUESTA_REESTABLECER:
+            case CommandType.RESPUESTA_REESTABLECER:
                 
                 ComandoRespuestaReestablecer comandoRespuestaReestablecer = (ComandoRespuestaReestablecer) comando;
                 reestablecerTablero(

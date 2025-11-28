@@ -15,6 +15,7 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
     private TableroInformacionPanel tablero;
     private String mensaje;
     private boolean movimientoValido;
+    private boolean tableroValido;
 
     public EstadoActual(
             JugadorExternoInformacionPanel[] jugadoresExternos, 
@@ -22,7 +23,8 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
             MontonInformacionPanel monton, 
             TableroInformacionPanel tablero, 
             String mensaje,
-            boolean movimientoValido) {
+            boolean movimientoValido,
+            boolean tableroValido) {
         
         this.jugadoresExternos = jugadoresExternos;
         this.jugadorPrincipal = jugadorPrincipal;
@@ -30,6 +32,7 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
         this.tablero = tablero;
         this.mensaje = mensaje;
         this.movimientoValido = movimientoValido;
+        this.tableroValido = tableroValido;
     }
 
     
@@ -61,6 +64,11 @@ public class EstadoActual implements IEstadoMonton, IEstadoJugadorPrincipal, IEs
     @Override
     public boolean getMovimientoValido() {
         return movimientoValido;
+    }
+
+    @Override
+    public boolean getTableroValido() {
+        return tableroValido;
     }
     
 }

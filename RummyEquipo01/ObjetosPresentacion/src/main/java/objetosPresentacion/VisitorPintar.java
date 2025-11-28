@@ -53,7 +53,7 @@ public class VisitorPintar implements IVisitor{
     public void visitar(PanelMovimiento panelMovimiento) {
         
         IEstadoPanelMovimiento estadoPanelMovimiento = (IEstadoPanelMovimiento) estadoActual;
-        panelMovimiento.pintar(estadoActual);
+        panelMovimiento.pintar(estadoPanelMovimiento);
         
     }
     

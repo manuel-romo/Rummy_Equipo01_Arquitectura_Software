@@ -6,7 +6,6 @@ import comandosSolicitud.CommandType;
 import interfaces.ICommand;
 import interfaces.IDispatcher;
 import interfaces.IFiltro;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,8 +21,8 @@ public class DirectorioJugadores implements IFiltro {
 
     private Map<String, String[]> jugadoresDirecciones =
     Map.of(
-        "qwe", new String[]{"127.0.0.1", "51000"},
-        "asd", new String[]{"127.0.0.1", "52000"}
+        "Francisco34", new String[]{"127.0.0.1", "51000"},
+        "Sandy43", new String[]{"127.0.0.1", "52000"}
     );
     private IDispatcher dispatcher;
 

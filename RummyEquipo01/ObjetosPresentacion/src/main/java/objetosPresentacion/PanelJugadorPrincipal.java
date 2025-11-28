@@ -368,12 +368,12 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
     
     @Override
     public void agregarComponente(IComponente componente) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void removerComponente(IComponente componente) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override

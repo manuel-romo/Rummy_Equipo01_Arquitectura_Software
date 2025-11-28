@@ -28,6 +28,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     private String TITULO_MENSAJE_INICIO_TURNO = "Inicio de turno";
     private String TITULO_MENSAJE_CAMBIO_TURNO = "Cambio de turno";
     private String TITULO_MENSAJE_ACCION_INVALIDA = "Acción inválida";
+    private String TITULO_MEBSALE_TABLERO_INVALIDO = "Tablero inválido";
     
     public PanelMesaJuego(){
         
@@ -146,6 +147,14 @@ public class PanelMesaJuego extends JPanel implements IComponente{
                 this, 
                 mensaje.substring(3), 
                 TITULO_MENSAJE_ACCION_INVALIDA, 
+                JOptionPane.ERROR_MESSAGE);
+                
+            } else if(mensaje.startsWith("TI: ")){
+                
+                JOptionPane.showMessageDialog(
+                this, 
+                mensaje.substring(3), 
+                TITULO_MEBSALE_TABLERO_INVALIDO, 
                 JOptionPane.ERROR_MESSAGE);
                 
             }

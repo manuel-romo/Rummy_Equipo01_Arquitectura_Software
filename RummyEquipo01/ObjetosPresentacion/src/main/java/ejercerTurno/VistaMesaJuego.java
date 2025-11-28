@@ -64,6 +64,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     private Integer[] idsFichasQuitar;
     
     private boolean movimientoInvalido;
+    private boolean tableroInvalido;
     
     private final int ANCHO_FILA = 25;
     
@@ -409,7 +410,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         
         TableroInformacionPanel tableroInformacionPanel = obtenerTableroInformacionPanel(tableroPresentacionDTO, nuevoTurno);
         
-        movimientoInvalido = mensaje != null? true : false;
+        movimientoInvalido = modelo.isMovimientoInvalido();
+        tableroInvalido = modelo.isTableroInvalido();
         
         actualizarMapaCasillasFichas(!movimientoInvalido);
         
@@ -419,7 +421,8 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
                 montonInformacionPanel,
                 tableroInformacionPanel,
                 mensaje,
-                !movimientoInvalido);
+                !movimientoInvalido,
+                !tableroInvalido);
         
         
         VisitorPintar visitorPintar = crearVisitorPintar(estadoActual);
@@ -448,6 +451,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     
     private void actualizarMapaCasillasFichas(boolean movimientoValido){
         
+        
         if(movimientoValido){
             
             if(idsFichasAgregar != null && idsCasillasAgregarTablero != null){
@@ -465,8 +469,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
             }
             
             else if(idsCasillasQuitarTablero != null){
-                
-                System.out.println("QUITANDO FICHAS DE CASILLAS:");
                 
                 for(int i = 0; i < idsCasillasQuitarTablero.length; i++){
                         
@@ -504,6 +506,14 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
                 
             }
             
+            
+        } else{
+            
+            idsFichasAgregar = null;
+            idsCasillasAgregarTablero = null;
+            idsCasillasAgregarJugador = null;
+            idsCasillasQuitarJugador = null;
+            idsCasillasQuitarTablero = null;
             
         }
         

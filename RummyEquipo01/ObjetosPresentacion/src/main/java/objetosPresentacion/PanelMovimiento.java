@@ -1,9 +1,13 @@
 package objetosPresentacion;
 
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -12,6 +16,8 @@ import javax.swing.SwingUtilities;
 public class PanelMovimiento extends JPanel implements IComponente {
 
     private PanelFicha[] fichasArrastradas;
+    
+    private List<PanelFicha> fichasArrastreActual = new LinkedList<>();
     
     private boolean arrastrandoFichas;
 
@@ -45,6 +51,8 @@ public class PanelMovimiento extends JPanel implements IComponente {
                     PanelFicha panelFicha = (PanelFicha) e.getComponent();
                     puntoInicioEvento = SwingUtilities.convertPoint(panelFicha, puntoInicioEvento, PanelMovimiento.this);
 
+                    fichasArrastreActual = new LinkedList<>();
+                    fichasArrastreActual.add((PanelFicha)e.getComponent());
                     moverEnGrupo = false;
                     for (int i = 0; i < fichasArrastradas.length; i++) {
                         if (fichasArrastradas[i].getIdFicha().equals(panelFicha.getIdFicha())) {
@@ -57,6 +65,7 @@ public class PanelMovimiento extends JPanel implements IComponente {
 
                 } else{
                     numeroFichaArrastrada = null;
+                    fichasArrastreActual = Arrays.asList(fichasArrastradas);
                 }
 
                 for (int i = indiceInicio; i < indiceMaximo; i++) {
@@ -93,8 +102,8 @@ public class PanelMovimiento extends JPanel implements IComponente {
         this.faseSoltado = false;
         
         this.fichasArrastradas = new PanelFicha[fichas.length];
-        
-        System.out.println("ARRASTRE INCIADO CON: " + fichas.length);
+
+        this.fichasArrastreActual = Arrays.asList(fichasArrastradas);
         
         this.arrastrandoFichas = true;
         
@@ -143,6 +152,14 @@ public class PanelMovimiento extends JPanel implements IComponente {
     public void pintar(IEstadoPanelMovimiento estadoPanelMovimiento){
         
         boolean movimientoValido = estadoPanelMovimiento.getMovimientoValido();
+        boolean tableroValido = estadoPanelMovimiento.getMovimientoValido();
+        
+        if(!tableroValido){
+            
+            // Probar que cambio de color funciona, AGREGAR MENSAJE DE TABLERO INVALIDO (JOPTION PANE).
+            this.setBackground(Color.red);
+            
+        }
         
         if(arrastrandoFichas){
             
@@ -163,9 +180,11 @@ public class PanelMovimiento extends JPanel implements IComponente {
     
     public void borrarContenido(){
 
+        for(PanelFicha ficha: fichasArrastreActual){ 
+            remove(ficha); 
+        }
         arrastrandoFichas = false;
         fichasArrastradas = null;
-        removeAll();
         revalidate();
         repaint();
                     
