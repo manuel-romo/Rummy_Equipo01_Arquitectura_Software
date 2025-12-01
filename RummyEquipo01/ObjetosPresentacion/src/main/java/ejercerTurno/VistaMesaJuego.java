@@ -10,8 +10,9 @@ import dto.JugadorPrincipalPresentacionDTO;
 import dto.MontonPresentacionDTO;
 import dto.TableroPresentacionDTO;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.List;
 import objetosPresentacion.IComponente;
@@ -67,8 +68,12 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     private boolean tableroInvalido;
     
     private final int ANCHO_FILA = 25;
+    private final int CANTIDAD_CASILLAS_MAXIMA_CARGA_FILA = 10;
     
     private int minimoCasillasJugador;
+    
+    private final String TITULO_VENTANA = "Rummy";
+    private final String ICONO_VENTANA = "/iconoVentanaEjercerTurno.png";
     
     public VistaMesaJuego(
             Controlador controlador,
@@ -88,6 +93,11 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        setTitle(TITULO_VENTANA);
+        
+        Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource(ICONO_VENTANA));
+        setIconImage(icono);
+
         agregarPanelComponente(componente);
         agregarGlassPane(componenteGlassPane);
         
@@ -167,6 +177,26 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     @Override
     public void terminarTurno(){
         controlador.terminarTurno();
+    }
+    
+    @Override
+    public void abandonarPartida() {
+        controlador.abandonarPartida();
+    }
+
+    @Override
+    public void finalizarPartida() {
+        controlador.finalizarPartida();
+    }
+    
+    @Override
+    public void confirmarAbandonarPartida(boolean confirmacion) {
+        controlador.confirmarAbandonarPartida(confirmacion);
+    }
+
+    @Override
+    public void confirmarFinalizarPartida(boolean confirmacion) {
+        controlador.confirmarFinalizarPartida(confirmacion);
     }
     
     private void habilitarVista(boolean vistaHabilitada){
@@ -259,12 +289,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         
         FichaPresentacionDTO[] fichas = jugadorPrincipalPresentacionDTO.getFichas();
         
-        System.out.println("FICHAS JUGADOR PRINCIPAL");
-        for(FichaPresentacionDTO f: fichas){
-            System.out.println(f.getIdFicha());
-        }
-        System.out.println("************************");
-        
         actualizarMapaCasillasIdsFichasJugador(fichas);
         
         JugadorPrincipalInformacionPanel jugadorPrincipalInformacionPanel 
@@ -276,14 +300,14 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     }
     
     private void actualizarMapaCasillasIdsFichasJugador(FichaPresentacionDTO[] fichas) {
-
+        
         List<Integer> idsFichasEntrantes = new LinkedList<>();
         for (FichaPresentacionDTO ficha : fichas) {
             idsFichasEntrantes.add(ficha.getIdFicha());
         }
-
+        
         for (Integer idFicha : idsFichasEntrantes) {
-
+        
             boolean fichaFueRemovida = false;
             
             if(idsFichasQuitar != null){
@@ -294,21 +318,30 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
                 }
             }
             
+            boolean fichaFueAgregada = false;
             
-            if (!mapaIdsCasillasFichasJugador.containsValue(idFicha) && !fichaFueRemovida) {
-
+            if(idsFichasAgregar != null){   
+                for(Integer id: idsFichasAgregar){       
+                    if(id.equals(idFicha)){
+                        fichaFueAgregada = true;    
+                    }  
+                }
+            }
+            
+            if (!mapaIdsCasillasFichasJugador.containsValue(idFicha) && !fichaFueRemovida && !fichaFueAgregada) {
+            
                 int casillaDestino = 1;
-
+                
                 // Se busca una clave que no exista o cuyo valor sea nulo.
                 while (mapaIdsCasillasFichasJugador.containsKey(casillaDestino) && 
                        mapaIdsCasillasFichasJugador.get(casillaDestino) != null) {
                     casillaDestino++;
                 }
-
+                
                 mapaIdsCasillasFichasJugador.put(casillaDestino, idFicha);
             }
         }
-
+        
         // Se crean casillas vacías si no se ha llegado al mínimo.
         for (int i = 1; i <= minimoCasillasJugador; i++) {
             mapaIdsCasillasFichasJugador.putIfAbsent(i, null);
@@ -328,16 +361,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     private TableroInformacionPanel obtenerTableroInformacionPanel(TableroPresentacionDTO tableroPresentacionDTO, boolean nuevoTurno){
         
         FichaPresentacionDTO[] fichas = tableroPresentacionDTO.getFichas();
-        
-        System.out.println("FICHAS TABLERO");
-        for(FichaPresentacionDTO f: fichas){
-            if(f!=null){
-                System.out.println(f.getIdFicha());
-            }
-            
-
-        }
-        System.out.println("************************");
         
         actualizarFichasCasillasTablero(fichas, nuevoTurno);
         
@@ -360,9 +383,9 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
             
             for(int i = 0; i < fichas.length; i++){
             
-                if(fichas[i] == null && j > numeroFila * ANCHO_FILA + 15){
+                if(fichas[i] == null && j > numeroFila * ANCHO_FILA + CANTIDAD_CASILLAS_MAXIMA_CARGA_FILA){
                     
-                    j += (numeroFila*ANCHO_FILA)-j;
+                    j = (numeroFila + 1) * ANCHO_FILA + 1;
                     numeroFila++;
                     
                 } else if(fichas[i] == null){
@@ -436,16 +459,6 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         boolean vistaHabilitada = modelo.isVistaHabilitada();
         
         habilitarVista(vistaHabilitada);
-
-        Container glassPane = (Container) getGlassPane();
-
-        if (glassPane.getComponentCount() == 0) {
-            glassPane.setVisible(false);
-
-        } else {
-            glassPane.setVisible(true); 
-        }
-        
       
     }
     
@@ -471,8 +484,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
             else if(idsCasillasQuitarTablero != null){
                 
                 for(int i = 0; i < idsCasillasQuitarTablero.length; i++){
-                        
-                    System.out.println(i);
+                    
                     mapaIdsCasillasFichasTablero.put(idsCasillasQuitarTablero[i], null);
 
                 }
@@ -499,10 +511,13 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
                 for(int i = 0; i < idsCasillasQuitarJugador.length; i++){
 
                     mapaIdsCasillasFichasJugador.put(idsCasillasQuitarJugador[i], null);
-
+                       
                 }
+                
+                
 
                 idsCasillasQuitarJugador = null;
+                idsFichasQuitar = null;
                 
             }
             

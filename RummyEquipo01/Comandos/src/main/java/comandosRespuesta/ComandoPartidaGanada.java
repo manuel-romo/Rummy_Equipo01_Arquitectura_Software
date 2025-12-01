@@ -3,19 +3,24 @@ package comandosRespuesta;
 
 import interfaces.ICommand;
 
-
-public class ComandoRespuestaConfirmacionAbandonar implements ICommand{
+public class ComandoPartidaGanada implements ICommand{
     
-    private String type = "ComandoRespuestaConfirmacionAbandonar";
+    private String type = "ComandoPartidaGanada";
     private String nombreJugador;
+    private String mensaje;
 
-    public ComandoRespuestaConfirmacionAbandonar(String nombreJugador) {
+    public ComandoPartidaGanada(String nombreJugador, String mensaje) {
         this.nombreJugador = nombreJugador;
+        this.mensaje = mensaje;
     }
 
     @Override
     public String getType() {
         return type;
+    }
+
+    public String getMensaje() {
+        return mensaje;
     }
 
     @Override

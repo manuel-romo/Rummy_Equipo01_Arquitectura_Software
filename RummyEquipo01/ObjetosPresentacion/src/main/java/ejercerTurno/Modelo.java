@@ -1,18 +1,29 @@
 package ejercerTurno;
 
 import comandosRespuesta.ComandoCambioTurno;
+import comandosRespuesta.ComandoFinPartida;
 import comandosRespuesta.ComandoIniciarTurno;
+import comandosRespuesta.ComandoJugadorAbandonoPartida;
+import comandosRespuesta.ComandoJugadorPartidaGanada;
+import comandosRespuesta.ComandoPartidaGanada;
+import comandosRespuesta.ComandoRespuestaAbandonar;
+import comandosRespuesta.ComandoRespuestaConfirmacionSolicitarFin;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoRespuestaReestablecer;
+import comandosRespuesta.ComandoRespuestaSolicitarFin;
 import comandosRespuesta.ComandoRespuestaTomarFicha;
 import comandosRespuesta.ComandoTableroInvalido;
+import comandosSolicitud.ComandoAbandonar;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
+import comandosSolicitud.ComandoConfirmacionAbandonar;
+import comandosSolicitud.ComandoConfirmacionSolicitarFin;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoReestablecerTablero;
 import comandosSolicitud.ComandoSeleccionarFichasTablero;
+import comandosSolicitud.ComandoSolicitarFin;
 import comandosSolicitud.ComandoTerminarTurno;
 import comandosSolicitud.ComandoTomarFicha;
 import comandosSolicitud.CommandType;
@@ -52,6 +63,17 @@ import interfaces.IFiltro;
  * depender todavía de las entidades finales.
  */
 public class Modelo implements IPublicador, IModelo, IFiltro {
+    
+    private final String CODIGO_MENSAJE_INCIO_TURNO = "IT: ";
+    private final String CODIGO_MENSAJE_CAMBIO_TURNO = "CT: ";
+    private final String CODIGO_MENSAJE_RESPUESTA_MOVIMIENTO = "RM: ";
+    private final String CODIGO_MENSAJE_TABLERO_INVALIDO = "TI: ";
+    private final String CODIGO_MENSAJE_SOLICITUD_ABANDONO = "RA: ";
+    private final String CODIGO_MENSAJE_ABANDONO_JUGADOR = "JA: ";
+    private final String CODIGO_MENSAJE_RESPONDER_SOLICITUD_FIN = "RF: ";
+    private final String CODIGO_MENSAJE_RESPONDER_CONFIRMACION_SOLICITUD_FIN = "RC: ";
+    private final String CODIGO_MENSAJE_PARTIDA_GANADA = "PG: ";
+    private final String CODIGO_MENSAJE_JUGADOR_PARTIDA_GANADA = "JG: ";
     
     /**
      * Lista de suscriptores del modelo para notificar cambios a la vista.
@@ -272,13 +294,58 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
         filtroEnvioMensaje.ejecutar(comandoReestablecerTablero);
     }
+    
+    /**
+     * Finaliza el turno actual y pasa al siguiente jugador. Si el tablero no es
+     * válido, se marca el estado correspondiente.
+     */
+    public void terminarTurno() {
+        
+        ICommand comandoFinalizarTurno = new ComandoTerminarTurno(nombreJugador);
+        filtroEnvioMensaje.ejecutar(comandoFinalizarTurno);
+
+    }
+    
+    public void abandonarPartida(){
+        
+        ComandoAbandonar comandoAbandonar = new ComandoAbandonar(nombreJugador);
+        filtroEnvioMensaje.ejecutar(comandoAbandonar);
+        
+    }
+    
+    public void finalizarPartida(){
+        
+        ComandoSolicitarFin comandoSolicitarFin = new ComandoSolicitarFin(nombreJugador);
+        
+        filtroEnvioMensaje.ejecutar(comandoSolicitarFin);
+        
+    }
+    
+    public void confirmarAbandonoPartida(boolean confirmacion){
+        
+        ComandoConfirmacionAbandonar comandoConfirmacionAbandonar 
+                = new ComandoConfirmacionAbandonar(nombreJugador, confirmacion);
+        
+        filtroEnvioMensaje.ejecutar(comandoConfirmacionAbandonar);
+        
+    }
+    
+    public void confirmarSolicitudFin(boolean confirmacion){
+        
+        ComandoConfirmacionSolicitarFin comandoConfirmacionSolicitarFin 
+                = new ComandoConfirmacionSolicitarFin(nombreJugador, confirmacion);
+        
+        filtroEnvioMensaje.ejecutar(comandoConfirmacionSolicitarFin);
+        
+    }
+    
 
     public void iniciarTurno(TableroDTO tablero, String mensaje){
     
         this.nuevoTurno = true;
         this.tablero = tablero;
         vistaHabilitada = true;
-        this.mensaje = "IT: " + mensaje;
+        this.mensaje = CODIGO_MENSAJE_INCIO_TURNO + mensaje;
         
         notificar();
         
@@ -289,20 +356,20 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         this.nuevoTurno = true;
         this.tablero = tablero;
         vistaHabilitada = false;
-        this.mensaje = "CT: " + mensaje;
+        this.mensaje = CODIGO_MENSAJE_CAMBIO_TURNO + mensaje;
         
         notificar();
         
     }
     
     private void responderMovimiento(TableroDTO tablero, boolean movimientoValido, String mensaje){
-         
+        
         this.nuevoTurno = false;
         this.tablero = tablero;
         this.movimientoInvalido = !movimientoValido;
         
         if(mensaje != null){
-            this.mensaje = "RM: " + mensaje;
+            this.mensaje = CODIGO_MENSAJE_RESPUESTA_MOVIMIENTO + mensaje;
         } else{
             this.mensaje = null;
         }
@@ -340,23 +407,90 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         this.tableroInvalido = true;
         this.movimientoInvalido = false;
         
-        this.mensaje = "TI: " + mensaje;
+        this.mensaje = CODIGO_MENSAJE_TABLERO_INVALIDO + mensaje;
         
         notificar();
         
     }
     
-    
-    /**
-     * Finaliza el turno actual y pasa al siguiente jugador. Si el tablero no es
-     * válido, se marca el estado correspondiente.
-     */
-    public void terminarTurno() {
+    private void responderSolicitudAbandono(String mensaje){
         
-        ICommand comandoFinalizarTurno = new ComandoTerminarTurno(nombreJugador);
-        filtroEnvioMensaje.ejecutar(comandoFinalizarTurno);
-
+        this.nuevoTurno = false;
+        this.tableroInvalido = false;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = CODIGO_MENSAJE_SOLICITUD_ABANDONO + mensaje;
+        
+        notificar();
+        
     }
+   
+    private void notificarAbandonoJugador(String mensaje){
+        
+        this.nuevoTurno = false;
+        this.tableroInvalido = false;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = CODIGO_MENSAJE_ABANDONO_JUGADOR + mensaje;
+        
+        notificar();
+        
+    }
+    
+    public void responderSolicitudFin(String mensaje){
+        
+        this.nuevoTurno = false;
+        this.tableroInvalido = false;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = CODIGO_MENSAJE_RESPONDER_SOLICITUD_FIN + mensaje;
+        
+        notificar();
+        
+    }
+    
+    private void responderConfirmacionSolicitudFin(String mensaje){
+        
+        this.nuevoTurno = false;
+        this.tableroInvalido = false;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = CODIGO_MENSAJE_RESPONDER_CONFIRMACION_SOLICITUD_FIN + mensaje;
+        
+        notificar();
+        
+    }
+    
+    private void notificarPartidaGanada(String mensaje){
+        
+        this.nuevoTurno = false;
+        this.tableroInvalido = false;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = CODIGO_MENSAJE_PARTIDA_GANADA + mensaje;
+        
+        notificar();
+        
+    }
+    
+    private void notificarJugadorPartidaGanada(String mensaje){
+        
+        this.nuevoTurno = false;
+        this.tableroInvalido = false;
+        this.movimientoInvalido = false;
+        
+        this.mensaje = CODIGO_MENSAJE_JUGADOR_PARTIDA_GANADA + mensaje;
+        
+        notificar();
+        
+    }
+    
+    private void terminarJuego(){
+        
+        System.exit(0);
+        
+    }
+    
     
     /**
      * Suscribe una nueva vista (suscriptor) al modelo.
@@ -471,9 +605,6 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
         
         GrupoDTO[] grupos = tablero.getGrupos();
         
-        System.out.println("Cantidad de grupos obtenidos");
-        System.out.println(grupos.length);
-        
         List<FichaPresentacionDTO> fichasPresentacion = new LinkedList<>();
         
         for(GrupoDTO grupo: grupos){
@@ -550,6 +681,7 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
 
     @Override
     public void ejecutar(ICommand comando) {
+
         
         CommandType tipoComando = CommandType.fromNombre(comando.getType());
         
@@ -608,6 +740,69 @@ public class Modelo implements IPublicador, IModelo, IFiltro {
                         comandoRespuestaReestablecer.getTablero());
 
                 break;
+                
+                
+            case CommandType.COMANDO_RESPUESTA_ABANDONAR:
+                
+                ComandoRespuestaAbandonar comandoRespuestaAbandonar = (ComandoRespuestaAbandonar) comando;
+                
+                responderSolicitudAbandono(comandoRespuestaAbandonar.getMensaje());
+                
+                break;
+                 
+            case CommandType.COMANDO_JUGADOR_ABANDONO:
+                
+                ComandoJugadorAbandonoPartida comandoJugadorAbandonoPartida = (ComandoJugadorAbandonoPartida) comando;
+                
+                notificarAbandonoJugador(
+                        comandoJugadorAbandonoPartida.getMensaje());
+                
+                break;
+                
+            case CommandType.COMANDO_RESPUESTA_SOLICITAR_FIN:
+                
+                ComandoRespuestaSolicitarFin comandoRespuestaSolicitarFin = (ComandoRespuestaSolicitarFin) comando;
+                
+                comandoRespuestaSolicitarFin.getMensaje();
+                
+                responderSolicitudFin(comandoRespuestaSolicitarFin.getMensaje());
+                
+                break;
+                
+            case CommandType.COMANDO_RESPUESTA_CONFIRMACION_SOLICITAR_FIN:
+                
+                ComandoRespuestaConfirmacionSolicitarFin comandoRespuestaConfirmacionSolicitarFin = (ComandoRespuestaConfirmacionSolicitarFin) comando;
+                
+                comandoRespuestaConfirmacionSolicitarFin.getMensaje();
+                
+                responderConfirmacionSolicitudFin(comandoRespuestaConfirmacionSolicitarFin.getMensaje());
+                
+                break;
+                
+            case CommandType.COMANDO_FIN_PARTIDA:
+                
+                ComandoFinPartida comandoFinPartida = (ComandoFinPartida) comando;
+                
+                terminarJuego();
+                
+                break;
+                
+            case CommandType.COMANDO_PARTIDA_GANADA:
+                
+                ComandoPartidaGanada comandoPartidaGanada = (ComandoPartidaGanada) comando;
+                
+                notificarPartidaGanada(comandoPartidaGanada.getMensaje());
+                 
+                break;
+                
+            case CommandType.COMANDO_JUGADOR_PARTIDA_GANADA:
+                
+                ComandoJugadorPartidaGanada comandoJugadorPartidaGanada = (ComandoJugadorPartidaGanada) comando;
+                
+                notificarJugadorPartidaGanada(comandoJugadorPartidaGanada.getMensaje());
+                 
+                break;
+
 
                 
             default:

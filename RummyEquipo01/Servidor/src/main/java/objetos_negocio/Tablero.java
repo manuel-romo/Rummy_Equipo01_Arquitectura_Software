@@ -2,7 +2,7 @@ package objetos_negocio;
 
 import comandosRespuesta.ComandoCambioTurno;
 import comandosRespuesta.ComandoIniciarTurno;
-import comandosRespuesta.ComandoRespuestaConfirmacionAbandonar;
+import comandosRespuesta.ComandoRespuestaAbandonar;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoTableroInvalido;
@@ -10,8 +10,14 @@ import comandosSolicitud.ComandoAbandonar;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
-import comandosSolicitud.ComandoConfirmarFin;
-import comandosSolicitud.ComandoFinPartida;
+import comandosRespuesta.ComandoFinPartida;
+import comandosRespuesta.ComandoJugadorAbandonoPartida;
+import comandosRespuesta.ComandoJugadorPartidaGanada;
+import comandosRespuesta.ComandoPartidaGanada;
+import comandosRespuesta.ComandoRespuestaConfirmacionSolicitarFin;
+import comandosRespuesta.ComandoRespuestaSolicitarFin;
+import comandosSolicitud.ComandoConfirmacionAbandonar;
+import comandosSolicitud.ComandoConfirmacionSolicitarFin;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoReestablecerTablero;
@@ -34,11 +40,11 @@ import fabricaGrupos.FabricaGrupos;
 import interfaces.ICommand;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+
 /**
  * Clase de Negocio para el servidor el cual valida todo el tablero cuando se
  * termina el turno.
@@ -58,7 +64,8 @@ public class Tablero {
     private List<Grupo> gruposInicialesTurno = new LinkedList<>();
     private Grupo grupoPrimerTurno;
 
-    private boolean fichaTomada;
+    private Ficha fichaTomada;
+    private List<String> nombresJugadoresSolicitanFin = new LinkedList<>();
 
     private int numeroGrupoActual = 0;
 
@@ -73,127 +80,144 @@ public class Tablero {
     private final String MENSAJE_AGREGAR_FICHAS_TABLERO_JUGADOR = "No puede agregar fichas del tablero a su mano.";
     private final String MENSAJE_AGREGAR_FICHA_MAS_UN_GRUPO_PRIMER_TURNO = "No puede agregar más de un grupo en su primer turno.";
     private final String MENSAJE_TABLERO_INVALIDO = "Uno o más grupos del tablero son inválidos.";
+    
+    private final String MENSAJE_CONFIRMACION_ABANDONO_PARTIDA = "¿Desea abandonar la partida?";
+    private final String MENSAJE_JUGADOR_ABANDONO_PARTIDA = " ha abandonado la partida.";
+    
+    private final String MENSAJE_CONFIRMACION_FIN_PARTIDA = "¿Desea solicitar el fin de la partida?";
+    private final String MENSAJE_SOLICITUD_FIN_PARTIDA_JUGADOR = " ha solicitado el fin de la partida. ¿Quiere finalizar la partida?";
+    private final String MENSAJE_ESPERANDO_CONFIRMACION_JUGADORES = "Esperando jugadores";
+    
+    private final String MENSAJE_SOLICITUD_FIN_PARTIDA_ACEPTADA = "La partida ha finalizado";
+    private final String MENSAJE_SOLICITUD_FIN_PARTIDA_CANCELADO = "La partida continuará";
+    
+    private final String MENSAJE_PARTIDA_GANADA = "¡Has ganado la partida!";
+    private final String MENSAJE_JUGADOR_PARTIDA_GANADA = " ha ganado la partida.";
 
     public void iniciarJuego() {
 
-        List<Ficha> fichasJugador1 = new LinkedList<>(List.of(
-                new FichaNormal(1, ColorFicha.COLOR_C, false, 6),
-                new FichaNormal(2, ColorFicha.COLOR_A, false, 11),
-                new FichaNormal(3, ColorFicha.COLOR_D, false, 3),
-                new FichaNormal(4, ColorFicha.COLOR_B, false, 11),
-                new FichaNormal(5, ColorFicha.COLOR_A, false, 12),
-                new FichaNormal(6, ColorFicha.COLOR_C, false, 1),
-                new FichaNormal(7, ColorFicha.COLOR_B, false, 7),
-                new FichaNormal(8, ColorFicha.COLOR_D, false, 4),
-                new FichaNormal(9, ColorFicha.COLOR_C, false, 11),
-                new FichaNormal(10, ColorFicha.COLOR_A, false, 5),
-                new FichaNormal(11, ColorFicha.COLOR_D, false, 11),
-                new FichaNormal(12, ColorFicha.COLOR_A, false, 8),
-                new FichaNormal(13, ColorFicha.COLOR_D, false, 13),
-                new FichaNormal(14, ColorFicha.COLOR_A, false, 6)
-        ));
-
-        List<Ficha> fichasJugador2 = new LinkedList<>(List.of(
-                new FichaNormal(15, ColorFicha.COLOR_A, false, 10),
-                new FichaNormal(16, ColorFicha.COLOR_A, false, 11),
-                new FichaNormal(17, ColorFicha.COLOR_C, false, 10),
-                new FichaNormal(18, ColorFicha.COLOR_A, false, 13),
-                new FichaNormal(19, ColorFicha.COLOR_D, false, 9),
-                new FichaNormal(20, ColorFicha.COLOR_D, false, 5),
-                new FichaNormal(21, ColorFicha.COLOR_A, false, 12),
-                new FichaNormal(22, ColorFicha.COLOR_D, false, 1),
-                new FichaNormal(23, ColorFicha.COLOR_D, false, 11),
-                new FichaNormal(24, ColorFicha.COLOR_B, false, 2),
-                new FichaNormal(25, ColorFicha.COLOR_C, false, 8),
-                new FichaNormal(26, ColorFicha.COLOR_A, false, 13),
-                new FichaNormal(27, ColorFicha.COLOR_B, false, 6),
-                new FichaNormal(28, ColorFicha.COLOR_C, false, 7)
-        ));
-
         List<Ficha> fichasMonton = new LinkedList<>(List.of(
-                new FichaNormal(29, ColorFicha.COLOR_C, false, 3),
-                new FichaNormal(30, ColorFicha.COLOR_B, false, 11),
-                new FichaNormal(31, ColorFicha.COLOR_D, false, 12),
-                new FichaNormal(32, ColorFicha.COLOR_B, false, 4),
-                new FichaNormal(33, ColorFicha.COLOR_C, false, 9),
-                new FichaNormal(34, ColorFicha.COLOR_C, false, 5),
-                new FichaNormal(35, ColorFicha.COLOR_D, false, 10),
-                new FichaNormal(36, ColorFicha.COLOR_A, false, 1),
-                new FichaNormal(37, ColorFicha.COLOR_C, false, 2),
-                new FichaNormal(38, ColorFicha.COLOR_B, false, 8),
-                new FichaNormal(39, ColorFicha.COLOR_C, false, 13),
-                new FichaNormal(40, ColorFicha.COLOR_D, false, 6),
-                new FichaNormal(41, ColorFicha.COLOR_C, false, 11),
-                new FichaNormal(42, ColorFicha.COLOR_B, false, 12),
-                new FichaNormal(43, ColorFicha.COLOR_C, false, 4),
-                new FichaNormal(44, ColorFicha.COLOR_A, false, 9),
-                new FichaNormal(45, ColorFicha.COLOR_B, false, 5),
-                new FichaNormal(46, ColorFicha.COLOR_B, false, 10),
-                new FichaNormal(47, ColorFicha.COLOR_B, false, 1),
-                new FichaNormal(48, ColorFicha.COLOR_A, false, 2),
-                new FichaNormal(49, ColorFicha.COLOR_D, false, 8),
-                new FichaNormal(50, ColorFicha.COLOR_B, false, 13),
-                new FichaNormal(51, ColorFicha.COLOR_C, false, 6),
-                new FichaNormal(52, ColorFicha.COLOR_D, false, 7),
-                new FichaNormal(53, ColorFicha.COLOR_B, false, 3),
-                new FichaNormal(54, ColorFicha.COLOR_A, false, 11),
-                new FichaNormal(55, ColorFicha.COLOR_A, false, 12),
-                new FichaNormal(56, ColorFicha.COLOR_D, false, 4),
-                new FichaNormal(57, ColorFicha.COLOR_B, false, 9),
-                new FichaNormal(58, ColorFicha.COLOR_A, false, 5),
-                new FichaNormal(59, ColorFicha.COLOR_C, false, 10),
-                new FichaNormal(60, ColorFicha.COLOR_C, false, 1),
-                new FichaNormal(61, ColorFicha.COLOR_D, false, 2),
-                new FichaNormal(62, ColorFicha.COLOR_A, false, 8),
-                new FichaNormal(63, ColorFicha.COLOR_D, false, 13),
-                new FichaNormal(64, ColorFicha.COLOR_A, false, 6),
-                new FichaNormal(65, ColorFicha.COLOR_B, false, 7),
-                new FichaNormal(66, ColorFicha.COLOR_A, false, 3),
-                new FichaNormal(67, ColorFicha.COLOR_D, false, 11),
-                new FichaNormal(68, ColorFicha.COLOR_C, false, 12),
-                new FichaNormal(69, ColorFicha.COLOR_A, false, 4),
-                new FichaNormal(70, ColorFicha.COLOR_D, false, 9),
-                new FichaNormal(71, ColorFicha.COLOR_D, false, 5),
-                new FichaNormal(72, ColorFicha.COLOR_A, false, 10),
-                new FichaNormal(73, ColorFicha.COLOR_D, false, 1),
-                new FichaNormal(74, ColorFicha.COLOR_B, false, 2),
-                new FichaNormal(75, ColorFicha.COLOR_C, false, 8),
-                new FichaNormal(76, ColorFicha.COLOR_A, false, 13),
-                new FichaNormal(77, ColorFicha.COLOR_B, false, 6),
-                new FichaNormal(78, ColorFicha.COLOR_C, false, 7),
-                new FichaNormal(79, ColorFicha.COLOR_D, false, 3),
-                new FichaNormal(80, ColorFicha.COLOR_B, false, 11),
-                new FichaNormal(81, ColorFicha.COLOR_D, false, 12),
-                new FichaNormal(82, ColorFicha.COLOR_B, false, 4),
-                new FichaNormal(83, ColorFicha.COLOR_C, false, 9),
-                new FichaNormal(84, ColorFicha.COLOR_C, false, 5),
-                new FichaNormal(85, ColorFicha.COLOR_D, false, 10),
-                new FichaNormal(86, ColorFicha.COLOR_A, false, 1),
-                new FichaNormal(87, ColorFicha.COLOR_C, false, 2),
-                new FichaNormal(88, ColorFicha.COLOR_B, false, 8),
-                new FichaNormal(89, ColorFicha.COLOR_C, false, 13),
-                new FichaNormal(90, ColorFicha.COLOR_D, false, 6),
-                new FichaNormal(91, ColorFicha.COLOR_A, false, 7),
-                new FichaNormal(92, ColorFicha.COLOR_C, false, 3),
-                new FichaNormal(93, ColorFicha.COLOR_C, false, 11),
-                new FichaNormal(94, ColorFicha.COLOR_B, false, 12),
-                new FichaNormal(95, ColorFicha.COLOR_C, false, 4),
-                new FichaNormal(96, ColorFicha.COLOR_A, false, 9),
-                new FichaNormal(97, ColorFicha.COLOR_B, false, 5),
-                new FichaNormal(98, ColorFicha.COLOR_B, false, 10),
-                new FichaNormal(99, ColorFicha.COLOR_B, false, 1),
-                new FichaNormal(100, ColorFicha.COLOR_A, false, 2),
-                new FichaNormal(101, ColorFicha.COLOR_D, false, 8),
-                new FichaNormal(102, ColorFicha.COLOR_B, false, 13),
-                new FichaNormal(103, ColorFicha.COLOR_C, false, 6),
-                new FichaNormal(104, ColorFicha.COLOR_D, false, 7),
-                new FichaComodin(105, ColorFicha.COLOR_COMODIN, true, "*"),
-                new FichaComodin(106, ColorFicha.COLOR_COMODIN, true, "*")
-        ));
 
-        fichas.addAll(fichasJugador1);
-        fichas.addAll(fichasJugador2);
+            new FichaNormal(1, ColorFicha.COLOR_A, false, 1),
+            new FichaNormal(2, ColorFicha.COLOR_A, false, 2),
+            new FichaNormal(3, ColorFicha.COLOR_A, false, 3),
+            new FichaNormal(4, ColorFicha.COLOR_A, false, 4),
+            new FichaNormal(5, ColorFicha.COLOR_A, false, 5),
+            new FichaNormal(6, ColorFicha.COLOR_A, false, 6),
+            new FichaNormal(7, ColorFicha.COLOR_A, false, 7),
+            new FichaNormal(8, ColorFicha.COLOR_A, false, 8),
+            new FichaNormal(9, ColorFicha.COLOR_A, false, 9),
+            new FichaNormal(10, ColorFicha.COLOR_A, false, 10),
+            new FichaNormal(11, ColorFicha.COLOR_A, false, 11),
+            new FichaNormal(12, ColorFicha.COLOR_A, false, 12),
+            new FichaNormal(13, ColorFicha.COLOR_A, false, 13),
+            
+            new FichaNormal(14, ColorFicha.COLOR_A, false, 1),
+            new FichaNormal(15, ColorFicha.COLOR_A, false, 2),
+            new FichaNormal(16, ColorFicha.COLOR_A, false, 3),
+            new FichaNormal(17, ColorFicha.COLOR_A, false, 4),
+            new FichaNormal(18, ColorFicha.COLOR_A, false, 5),
+            new FichaNormal(19, ColorFicha.COLOR_A, false, 6),
+            new FichaNormal(20, ColorFicha.COLOR_A, false, 7),
+            new FichaNormal(21, ColorFicha.COLOR_A, false, 8),
+            new FichaNormal(22, ColorFicha.COLOR_A, false, 9),
+            new FichaNormal(23, ColorFicha.COLOR_A, false, 10),
+            new FichaNormal(24, ColorFicha.COLOR_A, false, 11),
+            new FichaNormal(25, ColorFicha.COLOR_A, false, 12),
+            new FichaNormal(26, ColorFicha.COLOR_A, false, 13),
+
+            new FichaNormal(27, ColorFicha.COLOR_B, false, 1),
+            new FichaNormal(28, ColorFicha.COLOR_B, false, 2),
+            new FichaNormal(29, ColorFicha.COLOR_B, false, 3),
+            new FichaNormal(30, ColorFicha.COLOR_B, false, 4),
+            new FichaNormal(31, ColorFicha.COLOR_B, false, 5),
+            new FichaNormal(32, ColorFicha.COLOR_B, false, 6),
+            new FichaNormal(33, ColorFicha.COLOR_B, false, 7),
+            new FichaNormal(34, ColorFicha.COLOR_B, false, 8),
+            new FichaNormal(35, ColorFicha.COLOR_B, false, 9),
+            new FichaNormal(36, ColorFicha.COLOR_B, false, 10),
+            new FichaNormal(37, ColorFicha.COLOR_B, false, 11),
+            new FichaNormal(38, ColorFicha.COLOR_B, false, 12),
+            new FichaNormal(39, ColorFicha.COLOR_B, false, 13),
+
+            new FichaNormal(40, ColorFicha.COLOR_B, false, 1),
+            new FichaNormal(41, ColorFicha.COLOR_B, false, 2),
+            new FichaNormal(42, ColorFicha.COLOR_B, false, 3),
+            new FichaNormal(43, ColorFicha.COLOR_B, false, 4),
+            new FichaNormal(44, ColorFicha.COLOR_B, false, 5),
+            new FichaNormal(45, ColorFicha.COLOR_B, false, 6),
+            new FichaNormal(46, ColorFicha.COLOR_B, false, 7),
+            new FichaNormal(47, ColorFicha.COLOR_B, false, 8),
+            new FichaNormal(48, ColorFicha.COLOR_B, false, 9),
+            new FichaNormal(49, ColorFicha.COLOR_B, false, 10),
+            new FichaNormal(50, ColorFicha.COLOR_B, false, 11),
+            new FichaNormal(51, ColorFicha.COLOR_B, false, 12),
+            new FichaNormal(52, ColorFicha.COLOR_B, false, 13),
+
+            new FichaNormal(53, ColorFicha.COLOR_C, false, 1),
+            new FichaNormal(54, ColorFicha.COLOR_C, false, 2),
+            new FichaNormal(55, ColorFicha.COLOR_C, false, 3),
+            new FichaNormal(56, ColorFicha.COLOR_C, false, 4),
+            new FichaNormal(57, ColorFicha.COLOR_C, false, 5),
+            new FichaNormal(58, ColorFicha.COLOR_C, false, 6),
+            new FichaNormal(59, ColorFicha.COLOR_C, false, 7),
+            new FichaNormal(60, ColorFicha.COLOR_C, false, 8),
+            new FichaNormal(61, ColorFicha.COLOR_C, false, 9),
+            new FichaNormal(62, ColorFicha.COLOR_C, false, 10),
+            new FichaNormal(63, ColorFicha.COLOR_C, false, 11),
+            new FichaNormal(64, ColorFicha.COLOR_C, false, 12),
+            new FichaNormal(65, ColorFicha.COLOR_C, false, 13),
+
+            new FichaNormal(66, ColorFicha.COLOR_C, false, 1),
+            new FichaNormal(67, ColorFicha.COLOR_C, false, 2),
+            new FichaNormal(68, ColorFicha.COLOR_C, false, 3),
+            new FichaNormal(69, ColorFicha.COLOR_C, false, 4),
+            new FichaNormal(70, ColorFicha.COLOR_C, false, 5),
+            new FichaNormal(71, ColorFicha.COLOR_C, false, 6),
+            new FichaNormal(72, ColorFicha.COLOR_C, false, 7),
+            new FichaNormal(73, ColorFicha.COLOR_C, false, 8),
+            new FichaNormal(74, ColorFicha.COLOR_C, false, 9),
+            new FichaNormal(75, ColorFicha.COLOR_C, false, 10),
+            new FichaNormal(76, ColorFicha.COLOR_C, false, 11),
+            new FichaNormal(77, ColorFicha.COLOR_C, false, 12),
+            new FichaNormal(78, ColorFicha.COLOR_C, false, 13),
+
+            new FichaNormal(79, ColorFicha.COLOR_D, false, 1),
+            new FichaNormal(80, ColorFicha.COLOR_D, false, 2),
+            new FichaNormal(81, ColorFicha.COLOR_D, false, 3),
+            new FichaNormal(82, ColorFicha.COLOR_D, false, 4),
+            new FichaNormal(83, ColorFicha.COLOR_D, false, 5),
+            new FichaNormal(84, ColorFicha.COLOR_D, false, 6),
+            new FichaNormal(85, ColorFicha.COLOR_D, false, 7),
+            new FichaNormal(86, ColorFicha.COLOR_D, false, 8),
+            new FichaNormal(87, ColorFicha.COLOR_D, false, 9),
+            new FichaNormal(88, ColorFicha.COLOR_D, false, 10),
+            new FichaNormal(89, ColorFicha.COLOR_D, false, 11),
+            new FichaNormal(90, ColorFicha.COLOR_D, false, 12),
+            new FichaNormal(91, ColorFicha.COLOR_D, false, 13),
+
+            new FichaNormal(92, ColorFicha.COLOR_D, false, 1),
+            new FichaNormal(93, ColorFicha.COLOR_D, false, 2),
+            new FichaNormal(94, ColorFicha.COLOR_D, false, 3),
+            new FichaNormal(95, ColorFicha.COLOR_D, false, 4),
+            new FichaNormal(96, ColorFicha.COLOR_D, false, 5),
+            new FichaNormal(97, ColorFicha.COLOR_D, false, 6),
+            new FichaNormal(98, ColorFicha.COLOR_D, false, 7),
+            new FichaNormal(99, ColorFicha.COLOR_D, false, 8),
+            new FichaNormal(100, ColorFicha.COLOR_D, false, 9),
+            new FichaNormal(101, ColorFicha.COLOR_D, false, 10),
+            new FichaNormal(102, ColorFicha.COLOR_D, false, 11),
+            new FichaNormal(103, ColorFicha.COLOR_D, false, 12),
+            new FichaNormal(104, ColorFicha.COLOR_D, false, 13),
+
+            new FichaComodin(105, ColorFicha.COLOR_COMODIN, true, "*"),
+            new FichaComodin(106, ColorFicha.COLOR_COMODIN, true, "*")
+        ));
+        
         fichas.addAll(fichasMonton);
+        
+        List<Ficha> fichasJugador1 = repartirMano(fichasMonton, 14);
+        List<Ficha> fichasJugador2 = repartirMano(fichasMonton, 14);
 
         monton = new Monton(fichasMonton);
 
@@ -203,7 +227,7 @@ public class Tablero {
 
         jugadorTurno = jugador1;
 
-        jugadores = Arrays.asList(jugador1, jugador2);
+        jugadores = new LinkedList<>(Arrays.asList(jugador1, jugador2));
 
         gruposInicialesTurno = new LinkedList<>();
         
@@ -213,6 +237,25 @@ public class Tablero {
         // Enviando mensajes a jugadores.
         notificarTodosCambioTurno();
 
+    }
+    
+    public static List<Ficha> repartirMano(List<Ficha> monton, int cantidad) {
+        
+        List<Ficha> fichasJugador = new ArrayList<>();
+
+        if (monton.size() < cantidad) {
+            return null;
+        }
+
+        Collections.shuffle(monton);
+
+        // Se eliminan las fichas del montón y se agregan a las fichas del jugador.
+        for (int i = 0; i < cantidad; i++) {
+            Ficha fichaRobada = monton.remove(0); 
+            fichasJugador.add(fichaRobada);
+        }
+
+        return fichasJugador;
     }
 
     public void ejecutar(ICommand comando) throws RummyException {
@@ -317,19 +360,31 @@ public class Tablero {
 
                 break;
                 
+            case CommandType.COMANDO_CONFIRMACION_ABANDONAR:
+
+                ComandoConfirmacionAbandonar comandoConfirmacionAbandonar = (ComandoConfirmacionAbandonar) comando;
+
+                confirmarAbandono(
+                        comandoConfirmacionAbandonar.getNombreJugador(),
+                        comandoConfirmacionAbandonar.isConfirmacion());
+
+                break;
+                
             case CommandType.COMANDO_SOLICITAR_FIN:
 
                 ComandoSolicitarFin comandoSolicitarFin = (ComandoSolicitarFin) comando;
 
-                terminarTurno(comandoSolicitarFin.getNombreJugador());
+                solicitarFin(comandoSolicitarFin.getNombreJugador());
 
                 break;
                 
-            case CommandType.COMANDO_CONFIRMAR_FIN:
+            case CommandType.COMANDO_CONFIRMACION_SOLICITAR_FIN:
 
-                ComandoConfirmarFin comandoConfirmarFin = (ComandoConfirmarFin) comando;
+                ComandoConfirmacionSolicitarFin comandoConfirmacionSolicitarFin = (ComandoConfirmacionSolicitarFin) comando;
 
-                terminarTurno(comandoConfirmarFin.getNombreJugador());
+                confirmarSolicitarFin(
+                        comandoConfirmacionSolicitarFin.getNombreJugador(), 
+                        comandoConfirmacionSolicitarFin.isConfirmacion());
 
                 break;
                 
@@ -470,7 +525,7 @@ public class Tablero {
             if (grupo == null) {
                 ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
                         obtenerTableroDto(jugadorTurno.getNombre()),
-                        true,
+                        false,
                         nombreJugador,
                         MENSAJE_GRUPO_INVALIDO);
 
@@ -584,7 +639,34 @@ public class Tablero {
 
                     }
 
-                    primerGrupoAgregar.agregarFichasFinal(fichasAgregar);
+                    // Se crea una lista con la combinación de todas las fichas.
+                    List<Ficha> fichasFusionadas = new LinkedList<>();
+                    fichasFusionadas.addAll(primerGrupoAgregar.getFichas());
+                    fichasFusionadas.addAll(fichasAgregar);
+
+                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(
+                        ++numeroGrupoActual,
+                        fichasFusionadas,
+                        esPrimerTurnoJugador(nombreJugador),
+                        MAXIMO_NUMERO_FICHA);
+                    
+                    if(nuevoGrupoUnificado == null){
+                        ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                                obtenerTableroDto(jugadorTurno.getNombre()),
+                                false,
+                                jugadorTurno.getNombre(),
+                                MENSAJE_GRUPO_INVALIDO);
+
+                        fachadaTablero.enviarComando(comandoRespuestaMovimiento);
+                        
+                        return;
+                    }
+
+                    // Si el nuevo grupo es válido, se eliminan el grupo existente.
+                    this.grupos.remove(primerGrupoAgregar);
+
+                    // Se agrega el nuevo grupo.
+                    this.grupos.add(nuevoGrupoUnificado);
                     
                 } // Agregar fichas sólo al segundo grupo
                 else if (segundoGrupoAgregar != null) {
@@ -602,8 +684,35 @@ public class Tablero {
                         return;
 
                     }
+                    
+                    // Se crea una lista con la combinación de todas las fichas.
+                    List<Ficha> fichasFusionadas = new LinkedList<>();
+                    fichasFusionadas.addAll(fichasAgregar);
+                    fichasFusionadas.addAll(segundoGrupoAgregar.getFichas());
 
-                    segundoGrupoAgregar.agregarFichasInicio(fichasAgregar);
+                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(
+                        ++numeroGrupoActual,
+                        fichasFusionadas,
+                        esPrimerTurnoJugador(nombreJugador),
+                        MAXIMO_NUMERO_FICHA);
+                    
+                    if(nuevoGrupoUnificado == null){
+                        ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                                obtenerTableroDto(jugadorTurno.getNombre()),
+                                false,
+                                jugadorTurno.getNombre(),
+                                MENSAJE_GRUPO_INVALIDO);
+
+                        fachadaTablero.enviarComando(comandoRespuestaMovimiento);
+                        
+                        return;
+                    }
+
+                    // Si el nuevo grupo es válido, se eliminan el grupo existente.
+                    this.grupos.remove(segundoGrupoAgregar);
+
+                    // Se agrega el nuevo grupo.
+                    this.grupos.add(nuevoGrupoUnificado);
 
                 }
 
@@ -638,13 +747,49 @@ public class Tablero {
         }
 
         jugadorTurno.getFichas().removeAll(fichasQuitar);
-
-        ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+        
+        if(jugadorTurno.getFichas().size() == 0){
+            
+            for(Jugador jugador: jugadores){
+                
+                if(jugador.getNombre().equals(jugadorTurno.getNombre())){
+                    
+                    ComandoPartidaGanada comandoPartidaGanada = new ComandoPartidaGanada(
+                            jugador.getNombre(), 
+                            MENSAJE_PARTIDA_GANADA);
+                    
+                    fachadaTablero.enviarComando(comandoPartidaGanada);
+                    
+                    
+                } else {
+                    
+                    ComandoJugadorPartidaGanada comandoJugadorPartidaGanada = new ComandoJugadorPartidaGanada(
+                            jugador.getNombre(), 
+                            jugador.getNombre() + MENSAJE_JUGADOR_PARTIDA_GANADA);
+                    
+                    fachadaTablero.enviarComando(comandoJugadorPartidaGanada);
+                    
+                    
+                }
+                
+                ComandoFinPartida comandoFinPartida = new ComandoFinPartida(jugador.getNombre());
+                
+                fachadaTablero.enviarComando(comandoFinPartida);
+                
+            }
+            
+        } else{
+            
+            ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
                 obtenerTableroDto(jugadorTurno.getNombre()),
                 true,
                 nombreJugador);
 
-        fachadaTablero.enviarComando(comandoRespuestaMovimiento);
+            fachadaTablero.enviarComando(comandoRespuestaMovimiento);
+        
+        }
+
+        
 
     }
 
@@ -810,7 +955,7 @@ public class Tablero {
 
             }
             
-            fichaTomada = false;
+            fichaTomada = null;
             
             List<Ficha> copiafichasJugador = new LinkedList<>(jugadorTurno.getFichas());
             fichasInicialesJugadorTurno = copiafichasJugador;
@@ -819,7 +964,9 @@ public class Tablero {
 
         } else {
 
-            ICommand comandoTableroInvalido = new ComandoTableroInvalido(nombreJugador, MENSAJE_TABLERO_INVALIDO);
+            ICommand comandoTableroInvalido = new ComandoTableroInvalido(
+                    nombreJugador, 
+                    MENSAJE_TABLERO_INVALIDO);
 
             fachadaTablero.enviarComando(comandoTableroInvalido);
 
@@ -861,12 +1008,13 @@ public class Tablero {
 
             }
         }
+       
     }
 
     private void tomarFicha(String nombreJugador) {
   
         Ficha fichaSeleccionada = null;
-        if (!monton.getFichasMonton().isEmpty() && !fichaTomada) {
+        if (!monton.getFichasMonton().isEmpty() && fichaTomada == null) {
 
             Random rand = new Random();
 
@@ -876,7 +1024,7 @@ public class Tablero {
 
             monton.getFichasMonton().remove(fichaSeleccionada);
             
-            fichaTomada = true;
+            fichaTomada = fichaSeleccionada;
             
             jugadorTurno.getFichas().add(fichaSeleccionada);
 
@@ -886,25 +1034,28 @@ public class Tablero {
                 nombreJugador
             );
             fachadaTablero.enviarComando(comandoRespuestaMovimiento);
-                    
-                    
+            
             return;
+            
         }
 
     }
     
     private void reestablecerTablero(String nombreJugador){
         
-        grupos = gruposInicialesTurno;
+        grupos = new LinkedList<>(gruposInicialesTurno);
         
-        jugadorTurno.setFichas(fichasInicialesJugadorTurno);
+        jugadorTurno.setFichas(new LinkedList<>(fichasInicialesJugadorTurno));
+        
+        if(fichaTomada != null){
+            jugadorTurno.getFichas().add(fichaTomada);
+        }
         
         if(esPrimerTurnoJugador(nombreJugador)){
             
             grupoPrimerTurno = null;
             
         }
-        
         
         ComandoRespuestaReestablecer comandoRespuestaReestablecer
                 = new ComandoRespuestaReestablecer(
@@ -919,34 +1070,167 @@ public class Tablero {
         
         if(nombreJugador.equals(jugadorTurno.getNombre())){
             
-            ComandoRespuestaConfirmacionAbandonar comandoRespuestaConfirmacionAbandonar 
-                    = new ComandoRespuestaConfirmacionAbandonar(jugadorTurno.getNombre());
+            ComandoRespuestaAbandonar comandoRespuestaConfirmacionAbandonar 
+                    = new ComandoRespuestaAbandonar(jugadorTurno.getNombre(), MENSAJE_CONFIRMACION_ABANDONO_PARTIDA);
             
-            fachadaTablero.ejecutar(comandoRespuestaConfirmacionAbandonar);
+            fachadaTablero.enviarComando(comandoRespuestaConfirmacionAbandonar);
+                
+        }
+        
+    }
+
+    private void confirmarAbandono(String nombreJugador, boolean confirmacion){
+        
+        if(confirmacion){
+            
+            if(nombreJugador.equals(jugadorTurno.getNombre())){
+            
+                Jugador jugadorRemover = jugadorTurno;
+
+                monton.getFichasMonton().addAll(jugadorTurno.getFichas());
+
+                reestablecerTablero(nombreJugador);
+                
+                ComandoFinPartida comandoFinPartida = new ComandoFinPartida(jugadorTurno.getNombre());
+
+                fachadaTablero.enviarComando(comandoFinPartida);
+                
+                for(Jugador jugador: jugadores){
+                    
+                    if(!jugador.getNombre().equals(jugadorTurno.getNombre())){
+                        
+                        ComandoJugadorAbandonoPartida comandoJugadorAbandonoPartida 
+                                = new ComandoJugadorAbandonoPartida(
+                                        jugador.getNombre(), 
+                                        nombreJugador + MENSAJE_JUGADOR_ABANDONO_PARTIDA);
+                        
+                        fachadaTablero.enviarComando(comandoJugadorAbandonoPartida);
+                    }
+                     
+                }
+
+                jugadores.remove(jugadorRemover);
+                
+                if(jugadores.size() > 1){
+                    terminarTurno(nombreJugador);
+                } else{
+                    
+                    ComandoPartidaGanada comandoPartidaGanada = new ComandoPartidaGanada(
+                            jugadores.get(0).getNombre(), 
+                            MENSAJE_PARTIDA_GANADA);
+                    
+                    fachadaTablero.enviarComando(comandoPartidaGanada);
+                    
+                    ComandoFinPartida comandoFinPartidaJugadorUnico 
+                            = new ComandoFinPartida(jugadores.get(0).getNombre());
+                    
+                    fachadaTablero.enviarComando(comandoFinPartidaJugadorUnico);
+                    
+                }
+                
+            }
+
+        }
+        
+        
+    }
+    
+    private void solicitarFin(String nombreJugador){
+        
+        if(nombreJugador.equals(jugadorTurno.getNombre())){
+            
+            ComandoRespuestaSolicitarFin comandoRespuestaSolicitarFin 
+                = new ComandoRespuestaSolicitarFin(
+                        nombreJugador,
+                        MENSAJE_CONFIRMACION_FIN_PARTIDA);
+            
+            fachadaTablero.enviarComando(comandoRespuestaSolicitarFin);
+            
+        } else{
+            
+            if(!nombresJugadoresSolicitanFin.isEmpty() 
+                    && nombresJugadoresSolicitanFin.size() == 1
+                    && nombresJugadoresSolicitanFin.get(0).equals(jugadorTurno.getNombre())){
+                
+                ComandoRespuestaSolicitarFin comandoRespuestaSolicitarFin 
+                = new ComandoRespuestaSolicitarFin(
+                        nombreJugador,
+                        jugadorTurno.getNombre() + MENSAJE_SOLICITUD_FIN_PARTIDA_JUGADOR);
+            
+                fachadaTablero.enviarComando(comandoRespuestaSolicitarFin);
+                
+            }
             
             
         }
         
     }
+    
+    private void confirmarSolicitarFin(String nombreJugador, boolean confirmacion){
+        
+        if(!confirmacion && !nombresJugadoresSolicitanFin.isEmpty()){
+            
+            nombresJugadoresSolicitanFin = new LinkedList<>();
+            
+            for(Jugador jugador: jugadores){
 
-    private void confirmarAbandono(String nombreJugador){
-        
-        if(nombreJugador.equals(jugadorTurno.getNombre())){
+                ComandoRespuestaConfirmacionSolicitarFin comandoRespuestaConfirmacionSolicitarFin 
+                    = new ComandoRespuestaConfirmacionSolicitarFin(
+                            jugador.getNombre(), 
+                            MENSAJE_SOLICITUD_FIN_PARTIDA_CANCELADO);
             
-            Jugador jugadorRemover = jugadorTurno;
+                fachadaTablero.enviarComando(comandoRespuestaConfirmacionSolicitarFin);
+
+            }
             
-            monton.getFichasMonton().addAll(jugadorTurno.getFichas());
+            nombresJugadoresSolicitanFin = new LinkedList<>();
             
-            ComandoFinPartida comandoFinPartida = new ComandoFinPartida(jugadorTurno.getNombre());
+        } else if(confirmacion){
             
-            fachadaTablero.ejecutar(comandoFinPartida);
-            
-            terminarTurno(nombreJugador);
-            
-            jugadores.remove(jugadorRemover);
-            
+            nombresJugadoresSolicitanFin.add(nombreJugador);
+
+            if(nombresJugadoresSolicitanFin.size() == 1){
+
+                for(Jugador jugador: jugadores){
+
+                    if(!jugador.getNombre().equals(nombresJugadoresSolicitanFin.get(0))){
+                        ComandoRespuestaSolicitarFin comandoRespuestaSolicitarFin 
+                        = new ComandoRespuestaSolicitarFin(
+                                jugador.getNombre(),
+                                jugadorTurno.getNombre() + MENSAJE_SOLICITUD_FIN_PARTIDA_JUGADOR);
+
+                        fachadaTablero.enviarComando(comandoRespuestaSolicitarFin);
+                    }
+
+                }
+
+            } else if(nombresJugadoresSolicitanFin.size() == jugadores.size()){
+                
+                for(Jugador jugador: jugadores){
+                    
+                    ComandoRespuestaConfirmacionSolicitarFin comandoRespuestaConfirmacionSolicitarFin 
+                            = new ComandoRespuestaConfirmacionSolicitarFin(
+                                    jugador.getNombre(), 
+                                    MENSAJE_SOLICITUD_FIN_PARTIDA_ACEPTADA);
+                    
+                    fachadaTablero.enviarComando(comandoRespuestaConfirmacionSolicitarFin);
+                    
+                    ComandoFinPartida comandoFinPartida = new ComandoFinPartida(jugador.getNombre());
+                    
+                    fachadaTablero.enviarComando(comandoFinPartida);
+                    
+                }
+                
+            } else {
+                ComandoRespuestaConfirmacionSolicitarFin comandoRespuestaConfirmacionSolicitarFin 
+                = new ComandoRespuestaConfirmacionSolicitarFin(
+                        nombreJugador,
+                        MENSAJE_ESPERANDO_CONFIRMACION_JUGADORES);
+
+                fachadaTablero.enviarComando(comandoRespuestaConfirmacionSolicitarFin);
+            }
+
         }
-        
         
     }
     
@@ -1103,22 +1387,14 @@ public class Tablero {
             if (ficha.getId() == idFicha) {
                 return ficha;
             }
-
         }
-
         return null;
-
     }
 
     public boolean validarTablero(String nombreJugador) {
 
         boolean esPrimerTurno = esPrimerTurnoJugador(nombreJugador);
-
-        if (esPrimerTurno && grupoPrimerTurno == null) {
-
-            return false;
-        }
-
+        
         for (Grupo grupo : grupos) {
             if (!grupo.comprobarValidez()) {
                 return false;

@@ -1,11 +1,9 @@
 package objetosPresentacion;
 
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -15,15 +13,15 @@ import javax.swing.SwingUtilities;
 
 public class PanelMovimiento extends JPanel implements IComponente {
 
-    private PanelFicha[] fichasArrastradas;
+    private List<PanelFicha> fichasArrastradas;
     
     private List<PanelFicha> fichasArrastreActual = new LinkedList<>();
     
-    private boolean arrastrandoFichas;
+    private PanelFicha[] fichasInicialesArrastre;
+    
+    private boolean arrastrandoFichas = false;
 
     private IGestorEventos gestorEventos;
-    
-    private Integer numeroFichaArrastrada;
     
     private boolean faseSoltado = false;
     
@@ -42,7 +40,7 @@ public class PanelMovimiento extends JPanel implements IComponente {
                 }
 
                 int indiceInicio = 0;
-                int indiceMaximo = fichasArrastradas.length;
+                int indiceMaximo = fichasArrastradas.size();
                 boolean moverEnGrupo = true;
 
                 Point puntoInicioEvento = e.getPoint();
@@ -53,19 +51,18 @@ public class PanelMovimiento extends JPanel implements IComponente {
 
                     fichasArrastreActual = new LinkedList<>();
                     fichasArrastreActual.add((PanelFicha)e.getComponent());
+
                     moverEnGrupo = false;
-                    for (int i = 0; i < fichasArrastradas.length; i++) {
-                        if (fichasArrastradas[i].getIdFicha().equals(panelFicha.getIdFicha())) {
+                    for (int i = 0; i < fichasArrastradas.size(); i++) {
+                        if (fichasArrastradas.get(i).getIdFicha().equals(panelFicha.getIdFicha())) {
                             indiceInicio = i;
                             indiceMaximo = i + 1;
-                            numeroFichaArrastrada = i;
                             break;
                         }
                     }
 
                 } else{
-                    numeroFichaArrastrada = null;
-                    fichasArrastreActual = Arrays.asList(fichasArrastradas);
+                    fichasArrastreActual = new LinkedList<>(fichasArrastradas);
                 }
 
                 for (int i = indiceInicio; i < indiceMaximo; i++) {
@@ -73,9 +70,9 @@ public class PanelMovimiento extends JPanel implements IComponente {
                     int nuevoY = puntoInicioEvento.y - 30;
 
                     if (moverEnGrupo) {
-                        fichasArrastradas[i].setLocation(nuevoX + (fichasArrastradas[i].getWidth() + 15) * i, nuevoY);
+                        fichasArrastradas.get(i).setLocation(nuevoX + (fichasArrastradas.get(i).getWidth() + 15) * i, nuevoY);
                     } else {
-                        fichasArrastradas[i].setLocation(nuevoX, nuevoY);
+                        fichasArrastradas.get(i).setLocation(nuevoX, nuevoY);
                     }
                 }
 
@@ -101,9 +98,8 @@ public class PanelMovimiento extends JPanel implements IComponente {
         
         this.faseSoltado = false;
         
-        this.fichasArrastradas = new PanelFicha[fichas.length];
-
-        this.fichasArrastreActual = Arrays.asList(fichasArrastradas);
+        this.fichasInicialesArrastre = fichas;
+        this.fichasArrastradas =  new LinkedList<>();
         
         this.arrastrandoFichas = true;
         
@@ -122,7 +118,7 @@ public class PanelMovimiento extends JPanel implements IComponente {
             
             fichaCopia.setSize(fichas[i].getSize());
             
-            fichasArrastradas[i] = fichaCopia;
+            fichasArrastradas.add(i, fichaCopia);
             
             add(fichaCopia);
             
@@ -131,6 +127,8 @@ public class PanelMovimiento extends JPanel implements IComponente {
             fichaCopia.setEnMovimiento(true);
             
         }
+        
+        fichasArrastreActual = new LinkedList<>(fichasArrastradas);
         
         setVisible(true);
 
@@ -152,57 +150,82 @@ public class PanelMovimiento extends JPanel implements IComponente {
     public void pintar(IEstadoPanelMovimiento estadoPanelMovimiento){
         
         boolean movimientoValido = estadoPanelMovimiento.getMovimientoValido();
-        boolean tableroValido = estadoPanelMovimiento.getMovimientoValido();
         
-        if(!tableroValido){
+        if(!arrastrandoFichas){
             
-            // Probar que cambio de color funciona, AGREGAR MENSAJE DE TABLERO INVALIDO (JOPTION PANE).
-            this.setBackground(Color.red);
+            this.setVisible(false);
             
-        }
-        
-        if(arrastrandoFichas){
+        } else{
             
+            this.setVisible(true);
+
             if (faseSoltado) {
 
                 if (movimientoValido) {
                     this.borrarContenido();
                 }
-                
+
             } else {
 
                 if (!movimientoValido) {
                     this.borrarContenido();
                 }
             }
+              
         }
+        
+        
     }
     
     public void borrarContenido(){
-
+        
         for(PanelFicha ficha: fichasArrastreActual){ 
+            fichasArrastradas.remove(ficha);
             remove(ficha); 
         }
-        arrastrandoFichas = false;
-        fichasArrastradas = null;
+        
+        fichasArrastreActual = new LinkedList<>();
+        
+        if(fichasArrastradas.isEmpty()){
+            arrastrandoFichas = false;
+            this.setVisible(false);
+        } else{
+            arrastrandoFichas = true;
+        }
+        
         revalidate();
         repaint();
                     
     }
 
-    public Integer getNumeroFichaArrastrada() {
-        return numeroFichaArrastrada;
+    public Integer obtenerIndiceFichaArrastrada() {
+        
+        if(fichasArrastreActual.size() == 1){
+            
+            for(int i = 0; i < fichasInicialesArrastre.length; i++){
+                
+                if(fichasInicialesArrastre[i].getIdFicha().equals(fichasArrastreActual.get(0).getIdFicha())){
+                    
+                    return i;
+                }
+            
+            }
+              
+        }
+        
+        return null;
+        
+        
     }
-
     
     @Override
     public void agregarComponente(IComponente componente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
 
     @Override
     public void removerComponente(IComponente componente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
 
     @Override
@@ -212,7 +235,7 @@ public class PanelMovimiento extends JPanel implements IComponente {
 
     @Override
     public PosicionPanel getPosicion() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
     }
 
 }

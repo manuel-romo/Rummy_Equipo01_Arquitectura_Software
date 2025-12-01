@@ -22,4 +22,12 @@ public interface IReceptorEventos {
     
     public abstract void terminarTurno();
     
+    public abstract void abandonarPartida();
+    
+    public abstract void confirmarAbandonarPartida(boolean confirmacion);
+    
+    public abstract void finalizarPartida();
+    
+    public abstract void confirmarFinalizarPartida(boolean confirmacion);
+    
 }

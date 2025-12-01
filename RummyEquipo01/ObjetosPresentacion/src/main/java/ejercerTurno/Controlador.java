@@ -46,4 +46,20 @@ public class Controlador {
         modelo.terminarTurno(); 
     }
     
+    public void abandonarPartida(){
+        modelo.abandonarPartida();
+    }
+    
+    public void confirmarAbandonarPartida(boolean confirmacion){
+        modelo.confirmarAbandonoPartida(confirmacion);
+    }
+    
+    public void finalizarPartida(){
+        modelo.finalizarPartida();
+    }
+    
+    public void confirmarFinalizarPartida(boolean confirmacion){
+        modelo.confirmarSolicitudFin(confirmacion);
+    }
+    
 }

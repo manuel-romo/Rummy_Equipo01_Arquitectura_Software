@@ -32,7 +32,7 @@ public class PanelFicha extends JPanel {
     
     private Color colorInicialTransicion = new Color(242, 238, 172);
     private Color colorFinalTransicion 
-            = new Color(COLOR_FONDO_SELECCIONADA.getRed() - 100, COLOR_FONDO_SELECCIONADA.getGreen() - 100, COLOR_FONDO_SELECCIONADA.getBlue() - 100);;
+            = new Color(COLOR_FONDO_SELECCIONADA.getRed() - 90, COLOR_FONDO_SELECCIONADA.getGreen() - 90, COLOR_FONDO_SELECCIONADA.getBlue() - 90);;
     private Color colorActualTransicion;
     private Timer timer;
     private float pasoTransicionActual;

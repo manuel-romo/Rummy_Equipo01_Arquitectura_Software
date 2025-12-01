@@ -183,7 +183,7 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         for(PanelCasilla panelCasilla: panelesCasillas){
             
-            if(cantidadFichasPanelInferior < 8){
+            if(cantidadFichasPanelInferior < panelesCasillas.size()/2 + 1){
                 
                 GridBagConstraints gbcPanelFichaActual = new GridBagConstraints();
         
@@ -329,6 +329,8 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         
         botonFinalizarPartida.setBorder(BORDE_BOTONES);
         
+        botonFinalizarPartida.addActionListener(e -> gestorEventos.finalizarPartida());
+        
         GridBagConstraints gbcBtnFinalizarPartida= new GridBagConstraints();
         
         gbcBtnFinalizarPartida.gridx = 1;
@@ -349,6 +351,8 @@ public class PanelJugadorPrincipal extends JPanel implements IComponente{
         botonAbandonar.setForeground(Color.WHITE);
         
         botonAbandonar.setBorder(BORDE_BOTONES);
+        
+        botonAbandonar.addActionListener(e -> gestorEventos.abandonarPartida());
         
         GridBagConstraints gbcBtnAbandonarPartida = new GridBagConstraints();
         

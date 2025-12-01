@@ -7,7 +7,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>ObjetosPresentacion</module>
-        <module>ObjetosNegocio</module>
         <module>Interfaces</module>
         <module>Conexion</module>
         <module>DirectorioJugadores</module>

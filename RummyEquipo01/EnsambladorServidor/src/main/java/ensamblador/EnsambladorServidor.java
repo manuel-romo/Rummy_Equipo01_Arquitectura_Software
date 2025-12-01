@@ -22,9 +22,6 @@ public class EnsambladorServidor {
 
     public static void main(String[] args) {
         
-        
-        Scanner escaner = new Scanner(System.in);
-        
         try {
             
             // Creación de clases de componentes.

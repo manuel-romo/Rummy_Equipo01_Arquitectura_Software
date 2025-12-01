@@ -6,18 +6,24 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import comandosRespuesta.ComandoCambioTurno;
+import comandosRespuesta.ComandoFinPartida;
 import comandosRespuesta.ComandoIniciarTurno;
-import comandosRespuesta.ComandoPreguntarFin;
-import comandosRespuesta.ComandoRespuestaConfirmacionAbandonar;
+import comandosRespuesta.ComandoJugadorAbandonoPartida;
+import comandosRespuesta.ComandoJugadorPartidaGanada;
+import comandosRespuesta.ComandoPartidaGanada;
+import comandosRespuesta.ComandoRespuestaAbandonar;
+import comandosRespuesta.ComandoRespuestaConfirmacionSolicitarFin;
 import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoRespuestaMovimiento;
+import comandosRespuesta.ComandoRespuestaSolicitarFin;
 import comandosRespuesta.ComandoRespuestaTomarFicha;
 import comandosRespuesta.ComandoTableroInvalido;
 import comandosSolicitud.ComandoAbandonar;
 import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
-import comandosSolicitud.ComandoFinPartida;
+import comandosSolicitud.ComandoConfirmacionAbandonar;
+import comandosSolicitud.ComandoConfirmacionSolicitarFin;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoReestablecerTablero;
@@ -69,10 +75,19 @@ public class Deserializador implements IReceptorExterno{
         registroComandos.put("ComandoTerminarTurno", ComandoTerminarTurno.class);
         
         registroComandos.put("ComandoSolicitarFin", ComandoSolicitarFin.class);
-        registroComandos.put("ComandoPreguntarFin", ComandoPreguntarFin.class);
+        registroComandos.put("ComandoRespuestaSolicitarFin", ComandoRespuestaSolicitarFin.class);
+        registroComandos.put("ComandoConfirmacionSolicitarFin", ComandoConfirmacionSolicitarFin.class);
+        registroComandos.put("ComandoRespuestaConfirmacionSolicitarFin", ComandoRespuestaConfirmacionSolicitarFin.class);
+        
         registroComandos.put("ComandoAbandonar", ComandoAbandonar.class);
-        registroComandos.put("ComandoRespuestaConfirmacionAbandonar", ComandoRespuestaConfirmacionAbandonar.class);
+        registroComandos.put("ComandoRespuestaAbandonar", ComandoRespuestaAbandonar.class);
+        registroComandos.put("ComandoConfirmacionAbandonar", ComandoConfirmacionAbandonar.class);
+        registroComandos.put("ComandoJugadorAbandonoPartida", ComandoJugadorAbandonoPartida.class);
+        
         registroComandos.put("ComandoFinPartida", ComandoFinPartida.class);
+        
+        registroComandos.put("ComandoPartidaGanada", ComandoPartidaGanada.class);
+        registroComandos.put("ComandoJugadorPartidaGanada", ComandoJugadorPartidaGanada.class);
         
     }
     

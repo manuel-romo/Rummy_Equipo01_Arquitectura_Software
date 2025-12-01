@@ -27,13 +27,23 @@ public enum CommandType {
     RESPUESTA_MOVIMIENTO("ComandoRespuestaMovimiento"),
     COMANDO_TABLERO_INVALIDO("ComandoTableroInvalido"),
     COMANDO_ENVOLVENTE("ComandoEnvolvente"),
+    
     COMANDO_SOLICITAR_FIN("ComandoSolicitarFin"),
-    COMANDO_PREGUNTAR_FIN("ComandoPregutarFin"),
+    COMANDO_RESPUESTA_SOLICITAR_FIN("ComandoRespuestaSolicitarFin"),
+    COMANDO_CONFIRMACION_SOLICITAR_FIN("ComandoConfirmacionSolicitarFin"),
+    COMANDO_RESPUESTA_CONFIRMACION_SOLICITAR_FIN("ComandoRespuestaConfirmacionSolicitarFin"),
+    
     COMANDO_ABANDONAR("ComandoAbandonar"),
-    COMANDO_RESPUESTA_CONFIRMACION_ABANDONAR("ComandoRespuestaConfirmacionAbandonar"),
+    COMANDO_RESPUESTA_ABANDONAR("ComandoRespuestaAbandonar"),
+    COMANDO_CONFIRMACION_ABANDONAR("ComandoConfirmacionAbandonar"),
+    COMANDO_JUGADOR_ABANDONO("ComandoJugadorAbandonoPartida"),
+    
     COMANDO_FIN_PARTIDA("ComandoFinPartida"),
-    COMANDO_CONFIRMAR_FIN("ComandoConfirmarFin"),
-    COMANDO_AGREGAR_DIRECCION_JUGADOR("ComandoAgregarDireccionJugador");
+    
+    COMANDO_AGREGAR_DIRECCION_JUGADOR("ComandoAgregarDireccionJugador"),
+    
+    COMANDO_PARTIDA_GANADA("ComandoPartidaGanada"),
+    COMANDO_JUGADOR_PARTIDA_GANADA("ComandoJugadorPartidaGanada");
 
     private final String nombre;
 

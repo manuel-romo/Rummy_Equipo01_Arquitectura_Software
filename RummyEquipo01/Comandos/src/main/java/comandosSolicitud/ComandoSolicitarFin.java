@@ -7,7 +7,6 @@ import interfaces.ICommand;
 public class ComandoSolicitarFin implements ICommand{
     
     private String type = "ComandoSolicitarFin";
-    
     private String nombreJugador;
 
     public ComandoSolicitarFin(String nombreJugador) {

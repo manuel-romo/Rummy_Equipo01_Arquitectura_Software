@@ -44,6 +44,8 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
     private JPanel panelEsquina2 = new JPanel();
     
     JLabel labelFichasRestantes = new JLabel();
+    JLabel labelNombreJugador = new JLabel();
+    JLabel labelAvatarJugador = new JLabel();
 
     private String nombreJugador;
     private String avatarJugador;
@@ -230,7 +232,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         panelDatosJugador.setLayout(new BoxLayout(panelDatosJugador, BoxLayout.Y_AXIS));
         panelDatosJugador.setOpaque(false);
                 
-        JLabel labelNombreJugador = new JLabel(nombreJugador) {
+        labelNombreJugador = new JLabel(nombreJugador) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -262,7 +264,9 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
 
         labelNombreJugador.repaint();
         
-        panelDatosJugador.add(obtenerLabelImagenAvatarJugadorDerechaCentro());
+        configurarLabelImagenAvatarJugadorDerechaCentro();
+        
+        panelDatosJugador.add(labelAvatarJugador);
         
         panelDatosJugador.add(labelNombreJugador);
         
@@ -307,7 +311,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
     }
     
-    private JLabel obtenerLabelImagenAvatarJugadorDerechaCentro(){
+    private void configurarLabelImagenAvatarJugadorDerechaCentro(){
         
         try{
             URL url = getClass().getClassLoader().getResource(avatarJugador);
@@ -338,16 +342,12 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
                 Image.SCALE_SMOOTH
             );
             
-            JLabel labelFinal = new JLabel(new ImageIcon(imagenEscalada));
+            labelAvatarJugador.setIcon(new ImageIcon(imagenEscalada));
 
-            labelFinal.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
-    
-            return labelFinal;
+            labelAvatarJugador.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+
+        } catch (Exception e) {}
     }
     
     
@@ -471,7 +471,7 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         panelDatosJugador.setLayout(new BoxLayout(panelDatosJugador, BoxLayout.Y_AXIS));
         panelDatosJugador.setOpaque(false);
                 
-        JLabel labelNombreJugador = new JLabel(nombreJugador) {
+        labelNombreJugador = new JLabel(nombreJugador) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -504,7 +504,9 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         labelNombreJugador.repaint();
         panelDatosJugador.add(labelNombreJugador);
         
-        panelDatosJugador.add(obtenerLabelImagenAvatarJugadorIzquierdaCentro());
+        configurarLabelImagenAvatarJugadorIzquierdaCentro();
+                
+        panelDatosJugador.add(labelAvatarJugador);
         
         panelDatosJugador.add(obtenerPanelFichasRestantesIzquierdaCentro());
         
@@ -544,10 +546,9 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         return panelFichasRestantes;
         
-        
     }
     
-    private JLabel obtenerLabelImagenAvatarJugadorIzquierdaCentro(){
+    private void configurarLabelImagenAvatarJugadorIzquierdaCentro(){
         
         try{
             URL url = getClass().getClassLoader().getResource(avatarJugador);
@@ -578,16 +579,11 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
                 Image.SCALE_SMOOTH
             );
             
-            JLabel labelFinal = new JLabel(new ImageIcon(imagenEscalada));
+            labelAvatarJugador.setIcon(new ImageIcon(imagenEscalada));
 
-            labelFinal.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
+            labelAvatarJugador.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
     
-            return labelFinal;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        } catch (Exception e) {}
     }
     
     
@@ -717,9 +713,11 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         panelDatosJugador.add(obtenerPanelFichasRestantesCentroArriba());
         
-        panelDatosJugador.add(obtenerLabelImagenAvatarJugadorCentroArriba());
+        configurarLabelImagenAvatarJugadorCentroArriba();
         
-        JLabel labelNombreJugador = new JLabel(nombreJugador);
+        panelDatosJugador.add(labelAvatarJugador);
+        
+        labelNombreJugador = new JLabel(nombreJugador);
         labelNombreJugador.setForeground(Color.WHITE);
         labelNombreJugador.setFont(fuenteDatosJugador);
         
@@ -761,13 +759,12 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         return panelFichasRestantes;
         
-        
     }
     
-    private JLabel obtenerLabelImagenAvatarJugadorCentroArriba(){
+    private void configurarLabelImagenAvatarJugadorCentroArriba(){
         
         URL urlImagen = getClass().getClassLoader().getResource(avatarJugador);
-         
+        
         ImageIcon iconoAvatar = new ImageIcon(urlImagen);
         
         Image imagenOrignal = iconoAvatar.getImage();
@@ -780,22 +777,17 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
 
         ImageIcon iconoAvatarEscalado = new ImageIcon(imagenEscalada);
             
-        JLabel labelAvatar = new JLabel(iconoAvatarEscalado);
+        labelAvatarJugador.setIcon(iconoAvatarEscalado);
 
-        return labelAvatar;
          
     }
     
     
     @Override
-    public void agregarComponente(IComponente componente) {
-        throw new UnsupportedOperationException("Not supported yet.");    
-    }
+    public void agregarComponente(IComponente componente) {}
 
     @Override
-    public void removerComponente(IComponente componente) {
-        throw new UnsupportedOperationException("Not supported yet.");    
-    }
+    public void removerComponente(IComponente componente) {}
 
     @Override
     public void aceptar(IVisitor visitor) {
@@ -867,11 +859,33 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         nombreJugador = jugadorExternoInformacionPanel.getNombre();
         avatarJugador = jugadorExternoInformacionPanel.getAvatar();
-
         cantidadFichasRestantes = jugadorExternoInformacionPanel.getFichasRestantes();
-        labelFichasRestantes.setText(cantidadFichasRestantes);
         
+        labelFichasRestantes.setText(cantidadFichasRestantes);
+        labelNombreJugador.setText(nombreJugador);
 
+        switch (posicionPanel) {
+            case PosicionPanel.DERECHA_CENTRO:
+                
+                configurarLabelImagenAvatarJugadorDerechaCentro();
+                
+                break;
+                
+            case PosicionPanel.IZQUIERDA_CENTRO:
+                
+                configurarLabelImagenAvatarJugadorIzquierdaCentro();
+                
+                break; 
+                
+            case PosicionPanel.CENTRO_ARRIBA:
+                configurarLabelImagenAvatarJugadorCentroArriba();
+                
+                break;
+                
+            default:
+                throw new AssertionError();
+        }
+        
         revalidate();
         repaint();
     }

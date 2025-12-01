@@ -25,10 +25,27 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     
     private Color COLOR_FONDO = new Color(207, 196, 136);
     
-    private String TITULO_MENSAJE_INICIO_TURNO = "Inicio de turno";
-    private String TITULO_MENSAJE_CAMBIO_TURNO = "Cambio de turno";
-    private String TITULO_MENSAJE_ACCION_INVALIDA = "Acción inválida";
-    private String TITULO_MEBSALE_TABLERO_INVALIDO = "Tablero inválido";
+    private final String CODIGO_MENSAJE_INCIO_TURNO = "IT: ";
+    private final String CODIGO_MENSAJE_CAMBIO_TURNO = "CT: ";
+    private final String CODIGO_MENSAJE_RESPUESTA_MOVIMIENTO = "RM: ";
+    private final String CODIGO_MENSAJE_TABLERO_INVALIDO = "TI: ";
+    private final String CODIGO_MENSAJE_SOLICITUD_ABANDONO = "RA: ";
+    private final String CODIGO_MENSAJE_ABANDONO_JUGADOR = "JA: ";
+    private final String CODIGO_MENSAJE_RESPONDER_SOLICITUD_FIN = "RF: ";
+    private final String CODIGO_MENSAJE_RESPONDER_CONFIRMACION_SOLICITUD_FIN = "RC: ";
+    private final String CODIGO_MENSAJE_PARTIDA_GANADA = "PG: ";
+    private final String CODIGO_MENSAJE_JUGADOR_PARTIDA_GANADA = "JG: ";
+    
+    private final String TITULO_MENSAJE_INICIO_TURNO = "Inicio de turno";
+    private final String TITULO_MENSAJE_CAMBIO_TURNO = "Cambio de turno";
+    private final String TITULO_MENSAJE_ACCION_INVALIDA = "Acción inválida";
+    private final String TITULO_MENSALE_TABLERO_INVALIDO = "Tablero inválido";
+    private final String TITULO_MENSAJE_ABANDONO = "Abandono de partida";
+    private final String TITULO_MENSAJE_FINALIZAR = "Finalización de partida";
+    private final String TITULO_MENSAJE_PARTIDA_GANADA = "Partida ganada";
+    private final String TITULO_MENSAJE_JUGADOR_PARTIDA_GANADA = "Partida perdida";
+    
+    private IGestorEventos gestorEventos;
     
     public PanelMesaJuego(){
         
@@ -120,10 +137,9 @@ public class PanelMesaJuego extends JPanel implements IComponente{
     
     private void mostrarMensajeMovimientoInvalido(String mensaje){
         
-        
         if(mensaje != null){
             
-            if(mensaje.startsWith("IT:")){
+            if(mensaje.startsWith(CODIGO_MENSAJE_INCIO_TURNO)){
                 
                 JOptionPane.showMessageDialog(
                         this, 
@@ -133,7 +149,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
                 
             } 
             
-            else if(mensaje.startsWith("CT:")){
+            else if(mensaje.startsWith(CODIGO_MENSAJE_CAMBIO_TURNO)){
                 JOptionPane.showMessageDialog(
                         this, 
                         mensaje.substring(3), 
@@ -141,7 +157,7 @@ public class PanelMesaJuego extends JPanel implements IComponente{
                         JOptionPane.INFORMATION_MESSAGE);
             }
             
-            else if(mensaje.startsWith("RM:")){
+            else if(mensaje.startsWith(CODIGO_MENSAJE_RESPUESTA_MOVIMIENTO)){
                 
                 JOptionPane.showMessageDialog(
                 this, 
@@ -149,20 +165,81 @@ public class PanelMesaJuego extends JPanel implements IComponente{
                 TITULO_MENSAJE_ACCION_INVALIDA, 
                 JOptionPane.ERROR_MESSAGE);
                 
-            } else if(mensaje.startsWith("TI: ")){
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_TABLERO_INVALIDO)){
                 
                 JOptionPane.showMessageDialog(
                 this, 
                 mensaje.substring(3), 
-                TITULO_MEBSALE_TABLERO_INVALIDO, 
+                TITULO_MENSALE_TABLERO_INVALIDO, 
                 JOptionPane.ERROR_MESSAGE);
                 
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_SOLICITUD_ABANDONO)){
+                
+                int respuesta = JOptionPane.showConfirmDialog(
+                    this, 
+                    mensaje.substring(3), 
+                    TITULO_MENSAJE_ABANDONO, 
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+                );
+
+                gestorEventos.confirmarAbandonarPartida((respuesta == JOptionPane.OK_OPTION));
+            
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_RESPONDER_SOLICITUD_FIN)){
+                
+                int respuesta = JOptionPane.showConfirmDialog(
+                    this, 
+                    mensaje.substring(3), 
+                    TITULO_MENSAJE_FINALIZAR, 
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+                );
+
+                gestorEventos.confirmarFinalizarPartida((respuesta == JOptionPane.OK_OPTION));
+                
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_ABANDONO_JUGADOR)){
+                
+                JOptionPane.showMessageDialog(
+                this, 
+                mensaje.substring(3), 
+                TITULO_MENSAJE_ABANDONO, 
+                JOptionPane.INFORMATION_MESSAGE);
+                
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_RESPONDER_CONFIRMACION_SOLICITUD_FIN)){
+                
+                JOptionPane.showMessageDialog(
+                this, 
+                mensaje.substring(3), 
+                TITULO_MENSAJE_FINALIZAR, 
+                JOptionPane.INFORMATION_MESSAGE);
+                
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_PARTIDA_GANADA)){
+                
+                JOptionPane.showMessageDialog(
+                this, 
+                mensaje.substring(3), 
+                TITULO_MENSAJE_PARTIDA_GANADA, 
+                JOptionPane.INFORMATION_MESSAGE);
+                
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_JUGADOR_PARTIDA_GANADA)){
+                
+                JOptionPane.showMessageDialog(
+                this, 
+                mensaje.substring(3), 
+                TITULO_MENSAJE_JUGADOR_PARTIDA_GANADA, 
+                JOptionPane.INFORMATION_MESSAGE);
+                
             }
+
         }
         
         
     }
-    
+
+    public void setGestorEventos(IGestorEventos gestorEventos) {
+        this.gestorEventos = gestorEventos;
+    }
+
     @Override
     public void agregarComponente(IComponente componente) {
         componentes.add(componente);

@@ -4,12 +4,13 @@ package comandosRespuesta;
 import interfaces.ICommand;
 
 
-public class ComandoPreguntarFin implements ICommand{
+public class ComandoFinPartida implements ICommand{
     
-    private String type = "ComandoPreguntarFin";
+    private String type = "ComandoFinPartida";
+    
     private String nombreJugador;
 
-    public ComandoPreguntarFin(String nombreJugador) {
+    public ComandoFinPartida(String nombreJugador) {
         this.nombreJugador = nombreJugador;
     }
 
@@ -22,4 +23,5 @@ public class ComandoPreguntarFin implements ICommand{
     public String getNombreJugador() {
         return nombreJugador;
     }
+    
 }

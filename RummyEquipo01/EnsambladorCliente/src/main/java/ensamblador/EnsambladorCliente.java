@@ -3,6 +3,7 @@ package ensamblador;
 
 import cliente.ColaMensajesEnviar;
 import cliente.GestorConexiones;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import deserializador.Deserializador;
 import directorioServidor.DirectorioServidor;
 import ejercerTurno.Controlador;
@@ -38,10 +39,15 @@ import servidor.Servidor;
  */
 public class EnsambladorCliente {
 
-    private static int TOTAL_CASILLAS_TABLERO =500;
-    private static int TOTAL_CASILLAS_MANO = 14;
+    private static final int TOTAL_CASILLAS_TABLERO =500;
+    private static final int TOTAL_CASILLAS_MANO = 14;
     
     public static void main(String[] args) {
+        
+        try {
+            FlatIntelliJLaf.setup(); 
+
+        } catch (Exception e) {}
         
         Scanner escaner = new Scanner(System.in);
         System.out.print("Ingrese el nombre del Jugador: ");
@@ -54,7 +60,7 @@ public class EnsambladorCliente {
         
         String puertoCliente = null;
         
-        String nombreJugador2 = null;
+        String nombreJugador2 = "a";
         String direccionImagenAvatarJugador2 = null;
         
         if(nombreJugador.equals("Francisco34")){
@@ -113,41 +119,7 @@ public class EnsambladorCliente {
             4, Color.DARK_GRAY
         );      
         
-         Map<Integer,Integer> mapaIdsCasillasPanelesJugador = new HashMap<>();
-        
-        if(nombreJugador.equals("qwe")){
-            mapaIdsCasillasPanelesJugador.put(1, 1);
-            mapaIdsCasillasPanelesJugador.put(2, 2);
-            mapaIdsCasillasPanelesJugador.put(3, 3);
-            mapaIdsCasillasPanelesJugador.put(4, 4);
-            mapaIdsCasillasPanelesJugador.put(5, 5);
-            mapaIdsCasillasPanelesJugador.put(6, 6);
-            mapaIdsCasillasPanelesJugador.put(7, 7);
-            mapaIdsCasillasPanelesJugador.put(8, 8);
-            mapaIdsCasillasPanelesJugador.put(9, 9);
-            mapaIdsCasillasPanelesJugador.put(10, 10);
-            mapaIdsCasillasPanelesJugador.put(11, 11);
-            mapaIdsCasillasPanelesJugador.put(12, 12);
-            mapaIdsCasillasPanelesJugador.put(13, 13);
-            mapaIdsCasillasPanelesJugador.put(14, 14);
-        }
-        
-        if(nombreJugador.equals("asd")){
-            mapaIdsCasillasPanelesJugador.put(1, 15);
-            mapaIdsCasillasPanelesJugador.put(2, 16);
-            mapaIdsCasillasPanelesJugador.put(3, 17);
-            mapaIdsCasillasPanelesJugador.put(4, 18);
-            mapaIdsCasillasPanelesJugador.put(5, 19);
-            mapaIdsCasillasPanelesJugador.put(6, 20);
-            mapaIdsCasillasPanelesJugador.put(7, 21);
-            mapaIdsCasillasPanelesJugador.put(8, 22);
-            mapaIdsCasillasPanelesJugador.put(9, 23);
-            mapaIdsCasillasPanelesJugador.put(10, 24);
-            mapaIdsCasillasPanelesJugador.put(11, 25);
-            mapaIdsCasillasPanelesJugador.put(12, 26);
-            mapaIdsCasillasPanelesJugador.put(13, 27);
-            mapaIdsCasillasPanelesJugador.put(14, 28);
-        }
+        Map<Integer,Integer> mapaIdsCasillasPanelesJugador = new HashMap<>();
         
         
         Map<Integer,Integer> mapaIdsCasillasPanelesTablero = new HashMap<>();
@@ -173,6 +145,7 @@ public class EnsambladorCliente {
                 
         IGestorEventos gestorEventos = new GestorEventos(vistaMesaJuego, (IReceptorEventos)vistaMesaJuego);
         
+        ((PanelMesaJuego)panelMesaJuego).setGestorEventos(gestorEventos);
         ((PanelTablero) panelTablero).setGestorEventos(gestorEventos);
         ((PanelJugadorPrincipal) panelJugadorPrincipal).setGestorEventos(gestorEventos);
         ((PanelMonton)panelMonton).setGestorEventos(gestorEventos);

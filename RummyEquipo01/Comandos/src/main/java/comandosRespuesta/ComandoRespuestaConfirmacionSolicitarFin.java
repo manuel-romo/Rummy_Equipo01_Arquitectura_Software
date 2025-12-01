@@ -3,18 +3,14 @@ package comandosRespuesta;
 
 import interfaces.ICommand;
 
-/**
- * Comando de respuesta que indica que el tablero es inválido para el jugador.
- * 
- * @author pedro
- */
-public class ComandoTableroInvalido implements ICommand {
 
-    private final String type = "ComandoTableroInvalido";
+public class ComandoRespuestaConfirmacionSolicitarFin implements ICommand{
+    
+    private String type = "ComandoRespuestaConfirmacionSolicitarFin";
     private String nombreJugador;
     private String mensaje;
 
-    public ComandoTableroInvalido(String nombreJugador, String mensaje) {
+    public ComandoRespuestaConfirmacionSolicitarFin(String nombreJugador, String mensaje) {
         this.nombreJugador = nombreJugador;
         this.mensaje = mensaje;
     }
@@ -24,13 +20,13 @@ public class ComandoTableroInvalido implements ICommand {
         return type;
     }
 
+    public String getMensaje() {
+        return mensaje;
+    } 
+
     @Override
     public String getNombreJugador() {
         return nombreJugador;
     }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
+     
 }

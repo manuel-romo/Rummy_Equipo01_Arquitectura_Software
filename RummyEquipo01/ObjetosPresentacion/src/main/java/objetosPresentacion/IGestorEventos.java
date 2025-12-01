@@ -2,8 +2,6 @@
 package objetosPresentacion;
 
 import java.awt.event.MouseEvent;
-import javax.swing.JPanel;
-import objetosPresentacion.IComponente;
 
 /**
  *
@@ -25,4 +23,8 @@ public interface IGestorEventos {
     public abstract void tomarFicha();
     public abstract void reestablecerTablero();
     public abstract void terminarTurno();
+    public abstract void abandonarPartida();
+    public abstract void confirmarAbandonarPartida(boolean confirmacion);
+    public abstract void finalizarPartida();
+    public abstract void confirmarFinalizarPartida(boolean confirmacion);
 }

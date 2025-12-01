@@ -101,11 +101,8 @@ public abstract class Grupo {
             if (ficha2.isEsComodin()){
                 return -1;
             }
-
-            FichaNormal fichaNormal1 = (FichaNormal) ficha1;
-            FichaNormal fichaNormal2 = (FichaNormal) ficha2;
-
-            return Integer.compare(fichaNormal1.getNumero(), fichaNormal2.getNumero());
+            
+            return 0;
         
         });
         

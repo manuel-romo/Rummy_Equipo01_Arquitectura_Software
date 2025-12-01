@@ -301,23 +301,33 @@ public class GestorEventos implements IGestorEventos{
         panelesCasillaAgregarFicha = new LinkedList<>();
         
         boolean fichasSoltadasPanelJugador = false;
-        
+
         int indiceInicioFichasMovimiento = 0;
         int indiceFinFichasMovimiento = fichasMovimiento.size();
         
-        if(panelMovimiento.getNumeroFichaArrastrada() != null){
-            
-            indiceInicioFichasMovimiento = panelMovimiento.getNumeroFichaArrastrada();
-            indiceFinFichasMovimiento = panelMovimiento.getNumeroFichaArrastrada() + 1;
-            
-        }
+        // Se obtiene el índice de la única ficha arrastrada, si es sólo una.
+        Integer indiceFichaArrastrada = panelMovimiento.obtenerIndiceFichaArrastrada();
         
+        System.out.println("indice de ficha arras es nulo?"); 
+        System.out.println(indiceFichaArrastrada);
+        
+        if(indiceFichaArrastrada != null){
+            
+            indiceInicioFichasMovimiento = indiceFichaArrastrada;
+            indiceFinFichasMovimiento = indiceFichaArrastrada + 1;
+        }
         
         for(int i = indiceInicioFichasMovimiento; i < indiceFinFichasMovimiento; i++){
             
             PanelFicha ficha = fichasMovimiento.get(i);
             
             int indiceFichaMovimiento = fichasMovimiento.indexOf(ficha);
+            
+            if(indiceFichaArrastrada != null){
+                
+                indiceFichaMovimiento = 0;
+                
+            }
             
             int offsetX = indiceFichaMovimiento * (ficha.getWidth() + 15);
             
@@ -331,9 +341,11 @@ public class GestorEventos implements IGestorEventos{
             
             Point contentPanePoint = SwingUtilities.convertPoint(panelMovimiento, dropPoint, framePrincipal.getContentPane());
             
-            Component componenteDestino = framePrincipal.getContentPane().findComponentAt(contentPanePoint);
+            Component componenteDestino = framePrincipal.getContentPane().findComponentAt(contentPanePoint);  
             
             if(componenteDestino instanceof PanelCasilla){
+                
+                System.out.println("Soltando ficha en panel casilla");
 
                 PanelCasilla casillaDestino = (PanelCasilla)componenteDestino;
 
@@ -424,10 +436,7 @@ public class GestorEventos implements IGestorEventos{
         Integer[] casillasAgregar = panelesCasillaAgregarFicha.stream()
                 .map(panel -> panel.getId())
                 .toArray(Integer[]::new);
-
         
-        System.out.println("SE ESTÁ AGREGANDO AL PANEL JUGADOR O NO???????????????");
-        System.out.println(fichasSoltadasPanelJugador);
         
         if(fichasSoltadasPanelJugador){
             
@@ -440,6 +449,13 @@ public class GestorEventos implements IGestorEventos{
                 receptorEventos.agregarFichasTablero(casillasAgregar, idsFichasAgregar, idsFichasGrupoAgregar);
 
             } else{
+                System.out.println("QUE FICHAS SE ESTÁ INTENTANDO AGREGAR?");
+                
+                for(Integer id: idsFichasAgregar){
+                    
+                    System.out.println(id);
+                    
+                }
 
                 receptorEventos.agregarFichasTablero(casillasAgregar, idsFichasAgregar);
             }
@@ -469,8 +485,6 @@ public class GestorEventos implements IGestorEventos{
                 
                 idsFichasQuitar.add(idFichaEliminar);
 
-                System.out.println(ficha.getParent().getParent().getParent().getParent().getParent().getParent().getClass());
-                
                 if(!(ficha.getParent().getParent().getParent().getParent().getParent().getParent() instanceof PanelJugadorPrincipal)){
                     fichasJugador = false;
                 }
@@ -486,11 +500,10 @@ public class GestorEventos implements IGestorEventos{
 
         if(fichasJugador){
             
-            System.out.println("QUITANDO FICHAS DE JUGADOR .... .. .. . . . . . . . ");
             receptorEventos.quitarFichasJugador(casillasQuitar, fichasQuitar);
 
         } else{
-             System.out.println("QUITANDO FICHAS DE TABLERO .... .. .. . . . . . . . ");
+            
             receptorEventos.quitarFichasTablero(casillasQuitar, fichasQuitar);
             
         }
@@ -534,6 +547,34 @@ public class GestorEventos implements IGestorEventos{
     @Override
     public void reestablecerTablero() {
         receptorEventos.reestablecerTablero();
+    }
+
+    @Override
+    public void abandonarPartida() {
+        
+        receptorEventos.abandonarPartida();
+        
+    }
+
+    @Override
+    public void confirmarAbandonarPartida(boolean confirmacion) {
+       
+        receptorEventos.confirmarAbandonarPartida(confirmacion);
+        
+    }
+    
+    @Override
+    public void finalizarPartida() {
+        
+        receptorEventos.finalizarPartida();
+        
+    }
+
+    @Override
+    public void confirmarFinalizarPartida(boolean confirmacion) {
+        
+        receptorEventos.confirmarFinalizarPartida(confirmacion);
+        
     }
     
 }
