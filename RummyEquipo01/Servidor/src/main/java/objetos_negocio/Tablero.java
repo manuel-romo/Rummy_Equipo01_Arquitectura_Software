@@ -58,7 +58,7 @@ public class Tablero {
     private List<Ficha> fichas = new LinkedList<>();
     private List<Grupo> grupos = new LinkedList<>();
     private Monton monton;
-    private FachadaTablero fachadaTablero;
+    private FachadaObjetosNegocio fachadaTablero;
 
     private List<Ficha> fichasInicialesJugadorTurno = new LinkedList<>();
     private List<Grupo> gruposInicialesTurno = new LinkedList<>();
@@ -394,7 +394,7 @@ public class Tablero {
 
     }
 
-    private void seleccionarFichasTablero(Integer[] idsFichas, String nombreJugador) {
+    public void seleccionarFichasTablero(Integer[] idsFichas, String nombreJugador) {
 
         boolean esPrimerTurnoJugador = esPrimerTurnoJugador(nombreJugador);
 
@@ -430,7 +430,7 @@ public class Tablero {
 
     }
 
-    private void agregarFichasJugador(Integer[] idsFichas, String nombreJugador) {
+    public void agregarFichasJugador(Integer[] idsFichas, String nombreJugador) {
 
         List<Ficha> fichasInicialesTurno = obtenerFichasInicialesTurno();
 
@@ -465,7 +465,7 @@ public class Tablero {
 
     }
 
-    private List<Ficha> obtenerFichasInicialesTurno() {
+    public List<Ficha> obtenerFichasInicialesTurno() {
 
         List<Ficha> fichasInicialesTurno = new LinkedList<>();
 
@@ -479,7 +479,7 @@ public class Tablero {
 
     }
 
-    private void agregarFichasTablero(Integer[] idsFichas, String nombreJugador) {
+    public void agregarFichasTablero(Integer[] idsFichas, String nombreJugador) {
 
         boolean esPrimerTurno = esPrimerTurnoJugador(nombreJugador);
 
@@ -551,7 +551,7 @@ public class Tablero {
 
     }
 
-    private void agregarFichasTableroGrupos(Integer[] idsFichas, Integer[] idsFichasGrupo, String nombreJugador) {
+    public void agregarFichasTableroGrupos(Integer[] idsFichas, Integer[] idsFichasGrupo, String nombreJugador) {
 
         List<Ficha> fichasAgregar = new LinkedList<>();
         for (int id : idsFichas) {
@@ -736,7 +736,7 @@ public class Tablero {
         }
     }
 
-    private void quitarFichasJugador(Integer[] idsFichas, String nombreJugador) {
+    public void quitarFichasJugador(Integer[] idsFichas, String nombreJugador) {
 
         List<Ficha> fichasQuitar = new LinkedList<>();
 
@@ -794,7 +794,7 @@ public class Tablero {
     }
 
     // Revisar
-    private void quitarFichasTablero(Integer[] idsFichas, String nombreJugador) {
+    public void quitarFichasTablero(Integer[] idsFichas, String nombreJugador) {
     
         if (idsFichas == null || idsFichas.length == 0){
             return;
@@ -890,7 +890,7 @@ public class Tablero {
         fachadaTablero.enviarComando(comandoExito);
     }
 
-    private List<List<Ficha>> simularSeparacion(List<Ficha> fichasOriginales, List<Ficha> fichasAQuitar) {
+    public List<List<Ficha>> simularSeparacion(List<Ficha> fichasOriginales, List<Ficha> fichasAQuitar) {
         List<List<Ficha>> subgrupos = new ArrayList<>();
         List<Ficha> bufferActual = new ArrayList<>();
 
@@ -918,7 +918,7 @@ public class Tablero {
         return subgrupos;
     }
     
-    private void terminarTurno(String nombreJugador) {
+    public void terminarTurno(String nombreJugador) {
 
         if (validarTablero(nombreJugador)) {
 
@@ -974,7 +974,7 @@ public class Tablero {
 
     }
 
-    private void pasarSiguienteJugador() {
+    public void pasarSiguienteJugador() {
 
         int indice = jugadores.indexOf(jugadorTurno);
         if (indice == jugadores.size() - 1) {
@@ -985,7 +985,7 @@ public class Tablero {
 
     }
 
-    private void notificarTodosCambioTurno() {
+    public void notificarTodosCambioTurno() {
 
         for (Jugador jugador : jugadores) {
             if (!jugador.getNombre().equals(jugadorTurno.getNombre())) {
@@ -1011,7 +1011,7 @@ public class Tablero {
        
     }
 
-    private void tomarFicha(String nombreJugador) {
+    public void tomarFicha(String nombreJugador) {
   
         Ficha fichaSeleccionada = null;
         if (!monton.getFichasMonton().isEmpty() && fichaTomada == null) {
@@ -1041,7 +1041,7 @@ public class Tablero {
 
     }
     
-    private void reestablecerTablero(String nombreJugador){
+    public void reestablecerTablero(String nombreJugador){
         
         grupos = new LinkedList<>(gruposInicialesTurno);
         
@@ -1066,7 +1066,7 @@ public class Tablero {
         
     }
     
-    private void solicitarAbandono(String nombreJugador){
+    public void solicitarAbandono(String nombreJugador){
         
         if(nombreJugador.equals(jugadorTurno.getNombre())){
             
@@ -1079,7 +1079,7 @@ public class Tablero {
         
     }
 
-    private void confirmarAbandono(String nombreJugador, boolean confirmacion){
+    public void confirmarAbandono(String nombreJugador, boolean confirmacion){
         
         if(confirmacion){
             
@@ -1135,7 +1135,7 @@ public class Tablero {
         
     }
     
-    private void solicitarFin(String nombreJugador){
+    public void solicitarFin(String nombreJugador){
         
         if(nombreJugador.equals(jugadorTurno.getNombre())){
             
@@ -1166,7 +1166,7 @@ public class Tablero {
         
     }
     
-    private void confirmarSolicitarFin(String nombreJugador, boolean confirmacion){
+    public void confirmarSolicitarFin(String nombreJugador, boolean confirmacion){
         
         if(!confirmacion && !nombresJugadoresSolicitanFin.isEmpty()){
             
@@ -1234,7 +1234,7 @@ public class Tablero {
         
     }
     
-    private boolean esPrimerTurnoJugador(String nombreJugador) {
+    public boolean esPrimerTurnoJugador(String nombreJugador) {
 
         String nombreJugadorTurno = jugadorTurno.getNombre();
 
@@ -1242,7 +1242,7 @@ public class Tablero {
 
     }
 
-    private TableroDTO obtenerTableroDto(String nombreJugador) {
+    public TableroDTO obtenerTableroDto(String nombreJugador) {
 
         JugadorDTO jugadorDto = null;
 
@@ -1304,7 +1304,7 @@ public class Tablero {
 
     }
 
-    private GrupoDTO obtenerGrupoDto(Grupo grupo) {
+    public GrupoDTO obtenerGrupoDto(Grupo grupo) {
 
         List<FichaDTO> listaFichasDto = new LinkedList<>();
 
@@ -1318,7 +1318,7 @@ public class Tablero {
 
     }
 
-    private FichaDTO obtenerFichaDto(Ficha ficha) {
+    public FichaDTO obtenerFichaDto(Ficha ficha) {
 
         ColorFichaDTO colorFichaDto = null;
 
@@ -1374,13 +1374,13 @@ public class Tablero {
 
     }
 
-    private MontonDTO obtenerMontoDTO(Monton monton) {
+    public MontonDTO obtenerMontoDTO(Monton monton) {
 
         return new MontonDTO(monton.getCantidadFichas());
 
     }
 
-    private Ficha encontrarFichaPorId(int idFicha) {
+    public Ficha encontrarFichaPorId(int idFicha) {
 
         for (Ficha ficha : fichas) {
 
@@ -1403,7 +1403,7 @@ public class Tablero {
         return true;
     }
 
-    public void setFachadaTablero(FachadaTablero fachadaTablero) {
+    public void setFachadaTablero(FachadaObjetosNegocio fachadaTablero) {
         this.fachadaTablero = fachadaTablero;
     }
 

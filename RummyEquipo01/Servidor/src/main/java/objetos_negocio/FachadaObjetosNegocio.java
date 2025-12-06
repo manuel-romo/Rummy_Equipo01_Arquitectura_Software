@@ -13,17 +13,17 @@ import java.util.logging.Logger;
  * @author Romo López Manuel
  * ID: 00000253080
  */
-public class FachadaTablero implements IFiltro{
+public class FachadaObjetosNegocio implements IFiltro{
 
     private IFiltro filtroSiguiente;
-    private Tablero tablero;
+    private Partida partida;
     
     @Override
     public void ejecutar(ICommand comando)  {
         try {
-            tablero.ejecutar(comando);
+            partida.ejecutar(comando);
         } catch (RummyException ex) {
-            Logger.getLogger(FachadaTablero.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FachadaObjetosNegocio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -31,8 +31,8 @@ public class FachadaTablero implements IFiltro{
         this.filtroSiguiente = filtroSiguiente;
     }
 
-    public void setTablero(Tablero tablero) {
-        this.tablero = tablero;
+    public void setPartida(Partida partida) {
+        this.partida = partida;
     }
     
     public void enviarComando(ICommand comando){

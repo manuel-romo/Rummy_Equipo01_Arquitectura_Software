@@ -5,8 +5,8 @@ import cliente.ColaMensajesEnviar;
 import cliente.GestorConexiones;
 import deserializador.Deserializador;
 import directorio.DirectorioJugadores;
-import java.util.Scanner;
-import objetos_negocio.FachadaTablero;
+import objetos_negocio.FachadaObjetosNegocio;
+import objetos_negocio.Partida;
 import objetos_negocio.Tablero;
 import serializador.Serializador;
 import servidor.ColaMensajesRecibidos;
@@ -33,9 +33,11 @@ public class EnsambladorServidor {
             
             Serializador serializador = new Serializador();
             
-            FachadaTablero fachadaTablero = new FachadaTablero();
+            FachadaObjetosNegocio fachadaObjetosNegocio = new FachadaObjetosNegocio();
             
             Tablero tablero = new Tablero();
+            
+            Partida partida = new Partida();
             
             Servidor servidorServidor = new Servidor(50000);
             
@@ -51,11 +53,13 @@ public class EnsambladorServidor {
             
             serializador.setFiltroSiguiente(directorioJugadores);
             
-            fachadaTablero.setFiltroSiguiente(serializador);
+            fachadaObjetosNegocio.setFiltroSiguiente(serializador);
             
-            tablero.setFachadaTablero(fachadaTablero);
+            tablero.setFachadaTablero(fachadaObjetosNegocio);
             
-            fachadaTablero.setTablero(tablero);
+            partida.setTablero(tablero);
+            
+            fachadaObjetosNegocio.setPartida(partida);
             
             // Conexión de componentes (Recepción).
             
@@ -63,7 +67,7 @@ public class EnsambladorServidor {
             
             colaMensajesRecibidos.setReceptor(deserializador);
             
-            deserializador.setFiltroSiguiente(fachadaTablero);
+            deserializador.setFiltroSiguiente(fachadaObjetosNegocio);
             
             new Thread(colaMensajesEnviar).start();
             
